@@ -1,6 +1,7 @@
 package de.tudarmstadt.informatik.fop.breakout.engine.entity;
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import eea.engine.action.Action;
 import eea.engine.component.Component;
 import eea.engine.event.basicevents.LoopEvent;
@@ -22,7 +23,7 @@ public class BotStickEntity extends StickEntity {
 		super(entityID);
 
 		// starting position
-		setPosition(new Vector2f(pos_x, GameParameters.STICK_Y));
+		setPosition(new Vector2f(pos_x, Variables.STICK_Y));
 
 		LoopEvent stickBotLoop = new LoopEvent();
 		addComponent(stickBotLoop);
@@ -33,8 +34,8 @@ public class BotStickEntity extends StickEntity {
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				// TODO maybe if mall moves down calculate where it will hit the stick and move there
 				// movement
-				if (ball.getPosition().x > (getSize().x / 2) && ball.getPosition().x < (GameParameters.WINDOW_WIDTH - (getSize().x / 2))) {
-					setPosition(new Vector2f(ball.getPosition().x, GameParameters.STICK_Y));
+				if (ball.getPosition().x > (getSize().x / 2) && ball.getPosition().x < (Variables.WINDOW_WIDTH - (getSize().x / 2))) {
+					setPosition(new Vector2f(ball.getPosition().x, Variables.STICK_Y));
 				}
 
 				// detects if the ball is lost and "removes" the stick if so

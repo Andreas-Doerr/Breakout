@@ -1,7 +1,9 @@
 package de.tudarmstadt.informatik.fop.breakout.ui;
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
+import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import eea.engine.action.basicactions.ChangeStateAction;
 import eea.engine.component.Component;
 import eea.engine.event.basicevents.LoopEvent;
@@ -43,13 +45,13 @@ public class MainMenuState extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sb) throws SlickException {
 	// background
 		// creating background-entity
-		Entity background = new Entity(GameParameters.MENU_ID);
-		background.setPosition(new Vector2f((GameParameters.WINDOW_WIDTH / 2),(GameParameters.WINDOW_HEIGHT / 2)));
+		Entity background = new Entity(Constants.MENU_ID);
+		background.setPosition(new Vector2f((OptionsHandler.getWindow_x() / 2),(OptionsHandler.getWindow_y() / 2)));
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			background.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BACKGROUND)));
 		}
-		background.setScale(GameParameters.BACKGROUND_SCALE); // scaling
+		background.setScale(Variables.BACKGROUND_SCALE); // scaling
 		// giving StateBasedEntityManager the background-entity
 		entityManager.addEntity(stateID, background);
 
@@ -63,8 +65,8 @@ public class MainMenuState extends BasicGameState {
 	// new_Game-entity
 		String new_Game = "New Game";
 		Entity new_Game_Entity = new Entity(new_Game);
-		new_Game_Entity.setPosition(new Vector2f(GameParameters.MAIN_MENU_BUTTON_1_X, GameParameters.MAIN_MENU_BUTTON_1_Y));
-		new_Game_Entity.setScale(GameParameters.MENU_ENTRY_SCALE);
+		new_Game_Entity.setPosition(new Vector2f(Variables.MAIN_MENU_BUTTON_1_X, Variables.MAIN_MENU_BUTTON_1_Y));
+		new_Game_Entity.setScale(Variables.MENU_ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			new_Game_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BUTTON)));
@@ -79,6 +81,8 @@ public class MainMenuState extends BasicGameState {
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				SoundHandler.playButtonPress();
 				PlayerHandler.reset();
+				// grab the mouse
+				gc.setMouseGrabbed(true);
 			}
 		});
 		new_Game_Events.addAction(new ChangeStateInitAction(Breakout.GAMEPLAY_STATE));
@@ -93,11 +97,15 @@ public class MainMenuState extends BasicGameState {
 
 					// resetting the players progress / stats
 					PlayerHandler.reset();
+
+					// grab the mouse
+					gc.setMouseGrabbed(true);
+
 					// going into GameplayState (like changeStateInitAction)
-					sb.enterState(GameParameters.GAMEPLAY_STATE);
+					sb.enterState(Constants.GAMEPLAY_STATE);
 
 					// forcing init for all states
-					StateBasedEntityManager.getInstance().clearEntitiesFromState(GameParameters.GAMEPLAY_STATE);
+					StateBasedEntityManager.getInstance().clearEntitiesFromState(Constants.GAMEPLAY_STATE);
 					try {
 						gc.getInput().clearKeyPressedRecord();
 						gc.getInput().clearControlPressedRecord();
@@ -116,8 +124,8 @@ public class MainMenuState extends BasicGameState {
 	// resume_Game-entity
 		String resume_Game = "Resume Game";
 		Entity resume_Game_Entity = new Entity(resume_Game);
-		resume_Game_Entity.setPosition(new Vector2f(GameParameters.MAIN_MENU_BUTTON_2_X, GameParameters.MAIN_MENU_BUTTON_1_Y));
-		resume_Game_Entity.setScale(GameParameters.MENU_ENTRY_SCALE);
+		resume_Game_Entity.setPosition(new Vector2f(Variables.MAIN_MENU_BUTTON_2_X, Variables.MAIN_MENU_BUTTON_1_Y));
+		resume_Game_Entity.setScale(Variables.MENU_ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			resume_Game_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BUTTON)));
@@ -133,6 +141,8 @@ public class MainMenuState extends BasicGameState {
 					if (GameplayState.currentlyRunning) {
 						// play sound for acceptable button press
 						SoundHandler.playButtonPress();
+						// grab the mouse
+						gc.setMouseGrabbed(true);
 						// keep track of the time (pause time ended now)
 						GameplayState.pauseTime += gc.getTime() - GameplayState.startPauseTime;
 						sb.enterState(Breakout.GAMEPLAY_STATE);
@@ -155,6 +165,8 @@ public class MainMenuState extends BasicGameState {
 
 					if (GameplayState.currentlyRunning) {
 						GameplayState.pauseTime += gc.getTime() - GameplayState.startPauseTime;
+						// grab the mouse
+						gc.setMouseGrabbed(true);
 						sb.enterState(Breakout.GAMEPLAY_STATE);
 						if(gc.isPaused()) {
 							gc.resume();
@@ -169,8 +181,8 @@ public class MainMenuState extends BasicGameState {
 	// highscore-entity
 		String highscore = "Highscore";
 		Entity highscore_Entity = new Entity(highscore);
-		highscore_Entity.setPosition(new Vector2f(GameParameters.MAIN_MENU_BUTTON_2_X, GameParameters.MAIN_MENU_BUTTON_2_Y));
-		highscore_Entity.setScale(GameParameters.MENU_ENTRY_SCALE);
+		highscore_Entity.setPosition(new Vector2f(Variables.MAIN_MENU_BUTTON_2_X, Variables.MAIN_MENU_BUTTON_2_Y));
+		highscore_Entity.setScale(Variables.MENU_ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			highscore_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BUTTON)));
@@ -192,8 +204,8 @@ public class MainMenuState extends BasicGameState {
 	// options-entity
 		String options = "Options";
 		Entity options_Entity = new Entity(options);
-		options_Entity.setPosition(new Vector2f(GameParameters.MAIN_MENU_BUTTON_1_X, GameParameters.MAIN_MENU_BUTTON_2_Y));
-		options_Entity.setScale(GameParameters.MENU_ENTRY_SCALE);
+		options_Entity.setPosition(new Vector2f(Variables.MAIN_MENU_BUTTON_1_X, Variables.MAIN_MENU_BUTTON_2_Y));
+		options_Entity.setScale(Variables.MENU_ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			options_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BUTTON)));
@@ -214,8 +226,8 @@ public class MainMenuState extends BasicGameState {
 
 	// quit-entity
 		Entity quit_Entity = new Entity("Quit");
-		quit_Entity.setPosition(new Vector2f(GameParameters.MAIN_MENU_BUTTON_1_X, GameParameters.MAIN_MENU_BUTTON_3_Y));
-		quit_Entity.setScale(GameParameters.MENU_ENTRY_SCALE);
+		quit_Entity.setPosition(new Vector2f(Variables.MAIN_MENU_BUTTON_1_X, Variables.MAIN_MENU_BUTTON_3_Y));
+		quit_Entity.setScale(Variables.MENU_ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			quit_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BUTTON)));
@@ -243,8 +255,8 @@ public class MainMenuState extends BasicGameState {
 	// about-entity
 		String about = "About";
 		Entity about_Entity = new Entity(about);
-		about_Entity.setPosition(new Vector2f(GameParameters.MAIN_MENU_BUTTON_2_X, GameParameters.MAIN_MENU_BUTTON_3_Y));
-		about_Entity.setScale(GameParameters.MENU_ENTRY_SCALE);
+		about_Entity.setPosition(new Vector2f(Variables.MAIN_MENU_BUTTON_2_X, Variables.MAIN_MENU_BUTTON_3_Y));
+		about_Entity.setScale(Variables.MENU_ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			about_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BUTTON)));
@@ -269,13 +281,16 @@ public class MainMenuState extends BasicGameState {
 	 * Wird vor dem Frame ausgefuehrt
 	 */
 	@Override
-	public void update(GameContainer container, StateBasedGame game, int delta)
+	public void update(GameContainer gc, StateBasedGame sb, int delta)
 			throws SlickException {
-		entityManager.updateEntities(container, game, delta);
+		entityManager.updateEntities(gc, sb, delta);
 
-		if (container.isMouseGrabbed()) {
-			container.setMouseGrabbed(false);
+		if (!Breakout.getApp().isResizable()) {
+			Breakout.getApp().setResizable(true);
 		}
+
+		OptionsHandler.updateWindow(gc, sb, stateID);
+
 
 		if (!Breakout.getDebug()) {
 			// music
@@ -295,26 +310,26 @@ public class MainMenuState extends BasicGameState {
 		entityManager.renderEntities(container, game, g);
 
 		// scaling texts
-		g.scale(GameParameters.BACKGROUND_SCALE,GameParameters.BACKGROUND_SCALE);
+		g.scale(Variables.BACKGROUND_SCALE, Variables.BACKGROUND_SCALE);
 
 		// Buttons
 		// Normal Game
-		g.drawString(LanguageHandler.BUTTON_NEW_GAME, (GameParameters.MAIN_MENU_BUTTON_1_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X), (GameParameters.MAIN_MENU_BUTTON_1_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+		g.drawString(LanguageHandler.BUTTON_NEW_GAME, (Variables.MAIN_MENU_BUTTON_1_X / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X), (Variables.MAIN_MENU_BUTTON_1_Y / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_Y));
 		if (GameplayState.currentlyRunning) {
-			g.drawString(LanguageHandler.BUTTON_RESUME_GAME, (GameParameters.MAIN_MENU_BUTTON_2_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X), (GameParameters.MAIN_MENU_BUTTON_1_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+			g.drawString(LanguageHandler.BUTTON_RESUME_GAME, (Variables.MAIN_MENU_BUTTON_2_X / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X), (Variables.MAIN_MENU_BUTTON_1_Y / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_Y));
 		} else {
 			g.setColor(Color.red);
-			g.drawString(LanguageHandler.BUTTON_INACTIVE_RESUME_GAME, (GameParameters.MAIN_MENU_BUTTON_2_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X), (GameParameters.MAIN_MENU_BUTTON_1_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+			g.drawString(LanguageHandler.BUTTON_INACTIVE_RESUME_GAME, (Variables.MAIN_MENU_BUTTON_2_X / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X), (Variables.MAIN_MENU_BUTTON_1_Y / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_Y));
 			g.setColor(Color.white);
 		}
 		// Highscore
-		g.drawString(LanguageHandler.BUTTON_HIGHSCORE, (GameParameters.MAIN_MENU_BUTTON_2_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X), (GameParameters.MAIN_MENU_BUTTON_2_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+		g.drawString(LanguageHandler.BUTTON_HIGHSCORE, (Variables.MAIN_MENU_BUTTON_2_X / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X), (Variables.MAIN_MENU_BUTTON_2_Y / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_Y));
 		// Options
-		g.drawString(LanguageHandler.BUTTON_OPTIONS, (GameParameters.MAIN_MENU_BUTTON_1_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X), (GameParameters.MAIN_MENU_BUTTON_2_Y  / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+		g.drawString(LanguageHandler.BUTTON_OPTIONS, (Variables.MAIN_MENU_BUTTON_1_X / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X), (Variables.MAIN_MENU_BUTTON_2_Y  / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_Y));
 		// Quit
-		g.drawString(LanguageHandler.BUTTON_QUIT, (GameParameters.MAIN_MENU_BUTTON_1_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X), (GameParameters.MAIN_MENU_BUTTON_3_Y / GameParameters.BACKGROUND_SCALE+ GameParameters.TEXT_OFFSET_Y));
+		g.drawString(LanguageHandler.BUTTON_QUIT, (Variables.MAIN_MENU_BUTTON_1_X / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X), (Variables.MAIN_MENU_BUTTON_3_Y / Variables.BACKGROUND_SCALE+ Constants.TEXT_OFFSET_Y));
 		// About
-		g.drawString(LanguageHandler.BUTTON_ABOUT, (GameParameters.MAIN_MENU_BUTTON_2_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X), (GameParameters.MAIN_MENU_BUTTON_3_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+		g.drawString(LanguageHandler.BUTTON_ABOUT, (Variables.MAIN_MENU_BUTTON_2_X / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X), (Variables.MAIN_MENU_BUTTON_3_Y / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_Y));
 
 	}
 

@@ -7,19 +7,19 @@ import de.tudarmstadt.informatik.fop.breakout.handlers.ControllerHandler;
 import de.tudarmstadt.informatik.fop.breakout.handlers.LevelHandler;
 import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
 import de.tudarmstadt.informatik.fop.breakout.handlers.PlayerHandler;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
-import de.tudarmstadt.informatik.fop.breakout.interfaces.IHitable;
 import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.test.TestAppGameContainer;
 
-public class Adapter implements GameParameters {
+public class Adapter implements Constants {
   /*
    * the instance of our game, extends StateBasedGame
    */
@@ -85,9 +85,8 @@ public class Adapter implements GameParameters {
 		}
 
 		ball = new BallEntity(new Vector2f(0,0));
-		stick = new StickEntity(GameParameters.STICK_ID);
+		stick = new StickEntity(Constants.STICK_ID);
 
-		OptionsHandler.setResolution_x(800);
 		PlayerHandler.reset();
 		OptionsHandler.readOptions();
 
@@ -158,7 +157,7 @@ public class Adapter implements GameParameters {
 	 * before it vanishes (1 = vanishes with next touch by ball)
 	 * @return an entity representing a block with the given ID and hits left
 	 */
-	public IHitable createBlockInstance(String blockID, int hitsUntilDestroyed) {
+	public BlockEntity createBlockInstance(String blockID, int hitsUntilDestroyed) {
 	  return new BlockEntity(blockID, hitsUntilDestroyed, 0, 0);
 	}
 
@@ -248,7 +247,7 @@ public class Adapter implements GameParameters {
 
 			float other_centerToRight = otherEntity.getSize().x / 2;
 			float other_centerToTop = otherEntity.getSize().y / 2;
-			if (otherEntity.getID().equals(GameParameters.STICK_ID)) {
+			if (otherEntity.getID().equals(Constants.STICK_ID)) {
 				other_centerToRight = 10;
 			}
 			System.out.println("other: centerToRight: " + other_centerToRight + " ; centerToTop: " + other_centerToTop);
@@ -269,19 +268,19 @@ public class Adapter implements GameParameters {
 			}
 
 			// specific entities
-			if (otherEntity.getID().equals(GameParameters.TOP_BORDER_ID) && ball.getRotation() >= 90 && ball.getRotation() <= 270) {
+			if (otherEntity.getID().equals(Constants.TOP_BORDER_ID) && ball.getRotation() >= 90 && ball.getRotation() <= 270) {
 				// top_border
 				// not collided when 90 <= angle <= 270
 				doesCollide = false;
-			} else if (otherEntity.getID().equals(GameParameters.RIGHT_BORDER_ID) && (ball.getRotation() >= 180 || ball.getRotation() <= 0)) {
+			} else if (otherEntity.getID().equals(Constants.RIGHT_BORDER_ID) && (ball.getRotation() >= 180 || ball.getRotation() <= 0)) {
 				// right_border
 				// not collided when 180 <= angle <= 0 / 360
 				doesCollide = false;
-			} else if (otherEntity.getID().equals(GameParameters.LEFT_BORDER_ID) && (ball.getRotation() <= 180 || ball.getRotation() >= 360)) {
+			} else if (otherEntity.getID().equals(Constants.LEFT_BORDER_ID) && (ball.getRotation() <= 180 || ball.getRotation() >= 360)) {
 				// left_border
 				// not collided when 0 / 360 <= angle <= 180
 				doesCollide = false;
-			} else if (otherEntity.getID().equals(GameParameters.STICK_ID) && (ball.getRotation() >= 270 || ball.getRotation() <= 90)) {
+			} else if (otherEntity.getID().equals(Constants.STICK_ID) && (ball.getRotation() >= 270 || ball.getRotation() <= 90)) {
 				doesCollide = false;
 			}
 
@@ -418,13 +417,13 @@ public class Adapter implements GameParameters {
 			if (input == Input.KEY_LEFT) {
 				System.out.println("left");
 				if (ControllerHandler.getRightStick_x() == 0 && stick.getPosition().x > (getSize().x / 2) && !(app.isPaused())) {
-					stick.setPosition(new Vector2f(stick.getPosition().x - GameParameters.STICK_SPEED, stick.getPosition().y));
+					stick.setPosition(new Vector2f(stick.getPosition().x - Variables.STICK_SPEED, stick.getPosition().y));
 				}
 			}
 			if (input == Input.KEY_RIGHT) {
 				System.out.println("right");
-				if (ControllerHandler.getRightStick_x() == 0 && stick.getPosition().x < (GameParameters.WINDOW_WIDTH - (getSize().x / 2)) && !(app.isPaused())) {
-					stick.setPosition(new Vector2f(stick.getPosition().x + GameParameters.STICK_SPEED, stick.getPosition().y));
+				if (ControllerHandler.getRightStick_x() == 0 && stick.getPosition().x < (Variables.WINDOW_WIDTH - (getSize().x / 2)) && !(app.isPaused())) {
+					stick.setPosition(new Vector2f(stick.getPosition().x + Variables.STICK_SPEED, stick.getPosition().y));
 				}
 			}
 			try {

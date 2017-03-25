@@ -1,12 +1,12 @@
 package de.tudarmstadt.informatik.fop.breakout.engine.entity;
 
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.ItemHandler;
 import de.tudarmstadt.informatik.fop.breakout.handlers.LevelHandler;
 import de.tudarmstadt.informatik.fop.breakout.handlers.PlayerHandler;
 import de.tudarmstadt.informatik.fop.breakout.handlers.ThemeHandler;
-import de.tudarmstadt.informatik.fop.breakout.interfaces.IHitable;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
 import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
@@ -20,7 +20,7 @@ import org.newdawn.slick.geom.Vector2f;
  *
  * @author Andreas Dörr
  */
-public class BlockEntity extends Entity implements IHitable {
+public class BlockEntity extends Entity {
 
 	private int hitsLeft;
 
@@ -40,28 +40,24 @@ public class BlockEntity extends Entity implements IHitable {
 		setPassable(false);
 
 		// block scaling
-		setScale(LevelHandler.getScale());
+		setScale(Variables.BLOCK_SCALE);
 
 		updateImage();
 
 		// add the block to the StateBasedEntityManager
-		StateBasedEntityManager.getInstance().addEntity(GameParameters.GAMEPLAY_STATE, this);
+		StateBasedEntityManager.getInstance().addEntity(Constants.GAMEPLAY_STATE, this);
 	}
 
 
-	@Override
 	public int getHitsLeft() {
 		return hitsLeft;
 	}
-	@Override
 	public void addHitsLeft(int toAdd) {
 		hitsLeft += toAdd;
 	}
-	@Override
 	public void setHitsLeft(int newHitsLeft) {
 		hitsLeft = newHitsLeft;
 	}
-	@Override
 	public boolean hasHitsLeft() {
 		return hitsLeft > 0;
 	}
@@ -83,7 +79,7 @@ public class BlockEntity extends Entity implements IHitable {
 
 	public void destroyBlock() {
 		// remove the block from the StateBasedEntityManager
-		StateBasedEntityManager.getInstance().removeEntity(GameParameters.GAMEPLAY_STATE, this);
+		StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, this);
 		// adding points
 		PlayerHandler.addPoints(10);
 		// increase the counter for the amount of blocks destroyed
@@ -93,7 +89,7 @@ public class BlockEntity extends Entity implements IHitable {
 		// remove this block from the list which is keeping track of every block
 		LevelHandler.removeBlock(this);
 		// create an item
-		ItemHandler.createItem(getPosition(), GameParameters.ITEM_DROPCHANCE);
+		ItemHandler.createItem(getPosition(), Constants.ITEM_DROPCHANCE);
 	}
 
 	private void updateImage() {

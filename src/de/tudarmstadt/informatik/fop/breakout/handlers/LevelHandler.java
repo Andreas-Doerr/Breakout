@@ -1,7 +1,8 @@
 package de.tudarmstadt.informatik.fop.breakout.handlers;
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.*;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.MoveDownAction;
@@ -26,7 +27,6 @@ import java.io.*;
  * @author Andreas Dörr
  */	//TODO commenting
 public class LevelHandler {
-	private static float scale = 1f;
 
 	private static int activeBlocks = 0;
 	private static int destroyedBlocks = 0;
@@ -34,16 +34,8 @@ public class LevelHandler {
 	private static int activeDestroyedBallCount = 0;
 
 	private static BlockEntity[] blockList = new BlockEntity[160 + 1];	// meaning max is 160 since the last entry stays null
-	private static BallEntity[] ballList = new BallEntity[GameParameters.MAX_AMOUNT_OF_BALLS + 1];	// meaning max is 100 since the last entry stays null
-	private static StickEntity[] stickList = new StickEntity[GameParameters.MAX_AMOUNT_OF_STICKS + 1];	// meaning max is 10 since the last entry stays null
-
-
-	public static void determineScale() {
-		scale = (float) ((GameParameters.WINDOW_WIDTH) / 18.0 / GameParameters.BLOCK_IMAGE_X);
-	}
-	public static float getScale() {
-		return scale;
-	}
+	private static BallEntity[] ballList = new BallEntity[Constants.MAX_AMOUNT_OF_BALLS + 1];	// meaning max is 100 since the last entry stays null
+	private static StickEntity[] stickList = new StickEntity[Constants.MAX_AMOUNT_OF_STICKS + 1];	// meaning max is 10 since the last entry stays null
 
 	// getter
 	public static int getActiveBlocks() {
@@ -88,8 +80,8 @@ public class LevelHandler {
 	}
 	public static void resetEntityLists() {
 		blockList = new BlockEntity[160 + 1];	// meaning max is 160 since the last entry stays null
-		ballList = new BallEntity[GameParameters.MAX_AMOUNT_OF_BALLS + 1];	// meaning max is 100 since the last entry stays null
-		stickList = new StickEntity[GameParameters.MAX_AMOUNT_OF_STICKS + 1];	// meaning max is 10 since the last entry stays null
+		ballList = new BallEntity[Constants.MAX_AMOUNT_OF_BALLS + 1];	// meaning max is 100 since the last entry stays null
+		stickList = new StickEntity[Constants.MAX_AMOUNT_OF_STICKS + 1];	// meaning max is 10 since the last entry stays null
 	}
 
 
@@ -321,9 +313,9 @@ public class LevelHandler {
 		SoundHandler.playDestroyBall();
 
 		// create the destroyed ball
-		Entity destroyedBall = new Entity(GameParameters.DESTROYED_BALL_ID);    // entity
+		Entity destroyedBall = new Entity(Constants.DESTROYED_BALL_ID);    // entity
 		destroyedBall.setPosition(pos);    // starting position
-		destroyedBall.setScale(getScale() * 4 * 0.7f);
+		destroyedBall.setScale(Variables.BLOCK_SCALE * 4 * 0.7f);
 		destroyedBall.setRotation((float) (Math.random() * 360));    // starting rotation
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
@@ -337,17 +329,17 @@ public class LevelHandler {
 		}
 
 		// giving StateBasedEntityManager the destroyedBall-entity
-		StateBasedEntityManager.getInstance().addEntity(GameParameters.GAMEPLAY_STATE, destroyedBall);
+		StateBasedEntityManager.getInstance().addEntity(Constants.GAMEPLAY_STATE, destroyedBall);
 
 		// movement for the destroyed ball
 		LoopEvent destroyedLoop = new LoopEvent();
 		if (OptionsHandler.getGameMode() == 0) {
-			destroyedLoop.addAction(new MoveDownAction(GameParameters.INITIAL_BALL_SPEED_UP / 50));
+			destroyedLoop.addAction(new MoveDownAction(Variables.INITIAL_BALL_SPEED_UP / 2));
 		} else if (OptionsHandler.getGameMode() == 1) {
-			if (pos.y > GameParameters.WINDOW_HEIGHT / 2) {
-				destroyedLoop.addAction(new MoveDownAction(GameParameters.INITIAL_BALL_SPEED_UP / 50));
+			if (pos.y > Variables.WINDOW_HEIGHT / 2) {
+				destroyedLoop.addAction(new MoveDownAction(Variables.INITIAL_BALL_SPEED_UP / 2));
 			} else {
-				destroyedLoop.addAction(new MoveUpAction(GameParameters.INITIAL_BALL_SPEED_UP / 50));
+				destroyedLoop.addAction(new MoveUpAction(Variables.INITIAL_BALL_SPEED_UP / 2));
 			}
 		}
 
@@ -356,11 +348,11 @@ public class LevelHandler {
 		destroyedLoop.addAction(new Action() {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				if (destroyedBall.getPosition().y > GameParameters.WINDOW_HEIGHT + destroyedBall.getSize().y
+				if (destroyedBall.getPosition().y > Variables.WINDOW_HEIGHT + destroyedBall.getSize().y
 						|| destroyedBall.getPosition().y < (- destroyedBall.getSize().y)
-						|| destroyedBall.getPosition().x > (GameParameters.WINDOW_WIDTH + destroyedBall.getSize().x)
+						|| destroyedBall.getPosition().x > (Variables.WINDOW_WIDTH + destroyedBall.getSize().x)
 						|| destroyedBall.getPosition().x < (- destroyedBall.getSize().x)) {
-					StateBasedEntityManager.getInstance().removeEntity(GameParameters.GAMEPLAY_STATE, destroyedBall);
+					StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, destroyedBall);
 					LevelHandler.addActiveDestroyedBall(-1);
 				}
 			}
@@ -425,7 +417,7 @@ public class LevelHandler {
 
 	// maps
 	public static void switchMap() {
-		if (OptionsHandler.getSelectedMap() < GameParameters.MAX_MAPS - 1) {
+		if (OptionsHandler.getSelectedMap() < Constants.MAX_MAPS - 1) {
 			OptionsHandler.setSelectedMap(OptionsHandler.getSelectedMap() + 1);
 			if (OptionsHandler.getSelectedMapName().equals("placeholder")) {
 				switchMap();
@@ -456,9 +448,9 @@ public class LevelHandler {
 			String[][] map = readMap("maps/" + OptionsHandler.getSelectedMapName() + ".map");
 			if (map != null) {
 				// setting map the middle of the screen for coop-mode
-				float y_offset = GameParameters.BLOCK_IMAGE_Y / 2;
+				float y_offset = Constants.BLOCK_IMAGE_Y / 2;
 				if (OptionsHandler.getGameMode() == 1) {
-					y_offset = (GameParameters.WINDOW_HEIGHT / 2) + GameParameters.BLOCK_IMAGE_Y * 2;
+					y_offset = (Variables.WINDOW_HEIGHT / 2) + Constants.BLOCK_IMAGE_Y * 2;
 				}
 
 				for (int y = 0; y < 10; y++) {
@@ -468,8 +460,8 @@ public class LevelHandler {
 						int hitsLeft = Integer.valueOf(map[y][x]);
 						if (hitsLeft > 0) {
 							String ID = "block" + x + "_" + y;
-							float pos_x = (((x + 1) * GameParameters.BLOCK_IMAGE_X + GameParameters.BLOCK_IMAGE_X / 2) * scale);
-							float pos_y = (((y + 1) * GameParameters.BLOCK_IMAGE_Y + y_offset) * scale);
+							float pos_x = (((x + 1) * Constants.BLOCK_IMAGE_X + Constants.BLOCK_IMAGE_X / 2) * Variables.BLOCK_SCALE);
+							float pos_y = (((y + 1) * Constants.BLOCK_IMAGE_Y + y_offset) * Variables.BLOCK_SCALE);
 
 							new BlockEntity(ID, hitsLeft, pos_x, pos_y);
 						}
@@ -485,7 +477,7 @@ public class LevelHandler {
 		initMapLevel();
 	}
 	public static void initTemplateLevel() {
-		String[][] map = readMap(GameParameters.TEMPLATE_LEVEL);
+		String[][] map = readMap(Constants.TEMPLATE_LEVEL);
 		if (map != null) {
 
 			for (int y = 0; y < 10; y++) {
@@ -495,8 +487,8 @@ public class LevelHandler {
 					int hitsLeft = Integer.valueOf(map[y][x]);
 					if (hitsLeft > 0) {
 						String ID = "block" + x + "_" + y;
-						float pos_x = (((x + 1)  * GameParameters.BLOCK_IMAGE_X + GameParameters.BLOCK_IMAGE_X / 2) * scale);
-						float pos_y = (((y + 1) * GameParameters.BLOCK_IMAGE_Y + GameParameters.BLOCK_IMAGE_Y / 2) * scale);
+						float pos_x = (((x + 1)  * Constants.BLOCK_IMAGE_X + Constants.BLOCK_IMAGE_X / 2) * Variables.BLOCK_SCALE);
+						float pos_y = (((y + 1) * Constants.BLOCK_IMAGE_Y + Constants.BLOCK_IMAGE_Y / 2) * Variables.BLOCK_SCALE);
 
 						new BlockEntity(ID, hitsLeft, pos_x, pos_y);
 					}

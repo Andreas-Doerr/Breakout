@@ -1,9 +1,10 @@
 package de.tudarmstadt.informatik.fop.breakout.factories;
 
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import eea.engine.entity.StateBasedEntityManager;
 import org.newdawn.slick.geom.Vector2f;
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
 import eea.engine.entity.Entity;
 import eea.engine.interfaces.IEntityFactory;
 
@@ -14,7 +15,7 @@ import eea.engine.interfaces.IEntityFactory;
  * @author Tobias Otterbein, Benedikt Wartusch
  * 
  */	// TODO commenting
-public class BorderFactory implements IEntityFactory, GameParameters {
+public class BorderFactory implements IEntityFactory, Constants {
 
 	private BorderType type;
 
@@ -39,18 +40,18 @@ public class BorderFactory implements IEntityFactory, GameParameters {
 
 		case TOP:
 			border = new Entity(TOP_BORDER_ID);
-			position = new Vector2f(WINDOW_WIDTH / 2, - (BORDER_WIDTH / 2));
-			size = new Vector2f(WINDOW_WIDTH, BORDER_WIDTH);
+			position = new Vector2f(Variables.WINDOW_WIDTH / 2, - (BORDER_WIDTH / 2));
+			size = new Vector2f(Variables.WINDOW_WIDTH, BORDER_WIDTH);
 			break;
 		case LEFT:
 			border = new Entity(LEFT_BORDER_ID);
-			position = new Vector2f(- (BORDER_WIDTH / 2), WINDOW_HEIGHT / 2);
-			size = new Vector2f(BORDER_WIDTH, WINDOW_HEIGHT);
+			position = new Vector2f(- (BORDER_WIDTH / 2),Variables. WINDOW_HEIGHT / 2);
+			size = new Vector2f(BORDER_WIDTH, Variables.WINDOW_HEIGHT);
 			break;
 		case RIGHT:
 			border = new Entity(RIGHT_BORDER_ID);
-			position = new Vector2f(WINDOW_WIDTH + (BORDER_WIDTH / 2), WINDOW_HEIGHT / 2);
-			size = new Vector2f(BORDER_WIDTH, WINDOW_HEIGHT);
+			position = new Vector2f(Variables.WINDOW_WIDTH + (BORDER_WIDTH / 2), Variables.WINDOW_HEIGHT / 2);
+			size = new Vector2f(BORDER_WIDTH, Variables.WINDOW_HEIGHT);
 			break;
 		default:
 			return null;
@@ -61,7 +62,7 @@ public class BorderFactory implements IEntityFactory, GameParameters {
 		border.setVisible(false);
 		border.setPassable(false);
 
-		StateBasedEntityManager.getInstance().addEntity(GameParameters.GAMEPLAY_STATE, border);
+		StateBasedEntityManager.getInstance().addEntity(Constants.GAMEPLAY_STATE, border);
 
 		return border;
 	}

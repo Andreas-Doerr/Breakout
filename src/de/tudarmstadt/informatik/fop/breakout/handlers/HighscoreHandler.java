@@ -1,6 +1,6 @@
 package de.tudarmstadt.informatik.fop.breakout.handlers;
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 
 import java.io.FileNotFoundException;
 
@@ -11,7 +11,7 @@ import java.io.FileNotFoundException;
  */
 public class HighscoreHandler {
 
-	public static int maxHighscoreCount = GameParameters.MAX_HIGHSCORES;
+	public static int maxHighscoreCount = Constants.MAX_HIGHSCORES;
 
 	private static int highscoreCount = 0;
 	private static String[][] names =  new String[2][maxHighscoreCount];
@@ -35,7 +35,7 @@ public class HighscoreHandler {
 		String[] highscoreContent = new String[2];
 		int i = 0;
 		try {
-			highscoreContent = FileHandler.read(GameParameters.HIGHSCORE_FILE_0, maxHighscoreCount);
+			highscoreContent = FileHandler.read(Constants.HIGHSCORE_FILE_0, maxHighscoreCount);
 			highscoreCount = Integer.valueOf(highscoreContent[0]);
 			int gameMode = OptionsHandler.getGameMode();
 			i++;
@@ -47,8 +47,8 @@ public class HighscoreHandler {
 				points[gameMode][i - 1] = Integer.valueOf(entryContent[3]);
 			}
 		} catch (FileNotFoundException e) {
-			System.err.println("ERROR: Could not find highscore-file at: " + GameParameters.HIGHSCORE_FILE_0);
-			System.out.println("INFO: Saving empty highscore.hsc-file to: " + GameParameters.HIGHSCORE_FILE_0);
+			System.err.println("ERROR: Could not find highscore-file at: " + Constants.HIGHSCORE_FILE_0);
+			System.out.println("INFO: Saving empty highscore.hsc-file to: " + Constants.HIGHSCORE_FILE_0);
 			saveHighscore();
 		} catch (NumberFormatException a) {
 			System.err.println("ERROR: There is a NumberFormatException in the Line: " + highscoreContent[i]);
@@ -60,9 +60,9 @@ public class HighscoreHandler {
 
 		int gameMode = OptionsHandler.getGameMode();
 
-		String highscoreFile = GameParameters.HIGHSCORE_FILE_0;
+		String highscoreFile = Constants.HIGHSCORE_FILE_0;
 		if (OptionsHandler.getGameMode() == 1) {
-			highscoreFile = GameParameters.HIGHSCORE_FILE_1;
+			highscoreFile = Constants.HIGHSCORE_FILE_1;
 		}
 
 		for (int i = 0; i < highscoreCount; i++) {

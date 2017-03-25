@@ -1,10 +1,6 @@
 package adapter;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import de.tudarmstadt.informatik.fop.breakout.handlers.HighscoreHandler;
-import de.tudarmstadt.informatik.fop.breakout.interfaces.IHighscoreEntry;
 
 public class AdapterExtended extends Adapter {
 
@@ -38,16 +34,6 @@ public class AdapterExtended extends Adapter {
 	public void resetHighscore() {
 		HighscoreHandler.reset();
 		HighscoreHandler.maxHighscoreCount = 10;
-	}		
-
-	/**
-	 * returns all highscore entries as a list
-	 * 
-	 * @return the list of all current highscore entries
-	 */
-	public List<? extends IHighscoreEntry> getHighscores() {
-    // TODO provide the proper mapping to your code here...
-	  return new LinkedList<IHighscoreEntry>();
 	}
 	
 	/**

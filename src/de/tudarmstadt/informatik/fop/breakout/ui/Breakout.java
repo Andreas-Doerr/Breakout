@@ -1,6 +1,7 @@
 package de.tudarmstadt.informatik.fop.breakout.ui;
 
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
+import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
 import org.newdawn.slick.AppGameContainer;
 
 import org.newdawn.slick.GameContainer;
@@ -9,13 +10,14 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import eea.engine.entity.StateBasedEntityManager;
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 
-public class Breakout extends StateBasedGame implements GameParameters {
+public class Breakout extends StateBasedGame implements Constants {
 
 	// Remember if the game runs in debug mode
 	private static boolean debug = false;
-	private static int screenHeight = 0;
+
+	private static AppGameContainer app;
 
 	/**
 	 * Creates a new Breakout instance
@@ -27,10 +29,12 @@ public class Breakout extends StateBasedGame implements GameParameters {
 		Breakout.debug = debug;
 	}
 
+	public static AppGameContainer getApp() {
+		return app;
+	}
 	public static boolean getDebug() {
 		return debug;
 	}
-	public static int getScreenHeight() {return screenHeight;}
 
 	public static void main(String[] args) throws SlickException {
 		// Set the library path depending on the operating system
@@ -47,7 +51,7 @@ public class Breakout extends StateBasedGame implements GameParameters {
 		}
 
 		// Add this StateBasedGame to an AppGameContainer
-		AppGameContainer app = new AppGameContainer(new Breakout(false));
+		app = new AppGameContainer(new Breakout(false));
 
 		// read option-file
 		OptionsHandler.readOptions();
@@ -69,21 +73,15 @@ public class Breakout extends StateBasedGame implements GameParameters {
 		ThemeHandler.initTheme();
 
 		// Set the display mode and frame rate
-		if (OptionsHandler.isFullscreen()) {
-			screenHeight = app.getScreenHeight();
-			app.setDisplayMode(screenHeight * 4 / 3, screenHeight, true);
-		} else {
-			app.setDisplayMode(OptionsHandler.getResolution_x(), (int) (OptionsHandler.getResolution_x() / 4f * 3f), false);
-		}
+		app.setDisplayMode(OptionsHandler.getWindow_x(), OptionsHandler.getWindow_y(), false);
 
-			app.setTargetFrameRate(FRAME_RATE);
+		app.setResizable(true);
+
+		app.setTargetFrameRate(FRAME_RATE);
 		// set the window-icon
-		app.setIcon(GameParameters.WINDOW_ICON);
+		app.setIcon(Constants.WINDOW_ICON);
 		// set if FPS is to be shown or not
 		app.setShowFPS(OptionsHandler.isShowingFPS());
-
-		// determine the scale based on the window size
-		LevelHandler.determineScale();
 
 		// now start the game!
 		app.start();
@@ -93,7 +91,7 @@ public class Breakout extends StateBasedGame implements GameParameters {
 	public void initStatesList(GameContainer arg0) throws SlickException {
 
 		// Add the game states (the first added state will be started initially)
-	  // This may look as follows, assuming you use the associated class names and constants:
+	  // This may look as follows, assuming you use the associated class names and parameters:
 
 		addState(new MainMenuState(MAINMENU_STATE));
 		addState(new GameplayState(GAMEPLAY_STATE));

@@ -1,7 +1,8 @@
 package de.tudarmstadt.informatik.fop.breakout.ui;
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;
 import eea.engine.component.Component;
@@ -90,13 +91,13 @@ public class HighscoreState extends BasicGameState {
 
 		// background
 		// creating background-entity
-		Entity background = new Entity(GameParameters.MENU_ID);
-		background.setPosition(new Vector2f((GameParameters.WINDOW_WIDTH / 2),(GameParameters.WINDOW_HEIGHT / 2)));
+		Entity background = new Entity(Constants.MENU_ID);
+		background.setPosition(new Vector2f((Variables.WINDOW_WIDTH / 2),(Variables.WINDOW_HEIGHT / 2)));
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			background.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BLANK_BACKGROUND)));
 		}
-		background.setScale(GameParameters.BACKGROUND_SCALE); // scaling
+		background.setScale(Variables.BACKGROUND_SCALE); // scaling
 		// giving StateBasedEntityManager the background-entity
 		entityManager.addEntity(stateID, background);
 
@@ -109,8 +110,8 @@ public class HighscoreState extends BasicGameState {
 
 		// back-entity
 		Entity back_Entity = new Entity("Back");
-		back_Entity.setPosition(new Vector2f(GameParameters.BUTTON_1_X, GameParameters.BUTTON_8_Y));
-		back_Entity.setScale(GameParameters.Entity_SCALE);
+		back_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X, Variables.BUTTON_8_Y));
+		back_Entity.setScale(Variables.Entity_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			back_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON)));
@@ -160,9 +161,11 @@ public class HighscoreState extends BasicGameState {
 			throws SlickException {
 		entityManager.updateEntities(gc, sb, delta);
 
-		if (gc.isMouseGrabbed()) {
-			gc.setMouseGrabbed(false);
+		if (!Breakout.getApp().isResizable()) {
+			Breakout.getApp().setResizable(true);
 		}
+
+		OptionsHandler.updateWindow(gc, sb, stateID);
 
 		// music
 		if (!SoundHandler.isHighscoreMusicPlaying() && !SoundHandler.isVictoryPlaying() && !SoundHandler.isGameoverPlaying()) {
@@ -214,38 +217,38 @@ public class HighscoreState extends BasicGameState {
 		entityManager.renderEntities(container, game, g);
 
 		// scaling texts
-		g.scale(GameParameters.BACKGROUND_SCALE,GameParameters.BACKGROUND_SCALE);
+		g.scale(Variables.BACKGROUND_SCALE, Variables.BACKGROUND_SCALE);
 
-		g.drawString(LanguageHandler.BUTTON_BACK, (GameParameters.BUTTON_1_X_WIDE / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X), (GameParameters.BUTTON_8_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+		g.drawString(LanguageHandler.BUTTON_BACK, (Variables.BUTTON_1_X_WIDE / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X), (Variables.BUTTON_8_Y / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_Y));
 		if (newEntry) {
 			if (newIsVictory) {
-				g.drawString(LanguageHandler.VICTORY, (GameParameters.WINDOW_WIDTH * 0.47f) / GameParameters.BACKGROUND_SCALE, (GameParameters.WINDOW_HEIGHT * 0.4f) / GameParameters.BACKGROUND_SCALE);
+				g.drawString(LanguageHandler.VICTORY, (Variables.WINDOW_WIDTH * 0.47f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.4f) / Variables.BACKGROUND_SCALE);
 			} else {
-				g.drawString(LanguageHandler.GAME_OVER, (GameParameters.WINDOW_WIDTH * 0.47f) / GameParameters.BACKGROUND_SCALE, (GameParameters.WINDOW_HEIGHT * 0.4f) / GameParameters.BACKGROUND_SCALE);
+				g.drawString(LanguageHandler.GAME_OVER, (Variables.WINDOW_WIDTH * 0.47f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.4f) / Variables.BACKGROUND_SCALE);
 			}
-			g.drawString(LanguageHandler.IT_TOOK_YOU + " " + newTime / 1000f + " " + LanguageHandler.X_SECONDS, (GameParameters.WINDOW_WIDTH * 0.22f) / GameParameters.BACKGROUND_SCALE, (GameParameters.WINDOW_HEIGHT * 0.415f) / GameParameters.BACKGROUND_SCALE);
-			g.drawString(LanguageHandler.YOU_DESTROYED + " " + newBlocksDestroyed + " " + LanguageHandler.X_BLOCKS, (GameParameters.WINDOW_WIDTH * 0.22f) / GameParameters.BACKGROUND_SCALE, (GameParameters.WINDOW_HEIGHT * 0.43f) / GameParameters.BACKGROUND_SCALE);
-			g.drawString(LanguageHandler.YOU_SCORED + " " + newPoints + " " + LanguageHandler.X_POINTS, (GameParameters.WINDOW_WIDTH * 0.22f) / GameParameters.BACKGROUND_SCALE, (GameParameters.WINDOW_HEIGHT * 0.445f) / GameParameters.BACKGROUND_SCALE);
+			g.drawString(LanguageHandler.IT_TOOK_YOU + " " + newTime / 1000f + " " + LanguageHandler.X_SECONDS, (Variables.WINDOW_WIDTH * 0.22f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.415f) / Variables.BACKGROUND_SCALE);
+			g.drawString(LanguageHandler.YOU_DESTROYED + " " + newBlocksDestroyed + " " + LanguageHandler.X_BLOCKS, (Variables.WINDOW_WIDTH * 0.22f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.43f) / Variables.BACKGROUND_SCALE);
+			g.drawString(LanguageHandler.YOU_SCORED + " " + newPoints + " " + LanguageHandler.X_POINTS, (Variables.WINDOW_WIDTH * 0.22f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.445f) / Variables.BACKGROUND_SCALE);
 			if (isSaved) {
 				g.setColor(Color.green);
 			}
-			g.drawString(LanguageHandler.NAMES.substring(0, LanguageHandler.NAMES.length()-1) + ": " + newName, (GameParameters.WINDOW_WIDTH * 0.45f) / GameParameters.BACKGROUND_SCALE, (GameParameters.WINDOW_HEIGHT * 0.43f) / GameParameters.BACKGROUND_SCALE);
+			g.drawString(LanguageHandler.NAMES.substring(0, LanguageHandler.NAMES.length()-1) + ": " + newName, (Variables.WINDOW_WIDTH * 0.45f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.43f) / Variables.BACKGROUND_SCALE);
 			g.setColor(Color.white);
 		}
 
 		// Current Highscores
-		float highscoreList_x_number = (GameParameters.WINDOW_WIDTH * 0.22f) / GameParameters.BACKGROUND_SCALE;
-		float highscoreList_x_name = (GameParameters.WINDOW_WIDTH * 0.242f) / GameParameters.BACKGROUND_SCALE;
-		float highscoreList_x_desBlocks = (GameParameters.WINDOW_WIDTH * 0.5f) / GameParameters.BACKGROUND_SCALE;
-		float highscoreList_x_time = (GameParameters.WINDOW_WIDTH * 0.6f) / GameParameters.BACKGROUND_SCALE;
-		float highscoreList_x_points = (GameParameters.WINDOW_WIDTH * 0.7f) / GameParameters.BACKGROUND_SCALE;
-		float highscoreList_y = (GameParameters.WINDOW_HEIGHT * 0.6f) / GameParameters.BACKGROUND_SCALE;
+		float highscoreList_x_number = (Variables.WINDOW_WIDTH * 0.22f) / Variables.BACKGROUND_SCALE;
+		float highscoreList_x_name = (Variables.WINDOW_WIDTH * 0.242f) / Variables.BACKGROUND_SCALE;
+		float highscoreList_x_desBlocks = (Variables.WINDOW_WIDTH * 0.5f) / Variables.BACKGROUND_SCALE;
+		float highscoreList_x_time = (Variables.WINDOW_WIDTH * 0.6f) / Variables.BACKGROUND_SCALE;
+		float highscoreList_x_points = (Variables.WINDOW_WIDTH * 0.7f) / Variables.BACKGROUND_SCALE;
+		float highscoreList_y = (Variables.WINDOW_HEIGHT * 0.6f) / Variables.BACKGROUND_SCALE;
 
 
-		g.drawString(LanguageHandler.NAMES.toUpperCase(),(GameParameters.WINDOW_WIDTH * 0.248f) / GameParameters.BACKGROUND_SCALE, highscoreList_y - 35);
-		g.drawString(LanguageHandler.DESTROYED_BLOCKS.toUpperCase(), (GameParameters.WINDOW_WIDTH * 0.46f) / GameParameters.BACKGROUND_SCALE, highscoreList_y - 35);
-		g.drawString(LanguageHandler.TIMER.toUpperCase(), (GameParameters.WINDOW_WIDTH * 0.6f) / GameParameters.BACKGROUND_SCALE, highscoreList_y - 35);
-		g.drawString(LanguageHandler.POINTS.toUpperCase(), (GameParameters.WINDOW_WIDTH * 0.687f) / GameParameters.BACKGROUND_SCALE, highscoreList_y - 35);
+		g.drawString(LanguageHandler.NAMES.toUpperCase(),(Variables.WINDOW_WIDTH * 0.248f) / Variables.BACKGROUND_SCALE, highscoreList_y - 35);
+		g.drawString(LanguageHandler.DESTROYED_BLOCKS.toUpperCase(), (Variables.WINDOW_WIDTH * 0.46f) / Variables.BACKGROUND_SCALE, highscoreList_y - 35);
+		g.drawString(LanguageHandler.TIMER.toUpperCase(), (Variables.WINDOW_WIDTH * 0.6f) / Variables.BACKGROUND_SCALE, highscoreList_y - 35);
+		g.drawString(LanguageHandler.POINTS.toUpperCase(), (Variables.WINDOW_WIDTH * 0.687f) / Variables.BACKGROUND_SCALE, highscoreList_y - 35);
 
 		boolean noMore = false;
 		for (int i = 0; i < 9; i++) {

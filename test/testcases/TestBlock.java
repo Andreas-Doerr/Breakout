@@ -3,16 +3,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import de.tudarmstadt.informatik.fop.breakout.engine.entity.BlockEntity;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.tudarmstadt.informatik.fop.breakout.interfaces.IHitable;
 import adapter.Adapter;
 
 public class TestBlock {
 
   // Leave as is - declares a "Block" entity implementing the IHitable interface
-    private IHitable block;
+    private BlockEntity block;
     private Adapter adapter;
 
     @Before

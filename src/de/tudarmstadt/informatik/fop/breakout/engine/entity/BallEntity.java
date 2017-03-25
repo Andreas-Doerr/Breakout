@@ -1,7 +1,8 @@
 package de.tudarmstadt.informatik.fop.breakout.engine.entity;
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
 import eea.engine.action.Action;
 import eea.engine.component.Component;
@@ -26,9 +27,9 @@ public class BallEntity extends Entity {
 	private Entity lastCollidedWith;
 
 	public BallEntity(Vector2f original_pos) {
-		super(GameParameters.BALL_ID);
-		this.SpeedUp = GameParameters.INITIAL_BALL_SPEED_UP;
-		this.SpeedRight = GameParameters.INITIAL_BALL_SPEED_RIGHT;
+		super(Constants.BALL_ID);
+		this.SpeedUp = Variables.INITIAL_BALL_SPEED_UP;
+		this.SpeedRight = Variables.INITIAL_BALL_SPEED_RIGHT;
 		this.lastCollidedWith = this;
 
 		// add 1 to the counter of active balls
@@ -40,7 +41,7 @@ public class BallEntity extends Entity {
 		setPassable(true);
 
 		// ball scaling
-		setScale(LevelHandler.getScale() * 4 * 0.7f);
+		setScale(Variables.BLOCK_SCALE * 4 * 0.7f);
 
 		// set position
 		setPosition(original_pos);
@@ -104,18 +105,18 @@ public class BallEntity extends Entity {
 						// set this balls lastCollidedWith to this collidedEntity-entity
 						setLastCollidedWith(collidedEntity);
 						// calculate new speeds for this ball
-						if (collidedEntity.getID().equals(GameParameters.TOP_BORDER_ID)) {
+						if (collidedEntity.getID().equals(Constants.TOP_BORDER_ID)) {
 							// if it was the top Border
 							setSpeedUp(-getSpeedUp());
 						} else {
 							// if it was any other border (left or right)
 							setSpeedRight(-getSpeedRight());
 						}
-					} else if (	(collidedEntity.getID().equals(GameParameters.STICK_ID)
-							&& getPosition().y < GameParameters.STICK_Y
+					} else if (	(collidedEntity.getID().equals(Constants.STICK_ID)
+							&& getPosition().y < Variables.STICK_Y
 							&& getSpeedUp() < 0
-							|| collidedEntity.getID().equals(GameParameters.STICK_ID_TOP)
-							&& getPosition().y > GameParameters.STICK_Y_TOP
+							|| collidedEntity.getID().equals(Constants.STICK_ID_TOP)
+							&& getPosition().y > Variables.STICK_Y_TOP
 							&& getSpeedUp() > 0)
 
 							&& !getLastCollidedWith().equals(collidedEntity)) {
@@ -157,11 +158,11 @@ public class BallEntity extends Entity {
 						//float v_ges = (float) ((getSpeedUp() / Math.sin(angle)));
 						float v_ges = getTotalSpeed();
 						// adding speedup to it
-						float v_ges_new = v_ges + GameParameters.SPEEDUP_VALUE;
+						float v_ges_new = v_ges + Variables.SPEEDUP_VALUE;
 
 						// capping to max_speed
-						if (v_ges_new > GameParameters.INITIAL_TOTAL_SPEED * GameParameters.MAX_SPEED_MULTIPLIER) {
-							v_ges_new = GameParameters.INITIAL_TOTAL_SPEED * GameParameters.MAX_SPEED_MULTIPLIER;
+						if (v_ges_new > Variables.INITIAL_TOTAL_SPEED * Constants.MAX_SPEED_MULTIPLIER) {
+							v_ges_new = Variables.INITIAL_TOTAL_SPEED * Constants.MAX_SPEED_MULTIPLIER;
 						}
 						// calculating new speeds based on old ones the new angle and the new total speed
 						float new_up;
@@ -194,8 +195,8 @@ public class BallEntity extends Entity {
 						updateImage();
 
 						// calculate the pitch for the sound based on the speed of the ball before hitting the stick
-						// approximately: 1f <= pitch >= GameParameters.MAX_SPEED_MULTIPLIER
-						float pitch = Math.abs(v_ges) / GameParameters.INITIAL_TOTAL_SPEED;
+						// approximately: 1f <= pitch >= Constants.MAX_SPEED_MULTIPLIER
+						float pitch = Math.abs(v_ges) / Variables.INITIAL_TOTAL_SPEED;
 						// play the sound
 						SoundHandler.playHitStick(pitch);
 					} else if (collidedEntity.getID().contains("block") && !getLastCollidedWith().equals(collidedEntity)) {
@@ -248,10 +249,10 @@ public class BallEntity extends Entity {
 			@Override
 			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
 				// if the ball is too far down destroy it and everything associated with it
-				if (getPosition().y > GameParameters.WINDOW_HEIGHT * 0.92f) {
+				if (getPosition().y > Variables.WINDOW_HEIGHT * 0.92f) {
 					// if the ball is too far down
 					destroyBall();
-				} else if (OptionsHandler.getGameMode() == 1 && getPosition().y < GameParameters.WINDOW_HEIGHT * 0.08f) {
+				} else if (OptionsHandler.getGameMode() == 1 && getPosition().y < Variables.WINDOW_HEIGHT * 0.08f) {
 					destroyBall();
 				}
 			}
@@ -276,7 +277,7 @@ public class BallEntity extends Entity {
 					System.err.println("The ball sneaked through the left border (trying to bring it back)");
 					setSpeedRight(Math.abs(getSpeedRight()));
 				}
-				if (getPosition().x > GameParameters.WINDOW_WIDTH) {
+				if (getPosition().x > Variables.WINDOW_WIDTH) {
 					// went past the right border
 					System.err.println("The ball sneaked through the right border (trying to bring it back)");
 					setSpeedRight( - Math.abs(getSpeedRight()));
@@ -286,7 +287,7 @@ public class BallEntity extends Entity {
 
 
 		// adding the ball to the StateBasedEntityManager
-		StateBasedEntityManager.getInstance().addEntity(GameParameters.GAMEPLAY_STATE, this);
+		StateBasedEntityManager.getInstance().addEntity(Constants.GAMEPLAY_STATE, this);
 	}
 
 
@@ -405,10 +406,10 @@ public class BallEntity extends Entity {
 		}
 	}
 	public void max_speedBall() {
-		setTotalSpeed(GameParameters.INITIAL_TOTAL_SPEED * GameParameters.MAX_SPEED_MULTIPLIER);
+		setTotalSpeed(Variables.INITIAL_TOTAL_SPEED * Constants.MAX_SPEED_MULTIPLIER);
 	}
 	public void min_speedBall() {
-		setTotalSpeed(GameParameters.INITIAL_TOTAL_SPEED);
+		setTotalSpeed(Variables.INITIAL_TOTAL_SPEED);
 	}
 	public void destroyBall() {
 		if (LevelHandler.getActiveBallCount() <= 1) {
@@ -416,7 +417,7 @@ public class BallEntity extends Entity {
 			PlayerHandler.subtractOneLife();
 		}
 		// remove the ball from the StateBasedEntityManager
-		StateBasedEntityManager.getInstance().removeEntity(GameParameters.GAMEPLAY_STATE, this);
+		StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, this);
 		// animate the destruction
 		LevelHandler.animateDestruction(getPosition());
 		// reduce the counter for the amount of balls in play by one
@@ -426,7 +427,7 @@ public class BallEntity extends Entity {
 	}
 	public void levelComplete() {
 		// remove the ball from the StateBasedEntityManager
-		StateBasedEntityManager.getInstance().removeEntity(GameParameters.GAMEPLAY_STATE, this);
+		StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, this);
 		// reduce the counter for the amount of balls in play by one
 		LevelHandler.addActiveBalls(-1);
 		// remove this ball from the list which is keeping track of every ball
@@ -435,9 +436,9 @@ public class BallEntity extends Entity {
 
 	public void updateImage() {
 		String newImage = ThemeHandler.STANDARDBALL;
-		if (getTotalSpeed() == GameParameters.INITIAL_TOTAL_SPEED) {
+		if (getTotalSpeed() == Variables.INITIAL_TOTAL_SPEED) {
 			newImage = ThemeHandler.WATERBALL;
-		} else if (getTotalSpeed() == GameParameters.INITIAL_TOTAL_SPEED * GameParameters.MAX_SPEED_MULTIPLIER) {
+		} else if (getTotalSpeed() == Variables.INITIAL_TOTAL_SPEED * Constants.MAX_SPEED_MULTIPLIER) {
 			newImage = ThemeHandler.FIREBALL;
 		}
 		if (!Breakout.getDebug()) {

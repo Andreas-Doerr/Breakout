@@ -1,7 +1,12 @@
 package de.tudarmstadt.informatik.fop.breakout.handlers;
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
+import eea.engine.entity.StateBasedEntityManager;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 
 import java.io.*;
 
@@ -12,26 +17,28 @@ import java.io.*;
  */	//TODO commenting
 public class OptionsHandler {
 
-	private static int resolution_x = 1280;
+	private static int window_x = 800;
+	private static int window_y = 1280 / 4 * 3;
 	private static boolean fullscreen = false;
 	private static boolean showFPS = false;
-	private static String[] availableLanguages = new String[GameParameters.MAX_LANGUAGES];
+	private static String[] availableLanguages = new String[Constants.MAX_LANGUAGES];
 	private static int langSelector = 0;
 	private static int controlMode = 0; // 0=keyboard, 1=mouse, 2=controller
 	private static int selectedController = 0;
 	private static int gameMode = 0;
 	private static boolean cheatMode = false;
-	private static String[] availableMaps = new String[GameParameters.MAX_MAPS];
+	private static String[] availableMaps = new String[Constants.MAX_MAPS];
 	private static int selectedMap = 0;
 	private static int themeSelector = 0;
 
 	// read / write Options
 	public static void readOptions() {
 		try {
-			String[] optionsContent = FileHandler.read(GameParameters.OPTIONS_FILE, 12);
+			String[] optionsContent = FileHandler.read(Constants.OPTIONS_FILE, 12);
 
 			try {
-				resolution_x = Integer.valueOf(optionsContent[0]);
+				window_x = Integer.valueOf(optionsContent[0]);
+				window_y = window_x / 4 * 3;
 				fullscreen = Boolean.valueOf(optionsContent[1]);
 				availableLanguages = optionsContent[2].split(",");
 				langSelector = Integer.valueOf(optionsContent[3]);
@@ -48,7 +55,7 @@ public class OptionsHandler {
 				System.err.println("ERROR: Corrupted options-file! The entry: " + test[1] + " is not a number, but should be one!");
 			}
 		} catch (FileNotFoundException e) {
-			System.err.println("Could not find options-file at: " + GameParameters.OPTIONS_FILE);
+			System.err.println("Could not find options-file at: " + Constants.OPTIONS_FILE);
 			System.out.println("INFO: Creating new options.config-file based on default parameters.");
 			saveOptions();
 		}
@@ -63,7 +70,7 @@ public class OptionsHandler {
 		} else {
 			availableLanguagesAsString = "en,de,";
 			int i = 2;
-			while (i < GameParameters.MAX_LANGUAGES && availableLanguages[i] == null) {
+			while (i < Constants.MAX_LANGUAGES && availableLanguages[i] == null) {
 				availableLanguagesAsString += "placeholder,";
 				i++;
 			}
@@ -78,7 +85,7 @@ public class OptionsHandler {
 		} else {
 			availableMapsAsString = "Blume,FOP-Logo,Herz,Parallelen,Pyramide,Rennauto,Schildkroete,level_a,level_b,level_c,level_d,level_e,Explosions,";
 			int i = 12;
-			while (i < GameParameters.MAX_MAPS && availableMaps[i] == null) {
+			while (i < Constants.MAX_MAPS && availableMaps[i] == null) {
 				availableMapsAsString += "placeholder,";
 				i++;
 			}
@@ -89,7 +96,7 @@ public class OptionsHandler {
 				"\n###### GENERAL ######\n#" +
 				"\n### RESOLUTION" +
 				"\n# The Aspect ratio is always 4:3, so Resolution y is always x / 4 * 3" +
-				"\n# Resolution x:\n" + resolution_x +
+				"\n# Resolution x:\n" + window_x +
 				"\n# Fullscreen:\n" + fullscreen +
 				"\n###### UI ######\n#" +
 				"\n### LANGUAGE" +
@@ -112,28 +119,28 @@ public class OptionsHandler {
 				"\n# themeSelector\n" + themeSelector;
 
 		try {
-			FileHandler.write(GameParameters.OPTIONS_FILE, toWrite);
+			FileHandler.write(Constants.OPTIONS_FILE, toWrite);
 		} catch (FileNotFoundException e) {
 			System.err.println("Could not find options-file");
 		}
 	}
 
 	// getter
-	public static int getResolution_x() {
-		if (!fullscreen) {
-			return resolution_x;
-		} else {
-			return Breakout.getScreenHeight() * 4 / 3;
-		}
+	public static int getWindow_x() {
+		return window_x;
 	}
-	public static boolean isFullscreen() {return fullscreen;}
+	public static int getWindow_y() {
+		return window_y;
+	}
+	public static boolean isFullscreen() {
+		return fullscreen;}
 	public static boolean isShowingFPS() {
 		return showFPS;
 	}
 	public static String getAvailableLanguage(int index) {
 		return availableLanguages[index];
 	}
-	static int getMaxLanguages() {
+	public static int getMaxLanguages() {
 		return availableLanguages.length;
 	}
 	public static int getLangSelector() {
@@ -180,11 +187,9 @@ public class OptionsHandler {
 	}
 
 	// setter
-	public static void setResolution_x(int newResolution_x) {
-		resolution_x = newResolution_x;
-	}
 	public static void setFullscreen(boolean newFullcreen) {
 		fullscreen = newFullcreen;
+		resetWindow();
 	}
 	public static void setShowFPS(boolean newShowFPS) {
 		showFPS = newShowFPS;
@@ -211,4 +216,52 @@ public class OptionsHandler {
 		themeSelector = new_themeSelector;
 	}
 
+	// window
+	public static boolean setWindowSize(int new_window_x, int new_window_y) {
+		if (new_window_x != window_x || new_window_y != window_y) {
+			if (new_window_x < Breakout.getApp().getScreenWidth() && (new_window_x / 4 * 3) <= Breakout.getApp().getScreenHeight() - 25) {
+				System.out.println("setting to: resized values: new:window_y: " + new_window_y + " screenHeight: " + (Breakout.getApp().getScreenHeight() - 25));
+				if (new_window_x != window_x) {
+					window_x = new_window_x;
+					window_y = new_window_x / 4 * 3;
+				} else {
+					window_x = new_window_y / 3 * 4;
+					window_y = new_window_y;
+				}
+			} else if (new_window_y != Breakout.getApp().getScreenHeight()){
+				System.out.println("setting to: screen height");
+				window_y = Breakout.getApp().getScreenHeight() - 25;
+				window_x = window_y / 3 * 4;
+			}
+			// recalculate variables
+			Variables.recalculate();
+			resetWindow();
+			return true;
+		}
+		return false;
+	}
+	public static void resetWindow() {
+		try {
+			Breakout.getApp().setDisplayMode(window_x,window_y, fullscreen);
+			Breakout.getApp().setResizable(false);
+			Breakout.getApp().setResizable(true);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void updateWindow(GameContainer gc, StateBasedGame sb, int stateID) {
+		if (OptionsHandler.setWindowSize(gc.getWidth(), gc.getHeight())) {
+			// init states (like schangeStateInitAction just without changing states)
+			StateBasedEntityManager.getInstance().clearEntitiesFromState(stateID);
+
+			try {
+				gc.getInput().clearKeyPressedRecord();
+				gc.getInput().clearControlPressedRecord();
+				gc.getInput().clearMousePressedRecord();
+				sb.init(gc);
+			} catch (SlickException var6) {
+				var6.printStackTrace();
+			}
+		}
+	}
 }

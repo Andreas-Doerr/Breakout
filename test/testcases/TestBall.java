@@ -4,12 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import org.junit.Before;
 import org.junit.Test;
 import org.newdawn.slick.geom.Vector2f;
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters.BorderType;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants.BorderType;
 import de.tudarmstadt.informatik.fop.breakout.factories.BorderFactory;
 import adapter.Adapter;
 import eea.engine.entity.Entity;
@@ -132,8 +133,8 @@ public class TestBall {
   @Test
   public void testColidesWithStick() {
     // stick has collision offset of 10. to read in the exercise
-    Entity stick = new Entity(GameParameters.STICK_ID);
-    stick.setPosition(new Vector2f(GameParameters.WINDOW_WIDTH / 2, GameParameters.WINDOW_HEIGHT - 10));
+    Entity stick = new Entity(Constants.STICK_ID);
+    stick.setPosition(new Vector2f(Variables.WINDOW_WIDTH / 2, Variables.WINDOW_HEIGHT - 10));
     stick.setPassable(false);
     // angle not between 91 and 269
     adapter.setRotation(90);

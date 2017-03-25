@@ -1,8 +1,9 @@
 package de.tudarmstadt.informatik.fop.breakout.engine.entity;
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.ControllerHandler;
 import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import eea.engine.action.Action;
 import eea.engine.component.Component;
 import eea.engine.event.basicevents.KeyDownEvent;
@@ -46,7 +47,7 @@ public class PlayerStickEntity extends StickEntity {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				// stick can't move out of screen or when game is paused or when the controller is trying to move it
-				if (OptionsHandler.getControlMode() == 0 && getPosition().x < (GameParameters.WINDOW_WIDTH - (getSize().x / 2)) && !(gc.isPaused())) {
+				if (OptionsHandler.getControlMode() == 0 && getPosition().x < (Variables.WINDOW_WIDTH - (getSize().x / 2)) && !(gc.isPaused())) {
 					moveRight();
 				}
 			}
@@ -60,12 +61,12 @@ public class PlayerStickEntity extends StickEntity {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				if (OptionsHandler.getControlMode() == 2 &&!(gc.isPaused() &&
-						(ControllerHandler.getRightStick_x() > 0 && getPosition().x < (GameParameters.WINDOW_WIDTH - (getSize().x / 2)) && !(gc.isPaused())
-						|| ControllerHandler.getRightStick_x() < 0 && getPosition().x > (getSize().x / 2)) )) {
-					setPosition(new Vector2f(getPosition().x + (GameParameters.STICK_SPEED * ControllerHandler.getRightStick_x()), getPosition().y));
+						((ControllerHandler.getRightStick_x() > 0 && getPosition().x < (Variables.WINDOW_WIDTH - (getSize().x / 2)))
+						|| (ControllerHandler.getRightStick_x() < 0 && getPosition().x > (getSize().x / 2))))) {
+					setPosition(new Vector2f(getPosition().x + (Variables.STICK_SPEED * ControllerHandler.getRightStick_x()), getPosition().y));
 				} else if (OptionsHandler.getControlMode() == 1
 						&& gc.getInput().getMouseX() > (getSize().x / 2)
-						&& gc.getInput().getMouseX() < (GameParameters.WINDOW_WIDTH - (getSize().x / 2))) {
+						&& gc.getInput().getMouseX() < (Variables.WINDOW_WIDTH - (getSize().x / 2))) {
 					setPosition(new Vector2f(gc.getInput().getMouseX(), getPosition().y));
 				}
 			}

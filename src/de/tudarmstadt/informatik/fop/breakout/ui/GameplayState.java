@@ -1,12 +1,14 @@
 package de.tudarmstadt.informatik.fop.breakout.ui;
 
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.BotStickEntity;
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.PlayerStickEntity;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.BallEntity;
 import de.tudarmstadt.informatik.fop.breakout.factories.BorderFactory;
+import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import eea.engine.action.basicactions.*;
 import eea.engine.event.basicevents.*;
 import org.newdawn.slick.*;
@@ -20,7 +22,7 @@ import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 
-import static de.tudarmstadt.informatik.fop.breakout.constants.GameParameters.BorderType.*;
+import static de.tudarmstadt.informatik.fop.breakout.parameters.Constants.BorderType.*;
 
 /**
  * @author Timo Bähr, Andreas Dörr
@@ -42,6 +44,10 @@ public class GameplayState extends BasicGameState {
 	   entityManager = StateBasedEntityManager.getInstance();
 	}
 
+	public static void setCurrentlyRunning(boolean newCurrentlyRunning) {
+		currentlyRunning = newCurrentlyRunning;
+	}
+
 	/**
 	  executed before the (first) start of this state
 	 */
@@ -49,7 +55,7 @@ public class GameplayState extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sb) throws SlickException {
 		// resetting starting parameters
 		pauseTime = 0;
-		LevelHandler.resetCounter();
+		PlayerHandler.reset();
 		// keeping the stick from the previous level would be done by:
 			// not resetting it here
 			// nor creating the PlayerStick here
@@ -60,13 +66,13 @@ public class GameplayState extends BasicGameState {
 
 	// background
 		// creating background-entity
-		Entity background = new Entity(GameParameters.BACKGROUND_ID);	// entity
-		background.setPosition(new Vector2f((GameParameters.WINDOW_WIDTH / 2),(GameParameters.WINDOW_HEIGHT / 2)));	// starting position
+		Entity background = new Entity(Constants.BACKGROUND_ID);	// entity
+		background.setPosition(new Vector2f((Variables.WINDOW_WIDTH / 2),(Variables.WINDOW_HEIGHT / 2)));	// starting position
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			background.addComponent(new ImageRenderComponent(new Image(ThemeHandler.GAME_BACKGROUND))); // picture
 		}
-		background.setScale(GameParameters.BACKGROUND_SCALE); // scaling
+		background.setScale(Variables.BACKGROUND_SCALE); // scaling
 		// giving StateBasedEntityManager the background-entity
 		entityManager.addEntity(stateID, background);
 
@@ -83,21 +89,21 @@ public class GameplayState extends BasicGameState {
 		if (OptionsHandler.getGameMode() == 0) {
 			new BorderFactory(TOP).createEntity();
 		} else if (OptionsHandler.getGameMode() == 1){
-			new PlayerStickEntity(GameParameters.STICK_ID_TOP, Input.KEY_A, Input.KEY_D, new Vector2f((GameParameters.WINDOW_WIDTH / 2),GameParameters.STICK_Y_TOP));
+			new PlayerStickEntity(Constants.STICK_ID_TOP, Input.KEY_A, Input.KEY_D, new Vector2f((Variables.WINDOW_WIDTH / 2), Variables.STICK_Y_TOP));
 		}
 
 	// Stick
-		PlayerStickEntity stick = new PlayerStickEntity(GameParameters.STICK_ID, Input.KEY_LEFT, Input.KEY_RIGHT , new Vector2f((GameParameters.WINDOW_WIDTH / 2),GameParameters.STICK_Y));
+		PlayerStickEntity stick = new PlayerStickEntity(Constants.STICK_ID, Input.KEY_LEFT, Input.KEY_RIGHT , new Vector2f((Variables.WINDOW_WIDTH / 2), Variables.STICK_Y));
 
 	// pause
 		// creating pause-entity
-		Entity pause = new Entity(GameParameters.PAUSE_ID);	// entity
+		Entity pause = new Entity(Constants.PAUSE_ID);	// entity
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			pause.addComponent(new ImageRenderComponent(new Image(ThemeHandler.PAUSE))); // picture
 		}
 		pause.setPosition(new Vector2f(- pause.getSize().x, 0));	// starting position
-		pause.setScale(LevelHandler.getScale() * 4);
+		pause.setScale(Variables.BLOCK_SCALE * 4);
 		pause.setVisible(false);
 		// giving StateBasedEntityManager the pause-entity
 		entityManager.addEntity(stateID, pause);
@@ -126,7 +132,7 @@ public class GameplayState extends BasicGameState {
 					gc.pause();
 					startPauseTime = gc.getTime();
 					timeColor = Color.red;
-					pause.setPosition(new Vector2f(GameParameters.WINDOW_WIDTH / 2, GameParameters.WINDOW_HEIGHT / 2));
+					pause.setPosition(new Vector2f(Variables.WINDOW_WIDTH / 2, Variables.WINDOW_HEIGHT / 2));
 					pause.setVisible(true);
 				}
 			}
@@ -146,13 +152,15 @@ public class GameplayState extends BasicGameState {
 						timeColor = Color.white;
 						pause.setPosition(new Vector2f(- pause.getSize().x, 0));
 						pause.setVisible(false);
+						gc.setMouseGrabbed(true);
 						gc.resume();
 					} else {
 						gc.pause();
 						startPauseTime = gc.getTime();
 						timeColor = Color.red;
-						pause.setPosition(new Vector2f(GameParameters.WINDOW_WIDTH / 2, GameParameters.WINDOW_HEIGHT / 2));
+						pause.setPosition(new Vector2f(Variables.WINDOW_WIDTH / 2, Variables.WINDOW_HEIGHT / 2));
 						pause.setVisible(true);
+						gc.setMouseGrabbed(false);
 					}
 				}
 			}
@@ -195,6 +203,8 @@ public class GameplayState extends BasicGameState {
 						// so: if it was not paused before save the current time as startPauseTime
 						startPauseTime = gc.getTime();
 					}
+					// free the mouse (was grabbed in GameplayState)
+					gc.setMouseGrabbed(false);
 					// set everything back to prepare for resuming the Game
 					timeColor = Color.white;
 					pause.setPosition(new Vector2f(- pause.getSize().x, 0));
@@ -313,10 +323,10 @@ public class GameplayState extends BasicGameState {
 							ball.setPosition(new Vector2f(stick.getPosition().x, (stick.getPosition().y - ((stick.getSize().y / 2) + (ball.getSize().y / 2)))));
 
 							// adding the StickBot and giving it the ball entity to follow
-							new BotStickEntity(GameParameters.STICK_ID, stick.getPosition().x, ball);
+							new BotStickEntity(Constants.STICK_ID, stick.getPosition().x, ball);
 
 							// setting the Player's stick a bit lower than the BotSticks
-							stick.setPosition(new Vector2f(stick.getPosition().x, GameParameters.STICK_Y + 5));
+							stick.setPosition(new Vector2f(stick.getPosition().x, Variables.STICK_Y + 5));
 						} else {
 							SoundHandler.playNotAcceptable();
 							System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
@@ -349,10 +359,10 @@ public class GameplayState extends BasicGameState {
 							ball.setPosition(new Vector2f(stick.getPosition().x, (stick.getPosition().y - ((stick.getSize().y / 2) + (ball.getSize().y / 2)))));
 
 							// adding the StickBot and giving it the ball entity to follow
-							new BotStickEntity(GameParameters.STICK_ID, stick.getPosition().x, ball);
+							new BotStickEntity(Constants.STICK_ID, stick.getPosition().x, ball);
 
 							// setting the Player's stick a bit lower than the BotSticks
-							stick.setPosition(new Vector2f(stick.getPosition().x, GameParameters.STICK_Y + 5));
+							stick.setPosition(new Vector2f(stick.getPosition().x, Variables.STICK_Y + 5));
 						} else {
 							SoundHandler.playNotAcceptable();
 							System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
@@ -459,8 +469,8 @@ public class GameplayState extends BasicGameState {
 		// StatedBasedEntityManager updates all entities
 		entityManager.updateEntities(gc, sb, delta);
 
-		if (!gc.isMouseGrabbed()) {
-			gc.setMouseGrabbed(true);
+		if (Breakout.getApp().isResizable()) {
+			Breakout.getApp().setResizable(false);
 		}
 
 		// Timer time calculation
@@ -485,6 +495,8 @@ public class GameplayState extends BasicGameState {
 
 				// go to the HighscoreState with information about this run
 				sb.enterState(Breakout.HIGHSCORE_STATE);
+				// free the mouse (was grabbed in GameplayState)
+				gc.setMouseGrabbed(false);
 				HighscoreState.newEntry = true;
 				HighscoreState.askName = true;
 				HighscoreState.newIsVictory = false;
@@ -508,7 +520,7 @@ public class GameplayState extends BasicGameState {
 				LevelHandler.switchMap();
 
 				if (OptionsHandler.getSelectedMap() != 0) {
-					System.out.println(OptionsHandler.getSelectedMap() + " < " + (GameParameters.MAX_MAPS));
+					System.out.println(OptionsHandler.getSelectedMap() + " < " + (Constants.MAX_MAPS));
 					System.out.println("Loading next level... (" + OptionsHandler.getSelectedMapName() + ")");
 					LevelHandler.initMapLevel();
 				} else {
@@ -522,6 +534,8 @@ public class GameplayState extends BasicGameState {
 					currentlyRunning = false;
 					// go to the HighscoreState with information about this run
 					sb.enterState(Breakout.HIGHSCORE_STATE);
+					// free the mouse (was grabbed in GameplayState)
+					gc.setMouseGrabbed(false);
 					HighscoreState.newEntry = true;
 					HighscoreState.askName = true;
 					HighscoreState.newIsVictory = true;
@@ -546,7 +560,7 @@ public class GameplayState extends BasicGameState {
 		entityManager.renderEntities(gc, sb, g);
 
 		// scaling texts
-		g.scale(GameParameters.BACKGROUND_SCALE,GameParameters.BACKGROUND_SCALE);
+		g.scale(Variables.BACKGROUND_SCALE, Variables.BACKGROUND_SCALE);
 
 		// TODO this following new
 		int lives_pos_y;
@@ -557,31 +571,31 @@ public class GameplayState extends BasicGameState {
 		int points_pos_y;
 		int showFPS_y = 0;
 		if (gc.isShowingFPS()) {
-			showFPS_y = (int) (30 / GameParameters.BACKGROUND_SCALE);
+			showFPS_y = (int) (30 / Variables.BACKGROUND_SCALE);
 		}
-		lives_pos_y = GameParameters.LIVES_POS_Y + showFPS_y;
-		active_blocks_pos_y = GameParameters.ACTIVE_BLOCKS_POS_Y + showFPS_y;
-		destroyed_blocks_pos_y = GameParameters.DESTROYED_BLOCKS_POS_Y + showFPS_y;
-		active_balls_pos_y = GameParameters.ACTIVE_BALLS_POS_Y + showFPS_y;
-		destroyed_balls_pos_y = GameParameters.ACTIVE_DESTROYED_BALLS_POS_Y + showFPS_y;
-		points_pos_y = GameParameters.POINTS_POS_Y + showFPS_y;
+		lives_pos_y = Constants.LIVES_POS_Y + showFPS_y;
+		active_blocks_pos_y = Constants.ACTIVE_BLOCKS_POS_Y + showFPS_y;
+		destroyed_blocks_pos_y = Constants.DESTROYED_BLOCKS_POS_Y + showFPS_y;
+		active_balls_pos_y = Constants.ACTIVE_BALLS_POS_Y + showFPS_y;
+		destroyed_balls_pos_y = Constants.ACTIVE_DESTROYED_BALLS_POS_Y + showFPS_y;
+		points_pos_y = Constants.POINTS_POS_Y + showFPS_y;
 
 
 		// show lives left
-		g.drawString(LanguageHandler.LIVES_LEFT + ": " + (Integer.toString(PlayerHandler.getLives())), (GameParameters.LIVES_POS_X), lives_pos_y);
+		g.drawString(LanguageHandler.LIVES_LEFT + ": " + (Integer.toString(PlayerHandler.getLives())), (Variables.LIVES_POS_X), lives_pos_y);
 		// show blocks left
-		g.drawString(LanguageHandler.ACTIVE_BLOCKS + ": " + (Integer.toString(LevelHandler.getActiveBlocks())), (GameParameters.ACTIVE_BLOCKS_POS_X), active_blocks_pos_y);
+		g.drawString(LanguageHandler.ACTIVE_BLOCKS + ": " + (Integer.toString(LevelHandler.getActiveBlocks())), (Variables.ACTIVE_BLOCKS_POS_X), active_blocks_pos_y);
 		// show blocks destroyed
-		g.drawString(LanguageHandler.DESTROYED_BLOCKS + ": " + (Integer.toString(LevelHandler.getDestroyedBlocks())), (GameParameters.DESTROYED_BLOCKS_POS_X), destroyed_blocks_pos_y);
+		g.drawString(LanguageHandler.DESTROYED_BLOCKS + ": " + (Integer.toString(LevelHandler.getDestroyedBlocks())), (Variables.DESTROYED_BLOCKS_POS_X), destroyed_blocks_pos_y);
 		// show amount of active balls (DEBUG)
-		g.drawString(LanguageHandler.BALLS_ACTIVE + ": " + (Integer.toString(LevelHandler.getActiveBallCount())), (GameParameters.ACTIVE_BALLS_POS_X), active_balls_pos_y);
+		g.drawString(LanguageHandler.BALLS_ACTIVE + ": " + (Integer.toString(LevelHandler.getActiveBallCount())), (Variables.ACTIVE_BALLS_POS_X), active_balls_pos_y);
 		// show amount of active destroyed balls (DEBUG)
-		g.drawString(LanguageHandler.DESTROYED_BALLS_ACTIVE + ": " + (Integer.toString(LevelHandler.getActiveDestroyedBallCount())), (GameParameters.ACTIVE_DESTROYED_BALLS_POS_X), destroyed_balls_pos_y);
+		g.drawString(LanguageHandler.DESTROYED_BALLS_ACTIVE + ": " + (Integer.toString(LevelHandler.getActiveDestroyedBallCount())), (Variables.ACTIVE_DESTROYED_BALLS_POS_X), destroyed_balls_pos_y);
 		// show points
-		g.drawString(LanguageHandler.POINTS + ": " + Integer.toString(PlayerHandler.getPoints()), (GameParameters.POINTS_POS_X), points_pos_y);
+		g.drawString(LanguageHandler.POINTS + ": " + Integer.toString(PlayerHandler.getPoints()), (Variables.POINTS_POS_X), points_pos_y);
 		// show elapsed Time
 		g.setColor(timeColor);
-		g.drawString(LanguageHandler.TIMER + ": " + Float.toString(playtime / 10 /100f), (GameParameters.TIMER_X), (GameParameters.TIMER_Y));
+		g.drawString(LanguageHandler.TIMER + ": " + Float.toString(playtime / 10 /100f), (Variables.TIMER_X), (Constants.TIMER_Y));
 		g.setColor(Color.white);
 
 	}

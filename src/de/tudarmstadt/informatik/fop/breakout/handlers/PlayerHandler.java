@@ -1,6 +1,7 @@
 package de.tudarmstadt.informatik.fop.breakout.handlers;
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
+import de.tudarmstadt.informatik.fop.breakout.ui.GameplayState;
 
 /**
  * Created by PC - Andreas on 14.03.2017.
@@ -9,7 +10,7 @@ import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
  */	//TODO commenting
 public class PlayerHandler {
 	// parameter init
-	private static int lives = GameParameters.INITIAL_LIVES;
+	private static int lives = Constants.INITIAL_LIVES;
 	private static int points = 0;
 
 	// getter
@@ -37,9 +38,10 @@ public class PlayerHandler {
 	}
 	// resetter
 	public static void reset() {
-		lives = GameParameters.INITIAL_LIVES;
+		lives = Constants.INITIAL_LIVES;
 		points = 0;
 		ItemHandler.setItemsActive(0);
+		GameplayState.setCurrentlyRunning(false);
 		LevelHandler.resetCounter();
 	}
 

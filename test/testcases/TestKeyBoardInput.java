@@ -1,11 +1,11 @@
 package testcases;
 import static org.junit.Assert.assertTrue;
 
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
 import adapter.Adapter;
 
 public class TestKeyBoardInput {
@@ -25,9 +25,9 @@ public class TestKeyBoardInput {
 		@Test
 		public void testNewGame() {
 			adapter.initializeGame();
-			assertTrue(adapter.getStateBasedGame().getCurrentStateID()==GameParameters.MAINMENU_STATE);
+			assertTrue(adapter.getStateBasedGame().getCurrentStateID()== Constants.MAINMENU_STATE);
 			adapter.changeToGameplayState();
-			assertTrue(adapter.getStateBasedGame().getCurrentStateID()==GameParameters.GAMEPLAY_STATE);
+			assertTrue(adapter.getStateBasedGame().getCurrentStateID()== Constants.GAMEPLAY_STATE);
 		}
 		
 		@Test

@@ -1,6 +1,6 @@
 package de.tudarmstadt.informatik.fop.breakout.handlers;
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
@@ -34,20 +34,20 @@ public class SoundHandler {
 	// sound init
 	public static void init() {
 		try {
-			hitStick = new Sound(GameParameters.SOUND_HIT_STICK);
-			hitBorder = new Sound(GameParameters.SOUND_HIT_BORDER);
-			destroyBall = new Sound(GameParameters.SOUND_DESTROY_BALL);
-			hitBlock = new Sound(GameParameters.SOUND_HIT_BLOCK);
-			createItem = new Sound(GameParameters.SOUND_CREATE_ITEM);
-			pickupItem = new Sound(GameParameters.SOUND_PICKUP_ITEM);
-			victory = new Sound(GameParameters.SOUND_VICTORY);
-			gameover =	new Sound(GameParameters.SOUND_GAMEOVER);
-			buttonPush = new Sound(GameParameters.SOUND_BUTTON_PRESS);
-			notAcceptable = new Sound(GameParameters.SOUND_NOT_ACCEPTABLE);  // was BUTTON_PRESS
+			hitStick = new Sound(Constants.SOUND_HIT_STICK);
+			hitBorder = new Sound(Constants.SOUND_HIT_BORDER);
+			destroyBall = new Sound(Constants.SOUND_DESTROY_BALL);
+			hitBlock = new Sound(Constants.SOUND_HIT_BLOCK);
+			createItem = new Sound(Constants.SOUND_CREATE_ITEM);
+			pickupItem = new Sound(Constants.SOUND_PICKUP_ITEM);
+			victory = new Sound(Constants.SOUND_VICTORY);
+			gameover =	new Sound(Constants.SOUND_GAMEOVER);
+			buttonPush = new Sound(Constants.SOUND_BUTTON_PRESS);
+			notAcceptable = new Sound(Constants.SOUND_NOT_ACCEPTABLE);  // was BUTTON_PRESS
 
-			menuMusic = new Sound(GameParameters.MUSIC_MENU);
-			gameplayMusic = new Sound(GameParameters.MUSIC_GAMEPLAY);
-			highscoreMusic = new Sound(GameParameters.MUSIC_HIGHSCORE);
+			menuMusic = new Sound(Constants.MUSIC_MENU);
+			gameplayMusic = new Sound(Constants.MUSIC_GAMEPLAY);
+			highscoreMusic = new Sound(Constants.MUSIC_HIGHSCORE);
 		} catch (SlickException e) {
 			System.err.println("Could not initialize sounds. Check if they exist at referenced location.");
 			e.printStackTrace();

@@ -1,9 +1,11 @@
 package de.tudarmstadt.informatik.fop.breakout.ui;
 
-import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.LanguageHandler;
+import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
 import de.tudarmstadt.informatik.fop.breakout.handlers.SoundHandler;
 import de.tudarmstadt.informatik.fop.breakout.handlers.ThemeHandler;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;
 import eea.engine.component.Component;
@@ -43,20 +45,20 @@ public class AboutState extends BasicGameState {
 	public void init(GameContainer container, StateBasedGame game) throws SlickException {
 		// background
 		// creating background-entity
-		Entity background = new Entity(GameParameters.MENU_ID);
-		background.setPosition(new Vector2f((GameParameters.WINDOW_WIDTH / 2),(GameParameters.WINDOW_HEIGHT / 2)));
+		Entity background = new Entity(Constants.MENU_ID);
+		background.setPosition(new Vector2f((Variables.WINDOW_WIDTH / 2),(Variables.WINDOW_HEIGHT / 2)));
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			background.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BLANK_BACKGROUND)));
 		}
-		background.setScale(GameParameters.BACKGROUND_SCALE); // scaling
+		background.setScale(Variables.BACKGROUND_SCALE); // scaling
 		// giving StateBasedEntityManager the background-entity
 		entityManager.addEntity(stateID, background);
 
 		// back-entity
 		Entity back_Entity = new Entity("Back");
-		back_Entity.setPosition(new Vector2f(GameParameters.BUTTON_1_X, GameParameters.BUTTON_8_Y));
-		back_Entity.setScale(GameParameters.Entity_SCALE);
+		back_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X, Variables.BUTTON_8_Y));
+		back_Entity.setScale(Variables.Entity_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			back_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON)));
@@ -81,9 +83,11 @@ public class AboutState extends BasicGameState {
 	 * Wird vor dem Frame ausgefuehrt
 	 */
 	@Override
-	public void update(GameContainer container, StateBasedGame game, int delta)
+	public void update(GameContainer gc, StateBasedGame sb, int delta)
 			throws SlickException {
-		entityManager.updateEntities(container, game, delta);
+		entityManager.updateEntities(gc, sb, delta);
+
+		OptionsHandler.updateWindow(gc, sb, stateID);
 	}
 
 	/**#####
@@ -96,9 +100,9 @@ public class AboutState extends BasicGameState {
 		entityManager.renderEntities(container, game, g);
 
 		// scaling texts
-		g.scale(GameParameters.BACKGROUND_SCALE,GameParameters.BACKGROUND_SCALE);
+		g.scale(Variables.BACKGROUND_SCALE, Variables.BACKGROUND_SCALE);
 
-		g.drawString(LanguageHandler.BUTTON_BACK, (GameParameters.BUTTON_1_X_WIDE / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X), (GameParameters.BUTTON_8_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+		g.drawString(LanguageHandler.BUTTON_BACK, (Variables.BUTTON_1_X_WIDE / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X), (Variables.BUTTON_8_Y / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_Y));
 
 		// About the program documentation
 		String aboutDoc = "HISTORY:\n" +
@@ -109,7 +113,7 @@ public class AboutState extends BasicGameState {
 				"  or reduce the players chance to win. The game ends when\n" +
 				"  all lives are lost or all levels are finished.\n" +
 				"  Do you have what it takes to be the best?";
-		g.drawString(aboutDoc, (GameParameters.WINDOW_WIDTH * 0.205f) / GameParameters.BACKGROUND_SCALE, (GameParameters.WINDOW_HEIGHT * 0.4f) / GameParameters.BACKGROUND_SCALE);
+		g.drawString(aboutDoc, (Variables.WINDOW_WIDTH * 0.205f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.4f) / Variables.BACKGROUND_SCALE);
 
 		String aboutDoc2 = "\n" +
 				"This Breakout project:\n" +
@@ -120,9 +124,9 @@ public class AboutState extends BasicGameState {
 				"  Maps by Jens Abels, Rúben Costa\n" +
 				"  Marketing by Jens Abels\n" +
 				"  Tested by David Volz\n";
-		g.drawString(aboutDoc2, (GameParameters.WINDOW_WIDTH * 0.56f) / GameParameters.BACKGROUND_SCALE, (GameParameters.WINDOW_HEIGHT * 0.4f) / GameParameters.BACKGROUND_SCALE);
+		g.drawString(aboutDoc2, (Variables.WINDOW_WIDTH * 0.56f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.4f) / Variables.BACKGROUND_SCALE);
 
-		g.drawString("Problems or suggestions ?\nmail us at: breakout.darujean@gmail.com", (GameParameters.WINDOW_WIDTH * 0.26f) / GameParameters.BACKGROUND_SCALE, (GameParameters.WINDOW_HEIGHT * 0.6f) / GameParameters.BACKGROUND_SCALE);
+		g.drawString("Problems or suggestions ?\nmail us at: breakout.darujean@gmail.com", (Variables.WINDOW_WIDTH * 0.26f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.6f) / Variables.BACKGROUND_SCALE);
 
 		String soundInterpret = "Sounds:\n" +
 				"All rights reserved by the authors of the sounds\n" +
@@ -136,7 +140,7 @@ public class AboutState extends BasicGameState {
 				"Lively Meadow Victory Fanfare -by Matthew Pablo\n" +
 				"\n" +
 				"All images created  and all rights reserved by DaRuJeAn";
-		g.drawString(soundInterpret, (GameParameters.WINDOW_WIDTH * 0.34f) / GameParameters.BACKGROUND_SCALE, (GameParameters.WINDOW_HEIGHT * 0.66f) / GameParameters.BACKGROUND_SCALE);
+		g.drawString(soundInterpret, (Variables.WINDOW_WIDTH * 0.34f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.66f) / Variables.BACKGROUND_SCALE);
 
 	}
 
