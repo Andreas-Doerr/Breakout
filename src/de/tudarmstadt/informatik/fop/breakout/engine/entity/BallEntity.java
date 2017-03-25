@@ -54,7 +54,7 @@ public class BallEntity extends Entity {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				if (!gc.isPaused()) {
-					setPosition(new Vector2f(getPosition().x + getSpeedRight() * (float) Constants.FRAME_RATE / (float) gc.getFPS(), getPosition().y -  getSpeedUp() * (float) Constants.FRAME_RATE / (float) gc.getFPS()));
+					setPosition(new Vector2f(getPosition().x + getSpeedRight() * Constants.FRAME_RATE / (float) gc.getFPS(), getPosition().y -  getSpeedUp() * Constants.FRAME_RATE / (float) gc.getFPS()));
 				}
 			}
 		});

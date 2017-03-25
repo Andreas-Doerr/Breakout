@@ -33,6 +33,8 @@ public class BotStickEntity extends StickEntity {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				// TODO maybe if mall moves down calculate where it will hit the stick and move there
+				// TODO indicator for hov the ball will be reflected
+				// TODO use blockList from LevelHandler to aim for the blocks
 				// movement
 				if (ball.getPosition().x > (getSize().x / 2) && ball.getPosition().x < (Variables.WINDOW_WIDTH - (getSize().x / 2))) {
 					setPosition(new Vector2f(ball.getPosition().x, Variables.STICK_Y));

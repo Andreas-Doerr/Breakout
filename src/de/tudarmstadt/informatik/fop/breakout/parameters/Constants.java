@@ -55,8 +55,8 @@ public interface Constants {
 
 	// Ball
 	String BALL_ID = "ball";
-	int HITS_TO_MAX_SPEED = 20;
-	float MAX_SPEED_MULTIPLIER = 2f;
+	int HITS_TO_MAX_SPEED = 25;
+	float MAX_SPEED_MULTIPLIER = 3f;
 	String DESTROYED_BALL_ID = "destroyed ball";
 	int MAX_AMOUNT_OF_BALLS = 100;
 
