@@ -9,7 +9,7 @@ import java.io.*;
  */
 public class FileHandler {
 
-	//TODO close reader + writer
+	//TODO create folders
 
 	public static String[] read(String ref, int noOfEntries) throws FileNotFoundException{
 

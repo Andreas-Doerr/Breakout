@@ -2,8 +2,6 @@ package de.tudarmstadt.informatik.fop.breakout.constants;
 
 import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
 
-import java.awt.*;
-
 /**
  * Class for holding the game parameters and constants e.g. entity IDs or image
  * paths
@@ -41,7 +39,6 @@ public interface GameParameters {
 	enum BorderType {
 		TOP, LEFT, RIGHT
 	}
-
 	int BORDER_WIDTH = 10;
 	String TOP_BORDER_ID = "topBorder";
 	String LEFT_BORDER_ID = "leftBorder";
@@ -60,16 +57,12 @@ public interface GameParameters {
 	String ITEM_5_ID = "item max_speed_balls";
 	String ITEM_6_ID = "item min_speed_balls";
 
-
 	// Maps
 	String TEMPLATE_LEVEL = "maps/level1.map";
 	int MAX_MAPS = 20;
 
 	// Language
 	int MAX_LANGUAGES = 10;
-
-	// Timer
-	String STOP_WATCH_ID = "stopWatch";
 
 	// speeds
 	int SPEED_MULTIPLIER = 30;
@@ -90,16 +83,11 @@ public interface GameParameters {
 	String STICK_ID_TOP = "stickTop";
 	int STICK_Y = (int)(WINDOW_HEIGHT * 0.9f);
 	int STICK_Y_TOP = (int)(WINDOW_HEIGHT * 0.1f);
-	float STICK_CURVE = 1f;
 	float STICK_SPEED = 0.5f * BACKGROUND_SCALE * SPEED_MULTIPLIER;
 	enum StickShape {
 		SLIM, NORMAL, WIDE
 	}
 	int MAX_AMOUNT_OF_STICKS = 10;
-
-	// Player
-	String PLAYER_ID = "player";
-	String NO_LIFE_LEFT = "noLifeLeft";
 
 	// Buttons
 	float MENU_ENTRY_SCALE = BACKGROUND_SCALE;
@@ -109,7 +97,6 @@ public interface GameParameters {
 	int TEXT_OFFSET_Y = -9;
 
 	// Button positions
-	//TODO just save 1_x ,2X and 1_Y and 2_y
 	// MainMenu
 	int MAIN_MENU_BUTTON_1_X = (int) (WINDOW_WIDTH * 0.38f);
 	int MAIN_MENU_BUTTON_2_X = (int) (WINDOW_WIDTH * 0.64f);
@@ -134,12 +121,6 @@ public interface GameParameters {
 
 	// Pause
 	String PAUSE_ID = "pause";
-
-	// Win
-	String WIN_ID = "win";
-
-	// Escape
-	String ESCAPE_ID = "escape";
 
 	// Highscore
 	String HIGHSCORE_FILE_0 = "highscores/highscore.hsc";
@@ -174,8 +155,7 @@ public interface GameParameters {
 	int TIMER_Y = 10;
 
 	// Sounds
-	// TODO assign better sounds (atm some are placeholders)
-	// action
+	// actions
 	String SOUND_HIT_STICK = "/sounds/hitStick.wav";
 	String SOUND_HIT_BORDER = "/sounds/hitBlock.wav";
 	String SOUND_HIT_BLOCK = "/sounds/hitBlock.wav";

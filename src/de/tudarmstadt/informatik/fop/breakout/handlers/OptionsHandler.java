@@ -17,7 +17,6 @@ public class OptionsHandler {
 	private static boolean showFPS = false;
 	private static String[] availableLanguages = new String[GameParameters.MAX_LANGUAGES];
 	private static int langSelector = 0;
-	// TODO make them do something
 	private static int controlMode = 0; // 0=keyboard, 1=mouse, 2=controller
 	private static int selectedController = 0;
 	private static int gameMode = 0;

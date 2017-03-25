@@ -160,11 +160,11 @@ public class LevelHandler {
 	}
 	public static int getHitsLeft(String block_ID) throws NullPointerException {
 		int toReturn = -1;
-		for (int i = 0; i < blockList.length; i++) {
-			if (blockList[i] != null) {
-				if (blockList[i].getID().equals(block_ID)) {
+		for (TestBlockEntity eachBlockList : blockList) {
+			if (eachBlockList != null) {
+				if (eachBlockList.getID().equals(block_ID)) {
 					// searching for the entry which is to be asked for its hitsLeft
-					toReturn = blockList[i].getHitsLeft();
+					toReturn = eachBlockList.getHitsLeft();
 					// stops looking for if it found it
 					break;
 				}
@@ -198,10 +198,10 @@ public class LevelHandler {
 		blockToHit[3] = "block" + x + "_" + (y - 1);
 
 		for (String eachBlockToHit : blockToHit) {
-			for (int i = 0; i < blockList.length; i++) {
-				if (blockList[i] != null && blockList[i].getID().equals(eachBlockToHit)) {
+			for (TestBlockEntity eachBlockList : blockList) {
+				if (eachBlockList != null && eachBlockList.getID().equals(eachBlockToHit)) {
 					// searching for the entry which is to be hit
-					blockList[i].hit();
+					eachBlockList.hit();
 					// stops looking for if it found it
 					break;
 				}

@@ -53,7 +53,6 @@ public class ThemeHandler implements GameParameters {
 
 
 	public static void initTheme() {
-		String imagesFolder = IMAGES_FOLDER;
 		String themeFolder;
 		int selectedTheme = OptionsHandler.getThemeSelector();
 		if (selectedTheme == 0) {
@@ -61,7 +60,7 @@ public class ThemeHandler implements GameParameters {
 		} else {
 			themeFolder = THEME_1_FOLDER;
 		}
-		String folder = imagesFolder + themeFolder;
+		String folder = IMAGES_FOLDER + themeFolder;
 
 		MENU_BACKGROUND = folder + GameParameters.MENU_BACKGROUND + IMAGE_ENDING;
 		MENU_BLANK_BACKGROUND = folder + GameParameters.MENU_BLANK_BACKGROUND + IMAGE_ENDING;

@@ -8,7 +8,6 @@ import eea.engine.component.Component;
 import eea.engine.event.basicevents.KeyDownEvent;
 import eea.engine.event.basicevents.LoopEvent;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 

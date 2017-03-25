@@ -47,8 +47,6 @@ public class OptionsState extends BasicGameState {
 		// giving StateBasedEntityManager the background-entity
 		entityManager.addEntity(stateID, background);
 
-		// TODO add sounds for pressing buttons , notAcceptable when Controller !missingString.equals(LaguageHandler.CONTROLLER-OK)
-
 	// langSelect-entity
 		Entity langSelect_Entity = new Entity("Language Selector");
 		langSelect_Entity.setPosition(new Vector2f(GameParameters.BUTTON_1_X, GameParameters.BUTTON_1_Y));

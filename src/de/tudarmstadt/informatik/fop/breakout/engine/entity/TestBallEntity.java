@@ -57,7 +57,6 @@ public class TestBallEntity extends Entity{
 		addComponent(ce);
 
 		// TODO maybe: reflect by relative position (maybe also speed) like the ball-block collision
-		// TODO checking isPassable() of the entity collided with
 
 		// ... reflecting if collided with a border, stick, block ...
 		ce.addAction(new Action() {

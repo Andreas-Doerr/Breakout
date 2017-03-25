@@ -89,7 +89,7 @@ public class AboutState extends BasicGameState {
 	/**#####
 	 * Wird mit dem Frame ausgefuehrt
 	 */
-	// TODO add mail adreas
+	// TODO add Names, lines
 	@Override
 	public void render(GameContainer container, StateBasedGame game,
 					   Graphics g) throws SlickException {
@@ -113,8 +113,8 @@ public class AboutState extends BasicGameState {
 
 		String aboutDoc2 = "\n" +
 				"   This Breakout project:\n " +
-				"   Was accomplished by ...;\n" +
-				"    Was finished in ... days;\n" +
+				"   Was accomplished by DaRuJeAn;\n" +
+				"    Was finished in ~30 days;\n" +
 				"    Has approximately ... lines of code.";
 		g.drawString(aboutDoc2, (GameParameters.WINDOW_WIDTH * 0.55f) / GameParameters.BACKGROUND_SCALE, (GameParameters.WINDOW_HEIGHT * 0.4f) / GameParameters.BACKGROUND_SCALE);
 

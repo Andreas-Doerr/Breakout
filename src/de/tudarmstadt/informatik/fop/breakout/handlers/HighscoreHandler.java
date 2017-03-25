@@ -40,8 +40,7 @@ public class HighscoreHandler {
 			int gameMode = OptionsHandler.getGameMode();
 			i++;
 			for (;i < maxHighscoreCount && highscoreContent[i] != null; i++) {
-				String[] entryContent = new String[4];
-				entryContent = highscoreContent[i].split(",");
+				String[] entryContent = highscoreContent[i].split(",");
 				names[gameMode][i - 1] = entryContent[0];
 				desBlocks[gameMode][i - 1] = Integer.valueOf(entryContent[1]);
 				time[gameMode][i - 1] = Long.valueOf(entryContent[2]);
@@ -109,8 +108,6 @@ public class HighscoreHandler {
 		if (highscoreCount < maxHighscoreCount) {
 			highscoreCount++;
 		}
-
-		// TODO print whole array for debug
 
 		saveHighscore();
 

@@ -69,7 +69,7 @@ public class ControllerHandler {
 			OptionsHandler.saveOptions();
 		}
 		ControllerHandler.initNewController();
-		if (missingForAcceptableController() != LanguageHandler.CONTROLLER_OK) {
+		if (!missingForAcceptableController().equals(LanguageHandler.CONTROLLER_OK)) {
 			SoundHandler.playNotAcceptable();
 		}
 	}
@@ -84,11 +84,7 @@ public class ControllerHandler {
 
 	private static boolean doesButtonExist(int button) {
 		// returns true if the button exists (the button's index is not higher than the amount of buttons and not below 0)
-		if (!Breakout.getDebug() && Controllers.getControllerCount() > 0) {
-			return button < controller.getButtonCount() && button >= 0;
-		} else {
-			return false;
-		}
+		return !Breakout.getDebug() && Controllers.getControllerCount() > 0 && button < controller.getButtonCount() && button >= 0;
 
 	}
 
