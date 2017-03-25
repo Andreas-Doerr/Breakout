@@ -1,0 +1,78 @@
+###### internationalization and localization -file for Breakout ######
+### German ###
+#
+### Button Texts
+#
+# BUTTON_NEW_GAME
+Neues Spiel
+# BUTTON_RESUME_GAME
+Weiterspielen
+# BUTTON_INACTIVE_RESUME_GAME
+Kein Spiel aktiv
+# BUTTON_HIGHSCORE
+Highscore
+# BUTTON_OPTIONS
+Optionen
+# BUTTON_QUIT
+Beenden
+# BUTTON_ABOUT
+Mitwirkende
+# BUTTON_BACK
+Zurueck
+# BUTTON_SWITCH_LANGUAGE
+Sprache wechseln
+# BUTTON_SWITCH_RESOLUTION
+Aufloesung wechseln
+# BUTTON_SWITCH_CONTROLLER
+Controller wechseln
+# BUTTON_SHOW_FPS
+FPS anzeigen
+#
+### GUI
+#
+# LIVES_LEFT
+Leben verbleibend
+# ACTIVE_BLOCKS
+Bloecke verbleibend
+# DESTROYED_BLOCKS
+Bloecke zerstoert
+# BALLS_ACTIVE
+Baelle aktiv
+# DESTROYED_BALLS_ACTIVE
+Zerstoerte Baelle aktiv
+# TIMER
+Zeit
+# REQUIRES_RESTART
+Erfordert Neustart!
+# YES
+Ja
+# NO
+Nein
+# NO_AXIS
+Kein Stick
+# NO_BUTTON
+Keine Taste
+# POINTS
+Punkte
+# VICTORY
+GEWONNEN
+# GAME_OVER
+VERLOREN
+# IT_TOOK_YOU
+Du hast
+# YOU_DESTROYED
+Du hast
+# YOU_SCORED
+Du hast
+# X_SECONDS
+sekunden gebraucht.
+# X_BLOCKS
+Bloeke zerstoert.
+# X_POINTS
+Punkte erreicht.
+# CONTROLLER_OK
+Controller akzeptiert.
+# NAMES
+Namen
+# SELECTED_MAP
+Ausgewählte Karte
