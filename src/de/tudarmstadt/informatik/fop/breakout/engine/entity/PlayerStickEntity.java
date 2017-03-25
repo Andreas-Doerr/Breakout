@@ -64,10 +64,16 @@ public class PlayerStickEntity extends StickEntity {
 						((ControllerHandler.getRightStick_x() > 0 && getPosition().x < (Variables.WINDOW_WIDTH - (getSize().x / 2)))
 						|| (ControllerHandler.getRightStick_x() < 0 && getPosition().x > (getSize().x / 2))))) {
 					setPosition(new Vector2f(getPosition().x + (Variables.STICK_SPEED * ControllerHandler.getRightStick_x()), getPosition().y));
-				} else if (OptionsHandler.getControlMode() == 1
-						&& gc.getInput().getMouseX() > (getSize().x / 2)
-						&& gc.getInput().getMouseX() < (Variables.WINDOW_WIDTH - (getSize().x / 2))) {
-					setPosition(new Vector2f(gc.getInput().getMouseX(), getPosition().y));
+				} else if (OptionsHandler.getControlMode() == 1) {
+					if (gc.getInput().getMouseX() < (getSize().x / 2)) {
+						// too far left
+						setPosition(new Vector2f(getSize().x / 2, getPosition().y));
+					} else if (gc.getInput().getMouseX() > (Variables.WINDOW_WIDTH - (getSize().x / 2))) {
+						// too far right
+						setPosition(new Vector2f(Variables.WINDOW_WIDTH - (getSize().x / 2), getPosition().y));
+					} else {
+						setPosition(new Vector2f(gc.getInput().getMouseX(), getPosition().y));
+					}
 				}
 			}
 		});
