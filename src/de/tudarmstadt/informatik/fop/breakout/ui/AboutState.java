@@ -98,25 +98,29 @@ public class AboutState extends BasicGameState {
 		// scaling texts
 		g.scale(GameParameters.BACKGROUND_SCALE,GameParameters.BACKGROUND_SCALE);
 
-		g.drawString(LanguageHandler.BUTTON_BACK, (GameParameters.BUTTON_1_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X), (GameParameters.BUTTON_8_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+		g.drawString(LanguageHandler.BUTTON_BACK, (GameParameters.BUTTON_1_X_WIDE / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X), (GameParameters.BUTTON_8_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
 
 		// About the program documentation
-		String aboutDoc = "\n" +
-				"   Breakout was developed by Atari, inc. in 1976.\n" +
-				"   In Breakout the player has to destroy blocks on the screen\n" +
-				"   by bouncing a ball off a stick. The ball and stick\n" +
-				"   behaviour is changed by dropped items which improve\n" +
-				"   or reduce the players chance to win. The game ends when\n" +
-				"   all lives are lost or all levels are finished.\n" +
-				"   Do you have what it takes to be the best?";
-		g.drawString(aboutDoc, (GameParameters.WINDOW_WIDTH * 0.2f) / GameParameters.BACKGROUND_SCALE, (GameParameters.WINDOW_HEIGHT * 0.4f) / GameParameters.BACKGROUND_SCALE);
+		String aboutDoc = "HISTORY:\n" +
+				"  Breakout was developed by Atari, inc. in 1976.\n" +
+				"  In Breakout the player has to destroy blocks on the screen\n" +
+				"  by bouncing a ball off a stick. The ball and stick\n" +
+				"  behaviour is changed by dropped items which improve\n" +
+				"  or reduce the players chance to win. The game ends when\n" +
+				"  all lives are lost or all levels are finished.\n" +
+				"  Do you have what it takes to be the best?";
+		g.drawString(aboutDoc, (GameParameters.WINDOW_WIDTH * 0.205f) / GameParameters.BACKGROUND_SCALE, (GameParameters.WINDOW_HEIGHT * 0.4f) / GameParameters.BACKGROUND_SCALE);
 
 		String aboutDoc2 = "\n" +
-				"   This Breakout project:\n " +
-				"   Was accomplished by DaRuJeAn;\n" +
-				"    Was finished in ~30 days;\n" +
-				"    Has approximately ... lines of code.";
-		g.drawString(aboutDoc2, (GameParameters.WINDOW_WIDTH * 0.55f) / GameParameters.BACKGROUND_SCALE, (GameParameters.WINDOW_HEIGHT * 0.4f) / GameParameters.BACKGROUND_SCALE);
+				"This Breakout project:\n" +
+				"  Was finished in ~30 days;\n" +
+				"  Has approximately 5352 lines of code.\n" +
+				"  Code by Andreas Dörr \n" +
+				"  Textures by Daniel Friesen, Rúben Costa\n" +
+				"  Maps by Jens Abels, Rúben Costa\n" +
+				"  Marketing by Jens Abels\n" +
+				"  Tested by David Volz\n";
+		g.drawString(aboutDoc2, (GameParameters.WINDOW_WIDTH * 0.56f) / GameParameters.BACKGROUND_SCALE, (GameParameters.WINDOW_HEIGHT * 0.4f) / GameParameters.BACKGROUND_SCALE);
 
 		g.drawString("Problems or suggestions ?\nmail us at: breakout.darujean@gmail.com", (GameParameters.WINDOW_WIDTH * 0.26f) / GameParameters.BACKGROUND_SCALE, (GameParameters.WINDOW_HEIGHT * 0.6f) / GameParameters.BACKGROUND_SCALE);
 

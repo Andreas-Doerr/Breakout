@@ -20,7 +20,7 @@ public class StickEntity extends Entity {
 
 	private GameParameters.StickShape widthModifier = GameParameters.StickShape.NORMAL;
 
-	StickEntity(String entityID) {
+	public StickEntity(String entityID) {
 		super(entityID);
 
 		LevelHandler.addStick(this);

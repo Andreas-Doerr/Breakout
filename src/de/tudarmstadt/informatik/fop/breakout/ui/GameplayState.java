@@ -223,7 +223,7 @@ public class GameplayState extends BasicGameState {
 						currentlyRunning = true;
 
 						// creating a ball
-						BallEntity ball = new BallEntity(GameParameters.BALL_ID);
+						BallEntity ball = new BallEntity(new Vector2f(stick.getPosition().x, (stick.getPosition().y)));
 						// ball at stick position
 						ball.setPosition(new Vector2f(stick.getPosition().x, (stick.getPosition().y - ((stick.getSize().y / 2) + (ball.getSize().y / 2)))));
 					} else {
@@ -250,7 +250,7 @@ public class GameplayState extends BasicGameState {
 						currentlyRunning = true;
 
 						// creating a ball
-						BallEntity ball = new BallEntity(GameParameters.BALL_ID);
+						BallEntity ball = new BallEntity(new Vector2f(stick.getPosition().x, (stick.getPosition().y)));
 						// ball at stick position
 						ball.setPosition(new Vector2f(stick.getPosition().x, (stick.getPosition().y - ((stick.getSize().y / 2) + (ball.getSize().y / 2)))));
 					} else {
@@ -279,7 +279,7 @@ public class GameplayState extends BasicGameState {
 							currentlyRunning = true;
 
 							// creating a ball
-							BallEntity ball = new BallEntity(GameParameters.BALL_ID);
+							BallEntity ball = new BallEntity(new Vector2f(stick.getPosition().x, (stick.getPosition().y)));
 							// ball at stick position
 							ball.setPosition(new Vector2f(stick.getPosition().x, (stick.getPosition().y - ((stick.getSize().y / 2) + (ball.getSize().y / 2)))));
 						} else {
@@ -308,7 +308,7 @@ public class GameplayState extends BasicGameState {
 							currentlyRunning = true;
 
 							// creating a ball
-							BallEntity ball = new BallEntity(GameParameters.BALL_ID);
+							BallEntity ball = new BallEntity(new Vector2f(stick.getPosition().x, (stick.getPosition().y)));
 							// ball at stick position
 							ball.setPosition(new Vector2f(stick.getPosition().x, (stick.getPosition().y - ((stick.getSize().y / 2) + (ball.getSize().y / 2)))));
 
@@ -343,7 +343,8 @@ public class GameplayState extends BasicGameState {
 							currentlyRunning = true;
 
 							// creating a ball
-							BallEntity ball = new BallEntity(GameParameters.BALL_ID);
+							BallEntity ball = new BallEntity(new Vector2f(stick.getPosition().x, (stick.getPosition().y)));
+
 							// ball at stick position
 							ball.setPosition(new Vector2f(stick.getPosition().x, (stick.getPosition().y - ((stick.getSize().y / 2) + (ball.getSize().y / 2)))));
 

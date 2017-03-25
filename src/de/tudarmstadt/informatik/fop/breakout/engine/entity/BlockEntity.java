@@ -6,31 +6,66 @@ import de.tudarmstadt.informatik.fop.breakout.handlers.ItemHandler;
 import de.tudarmstadt.informatik.fop.breakout.handlers.LevelHandler;
 import de.tudarmstadt.informatik.fop.breakout.handlers.PlayerHandler;
 import de.tudarmstadt.informatik.fop.breakout.handlers.ThemeHandler;
+import de.tudarmstadt.informatik.fop.breakout.interfaces.IHitable;
 import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
 import eea.engine.component.render.ImageRenderComponent;
+import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Vector2f;
 
 /**
  * Created by PC - Andreas on 22.03.2017.
  *
  * @author Andreas Dörr
  */
-public class BlockEntity extends TestBlockEntity {
+public class BlockEntity extends Entity implements IHitable {
 
-	public BlockEntity(String entityID, int newHitsLeft, float newPos_x, float newPos_y) {
-		super(entityID, newHitsLeft, newPos_x, newPos_y);
+	private int hitsLeft;
+
+	public BlockEntity(String entityID, int originalHitsLeft, float originalPos_x, float originalPos_y) {
+		super(entityID);
+
+		this.hitsLeft = originalHitsLeft;
+		this.setPosition(new Vector2f(originalPos_x, originalPos_y));
+
+		// add 1 to the counter of active blocks
+		LevelHandler.addActiveBlocks(1);
+		// add this ball to the list which is keeping track of every ball
+		LevelHandler.addBlock(this);
+
+
+		// setting to not be passable
+		setPassable(false);
+
+		// block scaling
+		setScale(LevelHandler.getScale());
 
 		updateImage();
 
-		// add the block to the StateBasedEntityManager (this is why it has to overwrite)
-		// (TestBlockEntity would cause tests to fail if it tried to add itself to the StateBasedEntityManager)
+		// add the block to the StateBasedEntityManager
 		StateBasedEntityManager.getInstance().addEntity(GameParameters.GAMEPLAY_STATE, this);
-
 	}
 
+
 	@Override
+	public int getHitsLeft() {
+		return hitsLeft;
+	}
+	@Override
+	public void addHitsLeft(int toAdd) {
+		hitsLeft += toAdd;
+	}
+	@Override
+	public void setHitsLeft(int newHitsLeft) {
+		hitsLeft = newHitsLeft;
+	}
+	@Override
+	public boolean hasHitsLeft() {
+		return hitsLeft > 0;
+	}
+
 	public void hit() {
 		addHitsLeft(-1);
 		if (!hasHitsLeft()) {
@@ -46,10 +81,8 @@ public class BlockEntity extends TestBlockEntity {
 		}
 	}
 
-	@Override
 	public void destroyBlock() {
-		// remove the block from the StateBasedEntityManager (this is why it has to overwrite)
-		// (TestBlockEntity would cause tests to fail if it tried to remove itself from the StateBasedEntityManager)
+		// remove the block from the StateBasedEntityManager
 		StateBasedEntityManager.getInstance().removeEntity(GameParameters.GAMEPLAY_STATE, this);
 		// adding points
 		PlayerHandler.addPoints(10);

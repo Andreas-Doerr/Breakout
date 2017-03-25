@@ -49,7 +49,7 @@ public class OptionsState extends BasicGameState {
 
 	// langSelect-entity
 		Entity langSelect_Entity = new Entity("Language Selector");
-		langSelect_Entity.setPosition(new Vector2f(GameParameters.BUTTON_1_X, GameParameters.BUTTON_1_Y));
+		langSelect_Entity.setPosition(new Vector2f(GameParameters.BUTTON_1_X_WIDE, GameParameters.BUTTON_1_Y));
 		langSelect_Entity.setScale(GameParameters.Entity_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
@@ -122,7 +122,7 @@ public class OptionsState extends BasicGameState {
 
 	// show_fps-entity
 		Entity show_fps_Entity = new Entity("Show FPS");
-		show_fps_Entity.setPosition(new Vector2f(GameParameters.BUTTON_1_X, GameParameters.BUTTON_2_Y));
+		show_fps_Entity.setPosition(new Vector2f(GameParameters.BUTTON_1_X_WIDE, GameParameters.BUTTON_2_Y));
 		show_fps_Entity.setScale(GameParameters.Entity_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
@@ -152,7 +152,7 @@ public class OptionsState extends BasicGameState {
 
 	// controlModeSelector_Entity
 		Entity controlModeSelector_Entity = new Entity("controlModeSelector_Entity");
-		controlModeSelector_Entity.setPosition(new Vector2f(GameParameters.BUTTON_1_X, GameParameters.BUTTON_3_Y));
+		controlModeSelector_Entity.setPosition(new Vector2f(GameParameters.BUTTON_1_X_WIDE, GameParameters.BUTTON_3_Y));
 		controlModeSelector_Entity.setScale(GameParameters.Entity_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
@@ -208,7 +208,7 @@ public class OptionsState extends BasicGameState {
 
 	// gameModeSelector_Entity
 		Entity gameModeSelector_Entity = new Entity("gameModeSelector_Entity");
-		gameModeSelector_Entity.setPosition(new Vector2f(GameParameters.BUTTON_1_X, GameParameters.BUTTON_4_Y));
+		gameModeSelector_Entity.setPosition(new Vector2f(GameParameters.BUTTON_1_X_WIDE, GameParameters.BUTTON_4_Y));
 		gameModeSelector_Entity.setScale(GameParameters.Entity_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
@@ -236,7 +236,7 @@ public class OptionsState extends BasicGameState {
 
 	// cheatModeSelector_Entity
 		Entity cheatModeSelector_Entity = new Entity("cheatModeSelector_Entity");
-		cheatModeSelector_Entity.setPosition(new Vector2f(GameParameters.BUTTON_1_X, GameParameters.BUTTON_5_Y));
+		cheatModeSelector_Entity.setPosition(new Vector2f(GameParameters.BUTTON_1_X_WIDE, GameParameters.BUTTON_5_Y));
 		cheatModeSelector_Entity.setScale(GameParameters.Entity_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
@@ -264,7 +264,7 @@ public class OptionsState extends BasicGameState {
 
 	// mapSelector_Entity
 		Entity mapSelector_Entity = new Entity("mapSelector_Entity");
-		mapSelector_Entity.setPosition(new Vector2f(GameParameters.BUTTON_1_X, GameParameters.BUTTON_6_Y));
+		mapSelector_Entity.setPosition(new Vector2f(GameParameters.BUTTON_1_X_WIDE, GameParameters.BUTTON_6_Y));
 		mapSelector_Entity.setScale(GameParameters.Entity_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
@@ -287,7 +287,7 @@ public class OptionsState extends BasicGameState {
 
 	// themeSelector_Entity
 		Entity themeSelector_Entity = new Entity("themeSelector_Entity");
-		themeSelector_Entity.setPosition(new Vector2f(GameParameters.BUTTON_1_X, GameParameters.BUTTON_7_Y));
+		themeSelector_Entity.setPosition(new Vector2f(GameParameters.BUTTON_1_X_WIDE, GameParameters.BUTTON_7_Y));
 		themeSelector_Entity.setScale(GameParameters.Entity_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
@@ -373,9 +373,9 @@ public class OptionsState extends BasicGameState {
 
 		// Buttons
 		// back
-		g.drawString(LanguageHandler.BUTTON_BACK, (GameParameters.BUTTON_1_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X), (GameParameters.BUTTON_8_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+		g.drawString(LanguageHandler.BUTTON_BACK, (GameParameters.BUTTON_1_X_WIDE / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X), (GameParameters.BUTTON_8_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
 		// switch language
-		g.drawString(LanguageHandler.BUTTON_SWITCH_LANGUAGE + ": " + OptionsHandler.getSelectedLangName(), (GameParameters.BUTTON_1_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_1_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+		g.drawString(LanguageHandler.BUTTON_SWITCH_LANGUAGE + ": " + OptionsHandler.getSelectedLangName(), (GameParameters.BUTTON_1_X_WIDE / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_1_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
 		// switch resolution
 		g.drawString(LanguageHandler.BUTTON_SWITCH_RESOLUTION + ": " + OptionsHandler.getResolution_x() + "x" + (int)(OptionsHandler.getResolution_x() / 4f * 3f), (GameParameters.BUTTON_2_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_1_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
 		if (OptionsHandler.getResolution_x() != GameParameters.WINDOW_WIDTH){
@@ -398,17 +398,17 @@ public class OptionsState extends BasicGameState {
 		g.setColor(Color.white);
 
 		// switch showFPS
-		g.drawString(LanguageHandler.BUTTON_SHOW_FPS + ": " + LanguageHandler.yesOrNo(OptionsHandler.isShowingFPS()), (GameParameters.BUTTON_1_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_2_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+		g.drawString(LanguageHandler.BUTTON_SHOW_FPS + ": " + LanguageHandler.yesOrNo(OptionsHandler.isShowingFPS()), (GameParameters.BUTTON_1_X_WIDE / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_2_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
 
 		g.drawString("Fullscreen: " + LanguageHandler.yesOrNo(OptionsHandler.isFullscreen()), (GameParameters.BUTTON_2_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_2_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
-		g.drawString("Controll Mode: " + OptionsHandler.getControlModeName(), (GameParameters.BUTTON_1_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_3_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
-		g.drawString("GameMode: " + (OptionsHandler.getGameMode()), (GameParameters.BUTTON_1_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_4_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
-		g.drawString("CheatMode: " + LanguageHandler.yesOrNo(OptionsHandler.isCheatModeActive()), (GameParameters.BUTTON_1_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_5_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
-		g.drawString(LanguageHandler.SELECTED_MAP + ": " + OptionsHandler.getSelectedMapName(), (GameParameters.BUTTON_1_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_6_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
-		g.drawString("Theme: " + (OptionsHandler.getThemeSelector() + 1), (GameParameters.BUTTON_1_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_7_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+		g.drawString("Controll Mode: " + OptionsHandler.getControlModeName(), (GameParameters.BUTTON_1_X_WIDE / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_3_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+		g.drawString("GameMode: " + (OptionsHandler.getGameMode()), (GameParameters.BUTTON_1_X_WIDE / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_4_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+		g.drawString("CheatMode: " + LanguageHandler.yesOrNo(OptionsHandler.isCheatModeActive()), (GameParameters.BUTTON_1_X_WIDE / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_5_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+		g.drawString(LanguageHandler.SELECTED_MAP + ": " + OptionsHandler.getSelectedMapName(), (GameParameters.BUTTON_1_X_WIDE / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_6_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+		g.drawString("Theme: " + (OptionsHandler.getThemeSelector() + 1), (GameParameters.BUTTON_1_X_WIDE / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_7_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
 		if (GameplayState.currentlyRunning) {
 			g.setColor(Color.red);
-			g.drawString("Not allowed while game is still running!", (GameParameters.BUTTON_1_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_7_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y + 15));
+			g.drawString("Not allowed while game is still running!", (GameParameters.BUTTON_1_X_WIDE / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X_WIDE), (GameParameters.BUTTON_7_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y + 15));
 			g.setColor(Color.white);
 		}
 

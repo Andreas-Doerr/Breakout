@@ -1,10 +1,7 @@
 package de.tudarmstadt.informatik.fop.breakout.handlers;
 
 import de.tudarmstadt.informatik.fop.breakout.constants.GameParameters;
-import de.tudarmstadt.informatik.fop.breakout.engine.entity.BlockEntity;
-import de.tudarmstadt.informatik.fop.breakout.engine.entity.StickEntity;
-import de.tudarmstadt.informatik.fop.breakout.engine.entity.TestBallEntity;
-import de.tudarmstadt.informatik.fop.breakout.engine.entity.TestBlockEntity;
+import de.tudarmstadt.informatik.fop.breakout.engine.entity.*;
 import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.MoveDownAction;
@@ -36,8 +33,8 @@ public class LevelHandler {
 	private static int activeBallCount = 0;
 	private static int activeDestroyedBallCount = 0;
 
-	private static TestBlockEntity[] blockList = new TestBlockEntity[160 + 1];	// meaning max is 160 since the last entry stays null
-	private static TestBallEntity[] ballList = new TestBallEntity[GameParameters.MAX_AMOUNT_OF_BALLS + 1];	// meaning max is 100 since the last entry stays null
+	private static BlockEntity[] blockList = new BlockEntity[160 + 1];	// meaning max is 160 since the last entry stays null
+	private static BallEntity[] ballList = new BallEntity[GameParameters.MAX_AMOUNT_OF_BALLS + 1];	// meaning max is 100 since the last entry stays null
 	private static StickEntity[] stickList = new StickEntity[GameParameters.MAX_AMOUNT_OF_STICKS + 1];	// meaning max is 10 since the last entry stays null
 
 
@@ -90,8 +87,8 @@ public class LevelHandler {
 		resetEntityLists();
 	}
 	public static void resetEntityLists() {
-		blockList = new TestBlockEntity[160 + 1];	// meaning max is 160 since the last entry stays null
-		ballList = new TestBallEntity[GameParameters.MAX_AMOUNT_OF_BALLS + 1];	// meaning max is 100 since the last entry stays null
+		blockList = new BlockEntity[160 + 1];	// meaning max is 160 since the last entry stays null
+		ballList = new BallEntity[GameParameters.MAX_AMOUNT_OF_BALLS + 1];	// meaning max is 100 since the last entry stays null
 		stickList = new StickEntity[GameParameters.MAX_AMOUNT_OF_STICKS + 1];	// meaning max is 10 since the last entry stays null
 	}
 
@@ -102,7 +99,7 @@ public class LevelHandler {
 	public static boolean blockListHasSpace() {
 		return blockList[blockList.length - 1] == null;
 	}
-	public static void addBlock(TestBlockEntity block) {
+	public static void addBlock(BlockEntity block) {
 		if (blockListHasSpace()) {
 			for (int i = 0; i < blockList.length; i++) {
 				if (blockList[i] == null) {
@@ -114,7 +111,7 @@ public class LevelHandler {
 			System.err.println("Tried to add a block to the blockList even though the maximum supported amount of blocks active at one time has been surpassed!");
 		}
 	}
-	public static void removeBlock(TestBlockEntity block) {
+	public static void removeBlock(BlockEntity block) {
 		int i;
 		for (i = 0; i < blockList.length; i++) {
 			if (blockList[i] == block) {
@@ -139,7 +136,7 @@ public class LevelHandler {
 	// actions
 	public static void destroyRandomBlock() {
 		int amountOfBlocks = 0;
-		for (TestBlockEntity eachBlockList : blockList) {
+		for (BlockEntity eachBlockList : blockList) {
 			if (eachBlockList != null) {
 				amountOfBlocks++;
 			} else {
@@ -148,19 +145,17 @@ public class LevelHandler {
 		}
 		if (amountOfBlocks > 0) {
 			int blockToDestroy = (int) (Math.random() * amountOfBlocks);
-			// if it is a BlockEntity instead of TestBlockEntity it will execute its destroyBlock method
 			blockList[blockToDestroy].destroyBlock();
 		}
 	}
 	public static void destroyAllBlocks() {
 		while (blockList[0] != null) {
-			// if it is a BallEntity instead of TestBallEntity it will execute its destroyBall method
 			blockList[0].destroyBlock();
 		}
 	}
 	public static int getHitsLeft(String block_ID) throws NullPointerException {
 		int toReturn = -1;
-		for (TestBlockEntity eachBlockList : blockList) {
+		for (BlockEntity eachBlockList : blockList) {
 			if (eachBlockList != null) {
 				if (eachBlockList.getID().equals(block_ID)) {
 					// searching for the entry which is to be asked for its hitsLeft
@@ -198,7 +193,7 @@ public class LevelHandler {
 		blockToHit[3] = "block" + x + "_" + (y - 1);
 
 		for (String eachBlockToHit : blockToHit) {
-			for (TestBlockEntity eachBlockList : blockList) {
+			for (BlockEntity eachBlockList : blockList) {
 				if (eachBlockList != null && eachBlockList.getID().equals(eachBlockToHit)) {
 					// searching for the entry which is to be hit
 					eachBlockList.hit();
@@ -215,7 +210,7 @@ public class LevelHandler {
 	public static boolean ballListHasSpace() {
 		return ballList[ballList.length - 1] == null;
 	}
-	public static void addBall(TestBallEntity ball) {
+	public static void addBall(BallEntity ball) {
 		if (ballListHasSpace()) {
 			for (int i = 0; i < ballList.length; i++) {
 				if (ballList[i] == null) {
@@ -227,7 +222,7 @@ public class LevelHandler {
 			System.err.println("Tried to add a ball to the ballList even though the maximum supported amount of balls active at one time has been surpassed!");
 		}
 	}
-	public static void removeBall(TestBallEntity ball) {
+	public static void removeBall(BallEntity ball) {
 		int i;
 		for (i = 0; i < ballList.length; i++) {
 			if (ballList[i] == ball) {
@@ -251,25 +246,22 @@ public class LevelHandler {
 	// actions
 	public static void allBallsLevelComplete() {
 		while (ballList[0] != null) {
-			// if it is a BallEntity instead of TestBallEntity it will execute its destroyBall method
 			ballList[0].levelComplete();
 		}
 	}
 	public static void destroyAllBalls() {
 		while (ballList[0] != null) {
-			// if it is a BallEntity instead of TestBallEntity it will execute its destroyBall method
 			ballList[0].destroyBall();
 		}
 	}
 	public static void destroyFirstBall() {
 		if (ballList[0] != null) {
-			// if it is a BallEntity instead of TestBallEntity it will execute its destroyBall method
 			ballList[0].destroyBall();
 		}
 	}
 	public static void destroyRandomBall() {
 		int amountOfBalls = 0;
-		for (TestBallEntity eachBallList : ballList) {
+		for (BallEntity eachBallList : ballList) {
 			if (eachBallList != null) {
 				amountOfBalls++;
 			} else {
@@ -278,13 +270,12 @@ public class LevelHandler {
 		}
 		if (amountOfBalls > 0) {
 			int ballToDestroy = (int) (Math.random() * amountOfBalls);
-			// if it is a BallEntity instead of TestBallEntity it will execute its destroyBall method
 			ballList[ballToDestroy].destroyBall();
 		}
 	}
 	public static void duplicateAllBalls() {
 		int amountOfBalls = 0;
-		for (TestBallEntity eachBallList : ballList) {
+		for (BallEntity eachBallList : ballList) {
 			if (eachBallList != null) {
 				amountOfBalls++;
 			} else {
@@ -297,7 +288,7 @@ public class LevelHandler {
 	}
 	public static void max_speedAllBalls() {
 		int amountOfBalls = 0;
-		for (TestBallEntity eachBallList : ballList) {
+		for (BallEntity eachBallList : ballList) {
 			if (eachBallList != null) {
 				amountOfBalls++;
 			} else {
@@ -310,7 +301,7 @@ public class LevelHandler {
 	}
 	public static void min_speedAllBalls() {
 		int amountOfBalls = 0;
-		for (TestBallEntity eachBallList : ballList) {
+		for (BallEntity eachBallList : ballList) {
 			if (eachBallList != null) {
 				amountOfBalls++;
 			} else {
@@ -507,7 +498,7 @@ public class LevelHandler {
 						float pos_x = (((x + 1)  * GameParameters.BLOCK_IMAGE_X + GameParameters.BLOCK_IMAGE_X / 2) * scale);
 						float pos_y = (((y + 1) * GameParameters.BLOCK_IMAGE_Y + GameParameters.BLOCK_IMAGE_Y / 2) * scale);
 
-						new TestBlockEntity(ID, hitsLeft, pos_x, pos_y);
+						new BlockEntity(ID, hitsLeft, pos_x, pos_y);
 					}
 				}
 			}

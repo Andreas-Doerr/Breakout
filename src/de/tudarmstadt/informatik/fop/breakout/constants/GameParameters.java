@@ -106,7 +106,8 @@ public interface GameParameters {
 	int MAIN_MENU_BUTTON_3_Y = (int) (WINDOW_HEIGHT * 0.746f);
 
 	// Options
-	int BUTTON_1_X = (int) (WINDOW_WIDTH * 0.308f);
+	int BUTTON_1_X_WIDE = (int) (WINDOW_WIDTH * 0.308f);
+	int BUTTON_1_X = (int) (WINDOW_WIDTH * 0.27f);
 	int BUTTON_2_X = (int) (WINDOW_WIDTH * 0.508f);
 	int BUTTON_3_X = (int) (WINDOW_WIDTH * 0.708f);
 

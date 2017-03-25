@@ -1,7 +1,8 @@
 package adapter;
 
-import de.tudarmstadt.informatik.fop.breakout.engine.entity.TestBallEntity;
-import de.tudarmstadt.informatik.fop.breakout.engine.entity.TestBlockEntity;
+import de.tudarmstadt.informatik.fop.breakout.engine.entity.BallEntity;
+import de.tudarmstadt.informatik.fop.breakout.engine.entity.BlockEntity;
+import de.tudarmstadt.informatik.fop.breakout.engine.entity.StickEntity;
 import de.tudarmstadt.informatik.fop.breakout.handlers.ControllerHandler;
 import de.tudarmstadt.informatik.fop.breakout.handlers.LevelHandler;
 import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
@@ -31,9 +32,8 @@ public class Adapter implements GameParameters {
 
   //TODO you should declare the additional attributes you may require here.
 
-	//BallEntity ball = new BallEntity("ball");
-	TestBallEntity ball = new TestBallEntity(GameParameters.BALL_ID);
-	Entity stick = new Entity(GameParameters.STICK_ID);
+	BallEntity ball;
+	StickEntity stick;
 
 	/**
 	 * Use this constructor to initialize everything you need.
@@ -84,9 +84,11 @@ public class Adapter implements GameParameters {
 			e.printStackTrace();
 		}
 
+		ball = new BallEntity(new Vector2f(0,0));
+		stick = new StickEntity(GameParameters.STICK_ID);
+
 		OptionsHandler.setResolution_x(800);
 		PlayerHandler.reset();
-		//ball.setSize(new Vector2f(20,20));
 		OptionsHandler.readOptions();
 
 		LevelHandler.initTemplateLevel();
@@ -136,9 +138,9 @@ public class Adapter implements GameParameters {
 	 * @return an entity representing a ball with the ID passed in as ballID
 	 */
 	public Entity createBallInstance(String ballID) {
-		TestBallEntity ball = null;
+		BallEntity ball = null;
 		if (LevelHandler.ballListHasSpace()) {
-			ball = new TestBallEntity(ballID);
+			ball = new BallEntity(new Vector2f(0,0));
 		} else {
 			System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
 		}
@@ -157,7 +159,7 @@ public class Adapter implements GameParameters {
 	 * @return an entity representing a block with the given ID and hits left
 	 */
 	public IHitable createBlockInstance(String blockID, int hitsUntilDestroyed) {
-	  return new TestBlockEntity(blockID, hitsUntilDestroyed, 0, 0);
+	  return new BlockEntity(blockID, hitsUntilDestroyed, 0, 0);
 	}
 
 	/**
@@ -281,9 +283,6 @@ public class Adapter implements GameParameters {
 				doesCollide = false;
 			} else if (otherEntity.getID().equals(GameParameters.STICK_ID) && (ball.getRotation() >= 270 || ball.getRotation() <= 90)) {
 				doesCollide = false;
-				// TODO mistake in TestBall?
-				// line 152,169: ball_y = 949 ; stick_y = 950 -> no collision expected while right direction?
-				//				does it expect the ball to be 0x0?
 			}
 
 		}

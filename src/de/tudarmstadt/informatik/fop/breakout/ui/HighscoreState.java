@@ -216,7 +216,7 @@ public class HighscoreState extends BasicGameState {
 		// scaling texts
 		g.scale(GameParameters.BACKGROUND_SCALE,GameParameters.BACKGROUND_SCALE);
 
-		g.drawString(LanguageHandler.BUTTON_BACK, (GameParameters.BUTTON_1_X / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X), (GameParameters.BUTTON_8_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
+		g.drawString(LanguageHandler.BUTTON_BACK, (GameParameters.BUTTON_1_X_WIDE / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_X), (GameParameters.BUTTON_8_Y / GameParameters.BACKGROUND_SCALE + GameParameters.TEXT_OFFSET_Y));
 		if (newEntry) {
 			if (newIsVictory) {
 				g.drawString(LanguageHandler.VICTORY, (GameParameters.WINDOW_WIDTH * 0.47f) / GameParameters.BACKGROUND_SCALE, (GameParameters.WINDOW_HEIGHT * 0.4f) / GameParameters.BACKGROUND_SCALE);
