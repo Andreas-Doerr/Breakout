@@ -49,10 +49,10 @@ public class StickEntity extends Entity {
 	}
 
 	void moveLeft() {
-		setPosition(new Vector2f(getPosition().x - Variables.STICK_SPEED, getPosition().y));
+		setPosition(new Vector2f(getPosition().x - Variables.STICK_SPEED * (float) Constants.FRAME_RATE / (float) Breakout.getApp().getFPS(), getPosition().y));
 	}
 	void moveRight() {
-		setPosition(new Vector2f (getPosition().x + Variables.STICK_SPEED, getPosition().y));
+		setPosition(new Vector2f (getPosition().x + Variables.STICK_SPEED * (float) Constants.FRAME_RATE / (float) Breakout.getApp().getFPS(), getPosition().y));
 	}
 
 	public void slimmer() {

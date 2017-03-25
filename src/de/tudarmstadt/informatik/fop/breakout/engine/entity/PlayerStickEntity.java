@@ -60,10 +60,10 @@ public class PlayerStickEntity extends StickEntity {
 		stickLoop.addAction(new Action() {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				if (OptionsHandler.getControlMode() == 2 &&!(gc.isPaused() &&
+				if (OptionsHandler.getControlMode() == 2 &&!gc.isPaused() &&
 						((ControllerHandler.getStick(conrtrollerAxis) > 0 && getPosition().x < (Variables.WINDOW_WIDTH - (getSize().x / 2)))
-						|| (ControllerHandler.getStick(conrtrollerAxis) < 0 && getPosition().x > (getSize().x / 2))))) {
-					setPosition(new Vector2f(getPosition().x + (Variables.STICK_SPEED * ControllerHandler.getStick(conrtrollerAxis)), getPosition().y));
+						|| (ControllerHandler.getStick(conrtrollerAxis) < 0 && getPosition().x > (getSize().x / 2)))) {
+					setPosition(new Vector2f(getPosition().x + (Variables.STICK_SPEED * ControllerHandler.getStick(conrtrollerAxis)) * (float) Constants.FRAME_RATE / (float) gc.getFPS(), getPosition().y));
 				} else if (mouseInput && OptionsHandler.getControlMode() == 1) {
 					if (gc.getInput().getMouseX() < (getSize().x / 2)) {
 						// too far left

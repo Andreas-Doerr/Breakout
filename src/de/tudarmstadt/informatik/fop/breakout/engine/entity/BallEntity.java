@@ -54,7 +54,7 @@ public class BallEntity extends Entity {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				if (!gc.isPaused()) {
-					setPosition(new Vector2f(getPosition().x + getSpeedRight(), getPosition().y -  getSpeedUp()));
+					setPosition(new Vector2f(getPosition().x + getSpeedRight() * (float) Constants.FRAME_RATE / (float) gc.getFPS(), getPosition().y -  getSpeedUp() * (float) Constants.FRAME_RATE / (float) gc.getFPS()));
 				}
 			}
 		});
@@ -401,6 +401,7 @@ public class BallEntity extends Entity {
 			} else {
 				ball2.setSpeedRight(dup_new_right);
 			}
+			ball2.updateImage();
 		} else {
 			System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
 		}
@@ -436,9 +437,9 @@ public class BallEntity extends Entity {
 
 	public void updateImage() {
 		String newImage = ThemeHandler.STANDARDBALL;
-		if (getTotalSpeed() == Variables.INITIAL_TOTAL_SPEED) {
+		if (getTotalSpeed() < Variables.INITIAL_TOTAL_SPEED * 1.05f) {
 			newImage = ThemeHandler.WATERBALL;
-		} else if (getTotalSpeed() == Variables.INITIAL_TOTAL_SPEED * Constants.MAX_SPEED_MULTIPLIER) {
+		} else if (getTotalSpeed() > Variables.INITIAL_TOTAL_SPEED * Constants.MAX_SPEED_MULTIPLIER * 0.95f) {
 			newImage = ThemeHandler.FIREBALL;
 		}
 		if (!Breakout.getDebug()) {

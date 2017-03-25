@@ -35,7 +35,7 @@ public interface Constants {
 	int BLOCK_IMAGE_Y = 117;
 
 	// Items
-	float ITEM_DROPCHANCE = 0.1f;
+	float ITEM_DROPCHANCE = 0.15f;
 	String ITEM_1_ID = "item bigger";
 	String ITEM_2_ID = "item smaller";
 	String ITEM_3_ID = "item loose_ball";
@@ -78,8 +78,9 @@ public interface Constants {
 	String PAUSE_ID = "pause";
 
 	// Highscore
-	String HIGHSCORE_FILE_0 = "highscores/highscore.hsc";
-	String HIGHSCORE_FILE_1 = "highscores/highscoreCoop.hsc";
+	String HIGHSCORE_FOLDER = "highscores/";
+	String HIGHSCORE_FILE = "highscore";
+	String HIGHSCORE_FILE_ENDING = ".hsc";
 	int MAX_HIGHSCORES = 100;
 
 	// GUI

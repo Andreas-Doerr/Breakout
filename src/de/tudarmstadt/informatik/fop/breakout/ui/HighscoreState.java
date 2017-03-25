@@ -130,6 +130,7 @@ public class HighscoreState extends BasicGameState {
 				// playing sound
 				SoundHandler.playButtonPress();
 				isSaved = false;
+				thisHighscore = -1;
 			}
 		});
 		back_Entity.addComponent(back_Events);
@@ -142,6 +143,7 @@ public class HighscoreState extends BasicGameState {
 					// if the button 3 was not pressed before but is pressed now
 
 					isSaved = false;
+					thisHighscore = -1;
 
 					// going to MainMenuState
 					sb.enterState(Breakout.MAINMENU_STATE);
@@ -203,7 +205,6 @@ public class HighscoreState extends BasicGameState {
 				newIsVictory = false;
 				newTime = 0;
 				newBlocksDestroyed = 0;
-				thisHighscore = -1;
 			}
 		}
 	}

@@ -416,22 +416,36 @@ public class OptionsState extends BasicGameState {
 			g.setColor(Color.white);
 		}
 
+		// lang and map info
+		String fileInfo = "\n" +
+				"Expand the Game:\n" +
+				"To add your own maps:\n" +
+				"  create a .map file,\n" +
+				"  put it in the maps folder,\n" +
+				"  reference it in the options file\n" +
+				"To add another language:\n" +
+				"  create a .lang file,\n" +
+				"  put it in the lang folder,\n" +
+				"  reference it in the options file\n";
+		g.drawString(fileInfo, (Variables.WINDOW_WIDTH * 0.41f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.53f) / Variables.BACKGROUND_SCALE);
+
 
 		// Controller binding info
 		String controllerInfo = "Controller Keybinding:\n" +
-				"  In the Mainmenu:\n" +
-				"    Button 4: New Game\n" +
-				"    Button 3: Resume Game\n" +
-				"  While Playing:\n" +
-				"    Right Stick X: Stick movement\n" +
-				"    Button 1: StickBot\n" +
-				"    Button 2: Main Menu\n" +
-				"    Button 3: Pause\n" +
-				"    Button 4: New Ball\n" +
-				"  In Highscore:\n" +
-				"    Button 2: Back";
+				"In the Mainmenu:\n" +
+				"  Button 4: New Game\n" +
+				"  Button 3: Resume Game\n" +
+				"While Playing:\n" +
+				"  Right Stick X: Bottom-Stick\n" +
+				"  Left Stick X: Top-Stick\n" +
+				"  Button 1: StickBot\n" +
+				"  Button 2: Main Menu\n" +
+				"  Button 3: Pause\n" +
+				"  Button 4: New Ball\n" +
+				"In Highscore:\n" +
+				"  Button 2: Back";
 		// 4.5 0.
-		g.drawString(controllerInfo, (Variables.WINDOW_WIDTH * 0.62f) / Variables.BACKGROUND_SCALE,(Variables.WINDOW_HEIGHT * 0.6f) / Variables.BACKGROUND_SCALE);
+		g.drawString(controllerInfo, (Variables.WINDOW_WIDTH * 0.64f) / Variables.BACKGROUND_SCALE,(Variables.WINDOW_HEIGHT * 0.6f) / Variables.BACKGROUND_SCALE);
 
 	}
 
