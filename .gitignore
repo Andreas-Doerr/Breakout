@@ -52,7 +52,6 @@ fabric.properties
 ### Example user template
 
 # IntelliJ project files
-.idea
 gen### Java template
 # Compiled class file
 

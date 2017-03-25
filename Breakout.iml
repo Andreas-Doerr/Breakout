@@ -10,7 +10,6 @@
       <sourceFolder url="file://$MODULE_DIR$/highscores" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/sounds" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
-      <excludeFolder url="file://$MODULE_DIR$/.idea" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
