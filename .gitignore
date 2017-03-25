@@ -53,7 +53,6 @@ fabric.properties
 
 # IntelliJ project files
 .idea
-*.iml
 gen### Java template
 # Compiled class file
 
