@@ -4,6 +4,7 @@ import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Controller;
 import org.lwjgl.input.Controllers;
+import org.newdawn.slick.Sound;
 
 /**
  * Created by PC - Andreas on 19.03.2017.
@@ -111,6 +112,13 @@ public class ControllerHandler {
 			rightStick_x = controller.getRZAxisValue();
 		}
 		return rightStick_x;
+	}
+	public static float getStick(int axis) {
+		float axisValue = 0f;
+		if (!Breakout.getDebug() && Controllers.getControllerCount() > 0  && controller.getAxisCount() > axis) {
+			axisValue = controller.getAxisValue(axis);
+		}
+		return axisValue;
 	}
 
 	public static String missingForAcceptableController() {

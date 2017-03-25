@@ -89,11 +89,11 @@ public class GameplayState extends BasicGameState {
 		if (OptionsHandler.getGameMode() == 0) {
 			new BorderFactory(TOP).createEntity();
 		} else if (OptionsHandler.getGameMode() == 1){
-			new PlayerStickEntity(Constants.STICK_ID_TOP, Input.KEY_A, Input.KEY_D, new Vector2f((Variables.WINDOW_WIDTH / 2), Variables.STICK_Y_TOP));
+			new PlayerStickEntity(Constants.STICK_ID_TOP, new Vector2f((Variables.WINDOW_WIDTH / 2), Variables.STICK_Y_TOP), Input.KEY_A, Input.KEY_D, false, 3);
 		}
 
 	// Stick
-		PlayerStickEntity stick = new PlayerStickEntity(Constants.STICK_ID, Input.KEY_LEFT, Input.KEY_RIGHT , new Vector2f((Variables.WINDOW_WIDTH / 2), Variables.STICK_Y));
+		PlayerStickEntity stick = new PlayerStickEntity(Constants.STICK_ID, new Vector2f((Variables.WINDOW_WIDTH / 2), Variables.STICK_Y), Input.KEY_LEFT, Input.KEY_RIGHT , true, 0);
 
 	// pause
 		// creating pause-entity

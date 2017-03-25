@@ -19,7 +19,7 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class PlayerStickEntity extends StickEntity {
 
-	public PlayerStickEntity(String entityID, int left_button, int right_button, Vector2f pos) {
+	public PlayerStickEntity(String entityID, Vector2f pos, int left_button, int right_button, boolean mouseInput, int conrtrollerAxis) {
 		super(entityID);
 
 		// starting position
@@ -61,10 +61,10 @@ public class PlayerStickEntity extends StickEntity {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				if (OptionsHandler.getControlMode() == 2 &&!(gc.isPaused() &&
-						((ControllerHandler.getRightStick_x() > 0 && getPosition().x < (Variables.WINDOW_WIDTH - (getSize().x / 2)))
-						|| (ControllerHandler.getRightStick_x() < 0 && getPosition().x > (getSize().x / 2))))) {
-					setPosition(new Vector2f(getPosition().x + (Variables.STICK_SPEED * ControllerHandler.getRightStick_x()), getPosition().y));
-				} else if (OptionsHandler.getControlMode() == 1) {
+						((ControllerHandler.getStick(conrtrollerAxis) > 0 && getPosition().x < (Variables.WINDOW_WIDTH - (getSize().x / 2)))
+						|| (ControllerHandler.getStick(conrtrollerAxis) < 0 && getPosition().x > (getSize().x / 2))))) {
+					setPosition(new Vector2f(getPosition().x + (Variables.STICK_SPEED * ControllerHandler.getStick(conrtrollerAxis)), getPosition().y));
+				} else if (mouseInput && OptionsHandler.getControlMode() == 1) {
 					if (gc.getInput().getMouseX() < (getSize().x / 2)) {
 						// too far left
 						setPosition(new Vector2f(getSize().x / 2, getPosition().y));
