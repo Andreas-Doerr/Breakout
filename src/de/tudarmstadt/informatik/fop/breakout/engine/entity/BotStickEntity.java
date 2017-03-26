@@ -23,9 +23,6 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class BotStickEntity extends StickEntity {
 
-	private boolean first = true;
-	private float oldBall_x = 0;
-
 	public BotStickEntity(float pos_x, BallEntity givenBall) {
 		super(Constants.BOT_STICK_ID);
 
@@ -38,14 +35,25 @@ public class BotStickEntity extends StickEntity {
 		Entity indicator = new Entity("indicator");
 		indicator.setPassable(true);
 		try {
-			indicator.addComponent(new ImageRenderComponent(new Image("images/faster.png")));
+			indicator.addComponent(new ImageRenderComponent(new Image("images/indicator.png")));
 		} catch (SlickException e) {
-			System.err.println("ERROR: Could not load image: images/faster.png");
+			System.err.println("ERROR: Could not load image: images/indicator.png");
 			e.printStackTrace();
 		}
-		indicator.setScale(2);
-		indicator.setPosition(new Vector2f(200,200));
 		StateBasedEntityManager.getInstance().addEntity(Breakout.GAMEPLAY_STATE, indicator);
+
+		Entity indicator2 = new Entity("indicator2");
+		indicator2.setPassable(true);
+		try {
+			indicator2.addComponent(new ImageRenderComponent(new Image("images/indicator2.png")));
+		} catch (SlickException e) {
+			System.err.println("ERROR: Could not load image: images/indicator2.png");
+			e.printStackTrace();
+		}
+		StateBasedEntityManager.getInstance().addEntity(Breakout.GAMEPLAY_STATE, indicator2);
+
+
+
 
 		// movement and loosing the ball
 		stickBotLoop.addAction(new Action() {
@@ -63,17 +71,49 @@ public class BotStickEntity extends StickEntity {
 					float ballX = ball.getPosition().x;
 					float ballY = ball.getPosition().y;
 					float ballDirection = ball.getMovementAngleRAD();
-					float offset = (hitY - ballY) /(float) Math.tan(ballDirection);
+					float offsetY = (hitY - ballY) /(float) Math.tan(ballDirection);
 
-					float newX = ballX - offset;
+					float newX = ballX - offsetY;
+
+
 					// TODO indicator for how the ball will be reflected
-					float direction = ball.getMovementAngleDEG();
+					float ballDirectionDEG = ball.getMovementAngleDEG();
 
-					if (direction > 0) {
-						indicator.setRotation(90-direction);
+					if (ballDirectionDEG > 0) {
+						indicator.setRotation(90-ballDirectionDEG);
 					} else {
-						indicator.setRotation(270-direction);
+						indicator.setRotation(270-ballDirectionDEG);
 					}
+
+					// due to prior stick movement calculations
+					float offsetX = newX - getPosition().x;
+
+					float angle_change = offsetX / (getSize().x / 2);
+
+					angle_change = -angle_change;
+					if (ball.getSpeedRight() > 0) {
+						angle_change = -angle_change;
+					}
+					// angle_change is to be >= 0, <= 1
+					if (angle_change > 1f) {
+						angle_change = 1f;
+					} else if (angle_change < -1f) {
+						angle_change = -1f;
+					}
+					angle_change = (angle_change + 1) / 2;
+					float newDirection = ballDirection * (angle_change + 0.5f);
+
+
+
+					float newDirectionDEG = (float) (newDirection / Math.PI * 180);
+
+					if (newDirectionDEG > 0) {
+						indicator2.setRotation(90-newDirectionDEG);
+					} else {
+						indicator2.setRotation(270-newDirectionDEG);
+					}
+
+
 
 
 					// TODO use blockList from LevelHandler to aim for the blocks
@@ -82,9 +122,10 @@ public class BotStickEntity extends StickEntity {
 					} else if (newX > (Variables.WINDOW_WIDTH - (getSize().x / 2))) {
 						newX = Variables.WINDOW_WIDTH - (getSize().x / 2);
 					}
-					setPosition(new Vector2f(newX, Variables.STICK_Y));
+					setPosition(new Vector2f(newX - 80, Variables.STICK_Y));
 
 					indicator.setPosition(new Vector2f(newX, Variables.STICK_Y + - getSize().y/2));
+					indicator2.setPosition(new Vector2f(newX, Variables.STICK_Y + - getSize().y/2));
 				}
 			}
 		});
