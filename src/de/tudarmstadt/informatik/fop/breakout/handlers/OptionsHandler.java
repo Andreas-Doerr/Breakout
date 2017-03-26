@@ -17,7 +17,7 @@ import java.io.*;
  */	//TODO commenting
 public class OptionsHandler {
 
-	private static int window_x = 800;
+	private static int window_x = 1280;
 	private static int window_y = 1280 / 4 * 3;
 	private static boolean fullscreen = false;
 	private static boolean showFPS = false;
@@ -251,7 +251,22 @@ public class OptionsHandler {
 	}
 	public static void updateWindow(GameContainer gc, StateBasedGame sb, int stateID) {
 		if (OptionsHandler.setWindowSize(gc.getWidth(), gc.getHeight())) {
-			// init states (like schangeStateInitAction just without changing states)
+			// init states (like changeStateInitAction just without changing states)
+			StateBasedEntityManager.getInstance().clearEntitiesFromState(stateID);
+
+			try {
+				gc.getInput().clearKeyPressedRecord();
+				gc.getInput().clearControlPressedRecord();
+				gc.getInput().clearMousePressedRecord();
+				sb.init(gc);
+			} catch (SlickException var6) {
+				var6.printStackTrace();
+			}
+		}
+	}
+	public static void updateWindow(GameContainer gc, StateBasedGame sb, int stateID, int newX, int newY) {
+		if (OptionsHandler.setWindowSize(newX, newY)) {
+			// init states (like changeStateInitAction just without changing states)
 			StateBasedEntityManager.getInstance().clearEntitiesFromState(stateID);
 
 			try {

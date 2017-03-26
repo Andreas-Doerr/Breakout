@@ -235,6 +235,23 @@ public class LevelHandler {
 			ballList[ballList.length - 1] = null;
 		}
 	}
+	// getter
+	public static BallEntity[] getnallList() {
+		return ballList;
+	}
+	public static BallEntity getLowestDownMovingBall() {
+		BallEntity toReturn = null;
+		for (int i = 0; i < ballList.length; i++) {
+			if (ballList[i] != null ) {
+				if (ballList[i].getSpeedUp() < 0 && toReturn == null) {
+					toReturn = ballList[i];
+				} else if (toReturn != null && ballList[i].getSpeedUp() < 0 && toReturn.getPosition().y < ballList[i].getPosition().y) {
+					toReturn = ballList[i];
+				}
+			} else break;
+		}
+		return toReturn;
+	}
 	// actions
 	public static void allBallsLevelComplete() {
 		while (ballList[0] != null) {

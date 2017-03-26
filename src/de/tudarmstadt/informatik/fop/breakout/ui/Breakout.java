@@ -32,6 +32,10 @@ public class Breakout extends StateBasedGame implements Constants {
 	public static AppGameContainer getApp() {
 		return app;
 	}
+	@Deprecated
+	public static void setApp(AppGameContainer newApp) {
+		app = newApp;
+	}
 	public static boolean getDebug() {
 		return debug;
 	}

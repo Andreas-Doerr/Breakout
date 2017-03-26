@@ -89,11 +89,11 @@ public class OptionsState extends BasicGameState {
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				SoundHandler.playButtonPress();
 				if (OptionsHandler.getWindow_x() == 800) {
-					OptionsHandler.setWindowSize(1280,960);
-				} else if (OptionsHandler.getWindow_x() == 1280) {
-					OptionsHandler.setWindowSize(1600,1200);
+					OptionsHandler.updateWindow(gc, sb, stateID, 1200, 900);
+				} else if (OptionsHandler.getWindow_x() == 1200) {
+					OptionsHandler.updateWindow(gc, sb, stateID, 1600, 1200);
 				}else {
-					OptionsHandler.setWindowSize(800,600);
+					OptionsHandler.updateWindow(gc, sb, stateID, 800, 600);
 				}
 				OptionsHandler.saveOptions();
 			}

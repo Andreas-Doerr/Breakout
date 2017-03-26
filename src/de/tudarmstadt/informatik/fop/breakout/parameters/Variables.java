@@ -31,6 +31,7 @@ public class Variables {
 	public static int STICK_Y = (int)(WINDOW_HEIGHT * 0.9f);
 	public static int STICK_Y_TOP = (int)(WINDOW_HEIGHT * 0.1f);
 	public static float STICK_SPEED = 0.5f * BACKGROUND_SCALE * SPEED_MULTIPLIER;
+	public static float COLLISION_DISTANCE = (25 / (float) 2 * BLOCK_SCALE * 4 * 0.7f) + (25 / (float) 2 * BLOCK_SCALE * 4);
 
 	// Buttons
 	public static float MENU_ENTRY_SCALE = BACKGROUND_SCALE;
@@ -139,5 +140,8 @@ public class Variables {
 		POINTS_POS_X = (int) (10 / BACKGROUND_SCALE);
 		// timer
 		TIMER_X = (int) ((WINDOW_WIDTH / 2 - 20) / BACKGROUND_SCALE);
+
+		System.out.println(BLOCK_SCALE);
+		System.out.println(COLLISION_DISTANCE);
 	}
 }

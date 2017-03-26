@@ -79,6 +79,7 @@ public class Adapter implements Constants {
 
 		try {
 			app = new TestAppGameContainer(breakout);
+			Breakout.setApp(app);
 			app.start(0);
 		} catch (SlickException e) {
 			e.printStackTrace();
@@ -438,13 +439,13 @@ public class Adapter implements Constants {
 	 * This Method should emulate the pressing of the right arrow key.
 	 */
 	public void handleKeyDownRightArrow() {
-		handleKeyDown(80, Input.KEY_RIGHT);
+		handleKeyDown(1000, Input.KEY_RIGHT);
 	}
 
 	/**
 	 * This Method should emulate the pressing of the left arrow key.
 	 */
 	public void handleKeyDownLeftArrow() {
-		handleKeyDown(80, Input.KEY_LEFT);
+		handleKeyDown(1000, Input.KEY_LEFT);
 	}
 }
