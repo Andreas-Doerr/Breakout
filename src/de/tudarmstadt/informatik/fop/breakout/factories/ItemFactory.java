@@ -66,7 +66,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 				ce.addAction(new Action() {
 					@Override
 					public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-						if (ce.getCollidedEntity().getID().equals(Constants.STICK_ID)) {
+						if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
 							// if the item hits the stick
 							StickEntity stick = (StickEntity) ce.getCollidedEntity();
 							// set the counter down one if it got collected
@@ -90,7 +90,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 				ce.addAction(new Action() {
 					@Override
 					public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-						if (ce.getCollidedEntity().getID().equals(Constants.STICK_ID)) {
+						if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
 							// if the item hits the stick
 							StickEntity stick = (StickEntity) ce.getCollidedEntity();
 							// set the counter down one if it got collected
@@ -114,7 +114,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 				ce.addAction(new Action() {
 					@Override
 					public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-						if (ce.getCollidedEntity().getID().equals(Constants.STICK_ID)) {
+						if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
 							// set the counter down one if it got collected
 							ItemHandler.addItemsActive(-1);
 							// remove the item
@@ -136,7 +136,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 				ce.addAction(new Action() {
 					@Override
 					public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-						if (ce.getCollidedEntity().getID().equals(Constants.STICK_ID)) {
+						if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
 							// set the counter down one if it got collected
 							ItemHandler.addItemsActive(-1);
 							// remove the item
@@ -158,7 +158,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 				ce.addAction(new Action() {
 					@Override
 					public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-						if (ce.getCollidedEntity().getID().equals(Constants.STICK_ID)) {
+						if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
 							// set the counter down one if it got collected
 							ItemHandler.addItemsActive(-1);
 							// remove the item
@@ -180,7 +180,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 				ce.addAction(new Action() {
 					@Override
 					public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-						if (ce.getCollidedEntity().getID().equals(Constants.STICK_ID)) {
+						if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
 							// set the counter down one if it got collected
 							ItemHandler.addItemsActive(-1);
 							// remove the item

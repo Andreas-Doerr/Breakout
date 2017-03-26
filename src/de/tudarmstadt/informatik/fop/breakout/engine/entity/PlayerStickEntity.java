@@ -19,8 +19,8 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class PlayerStickEntity extends StickEntity {
 
-	public PlayerStickEntity(String entityID, Vector2f pos, int left_button, int right_button, boolean mouseInput, int conrtrollerAxis) {
-		super(entityID);
+	public PlayerStickEntity(String stickID, Vector2f pos, int left_button, int right_button, boolean mouseInput, int conrtrollerAxis) {
+		super(stickID);
 
 		// starting position
 		setPosition(pos);

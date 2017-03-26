@@ -133,7 +133,7 @@ public class TestBall {
   @Test
   public void testColidesWithStick() {
     // stick has collision offset of 10. to read in the exercise
-    Entity stick = new Entity(Constants.STICK_ID);
+    Entity stick = new Entity(Constants.PLAYER_STICK_ID);
     stick.setPosition(new Vector2f(Variables.WINDOW_WIDTH / 2, Variables.WINDOW_HEIGHT - 10));
     stick.setPassable(false);
     // angle not between 91 and 269

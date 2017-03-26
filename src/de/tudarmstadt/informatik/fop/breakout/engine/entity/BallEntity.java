@@ -112,10 +112,10 @@ public class BallEntity extends Entity {
 							// if it was any other border (left or right)
 							setSpeedRight(-getSpeedRight());
 						}
-					} else if (	(collidedEntity.getID().equals(Constants.STICK_ID)
+					} else if (((collidedEntity.getID().equals(Constants.PLAYER_STICK_ID) || collidedEntity.getID().equals(Constants.BOT_STICK_ID))
 							&& getPosition().y < Variables.STICK_Y
-							&& getSpeedUp() < 0
-							|| collidedEntity.getID().equals(Constants.STICK_ID_TOP)
+							&& getSpeedUp() < 0)
+							|| (collidedEntity.getID().equals(Constants.PLAYER_STICK_ID_TOP)
 							&& getPosition().y > Variables.STICK_Y_TOP
 							&& getSpeedUp() > 0)
 

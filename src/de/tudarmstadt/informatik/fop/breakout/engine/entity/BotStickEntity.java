@@ -19,8 +19,8 @@ public class BotStickEntity extends StickEntity {
 	private boolean first = true;
 	private float oldBall_x = 0;
 
-	public BotStickEntity(String entityID, float pos_x, BallEntity ball) {
-		super(entityID);
+	public BotStickEntity(float pos_x, BallEntity ball) {
+		super(Constants.BOT_STICK_ID);
 
 		// starting position
 		setPosition(new Vector2f(pos_x, Variables.STICK_Y));
@@ -32,6 +32,7 @@ public class BotStickEntity extends StickEntity {
 		stickBotLoop.addAction(new Action() {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
+				// TODO follow lowest ball
 				// TODO maybe if mall moves down calculate where it will hit the stick and move there
 				// TODO indicator for hov the ball will be reflected
 				// TODO use blockList from LevelHandler to aim for the blocks

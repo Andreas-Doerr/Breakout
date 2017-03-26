@@ -104,9 +104,10 @@ public class StickEntity extends Entity {
 	}
 
 	public void destroyStick() {
-		// delete the stick
-		StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, this);
 		// remove this stick from the list which is keeping track of every stick
 		LevelHandler.removeStick(this);
+		// delete the stick
+		StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, this);
+
 	}
 }

@@ -85,7 +85,7 @@ public class Adapter implements Constants {
 		}
 
 		ball = new BallEntity(new Vector2f(0,0));
-		stick = new StickEntity(Constants.STICK_ID);
+		stick = new StickEntity(Constants.PLAYER_STICK_ID);
 
 		PlayerHandler.reset();
 		OptionsHandler.readOptions();
@@ -247,7 +247,7 @@ public class Adapter implements Constants {
 
 			float other_centerToRight = otherEntity.getSize().x / 2;
 			float other_centerToTop = otherEntity.getSize().y / 2;
-			if (otherEntity.getID().equals(Constants.STICK_ID)) {
+			if (otherEntity.getID().equals(Constants.PLAYER_STICK_ID)) {
 				other_centerToRight = 10;
 			}
 			System.out.println("other: centerToRight: " + other_centerToRight + " ; centerToTop: " + other_centerToTop);
@@ -280,7 +280,7 @@ public class Adapter implements Constants {
 				// left_border
 				// not collided when 0 / 360 <= angle <= 180
 				doesCollide = false;
-			} else if (otherEntity.getID().equals(Constants.STICK_ID) && (ball.getRotation() >= 270 || ball.getRotation() <= 90)) {
+			} else if (otherEntity.getID().equals(Constants.PLAYER_STICK_ID) && (ball.getRotation() >= 270 || ball.getRotation() <= 90)) {
 				doesCollide = false;
 			}
 

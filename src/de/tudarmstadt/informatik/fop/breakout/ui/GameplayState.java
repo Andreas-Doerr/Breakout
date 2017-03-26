@@ -89,11 +89,11 @@ public class GameplayState extends BasicGameState {
 		if (OptionsHandler.getGameMode() == 0) {
 			new BorderFactory(TOP).createEntity();
 		} else if (OptionsHandler.getGameMode() == 1){
-			new PlayerStickEntity(Constants.STICK_ID_TOP, new Vector2f((Variables.WINDOW_WIDTH / 2), Variables.STICK_Y_TOP), Input.KEY_A, Input.KEY_D, false, 3);
+			new PlayerStickEntity(Constants.PLAYER_STICK_ID_TOP, new Vector2f((Variables.WINDOW_WIDTH / 2), Variables.STICK_Y_TOP), Input.KEY_A, Input.KEY_D, false, 3);
 		}
 
 	// Stick
-		PlayerStickEntity stick = new PlayerStickEntity(Constants.STICK_ID, new Vector2f((Variables.WINDOW_WIDTH / 2), Variables.STICK_Y), Input.KEY_LEFT, Input.KEY_RIGHT , true, 0);
+		PlayerStickEntity stick = new PlayerStickEntity(Constants.PLAYER_STICK_ID, new Vector2f((Variables.WINDOW_WIDTH / 2), Variables.STICK_Y), Input.KEY_LEFT, Input.KEY_RIGHT , true, 0);
 
 	// pause
 		// creating pause-entity
@@ -323,7 +323,7 @@ public class GameplayState extends BasicGameState {
 							ball.setPosition(new Vector2f(stick.getPosition().x, (stick.getPosition().y - ((stick.getSize().y / 2) + (ball.getSize().y / 2)))));
 
 							// adding the StickBot and giving it the ball entity to follow
-							new BotStickEntity(Constants.STICK_ID, stick.getPosition().x, ball);
+							new BotStickEntity(stick.getPosition().x, ball);
 
 							// setting the Player's stick a bit lower than the BotSticks
 							stick.setPosition(new Vector2f(stick.getPosition().x, Variables.STICK_Y + 5));
@@ -359,7 +359,7 @@ public class GameplayState extends BasicGameState {
 							ball.setPosition(new Vector2f(stick.getPosition().x, (stick.getPosition().y - ((stick.getSize().y / 2) + (ball.getSize().y / 2)))));
 
 							// adding the StickBot and giving it the ball entity to follow
-							new BotStickEntity(Constants.STICK_ID, stick.getPosition().x, ball);
+							new BotStickEntity(stick.getPosition().x, ball);
 
 							// setting the Player's stick a bit lower than the BotSticks
 							stick.setPosition(new Vector2f(stick.getPosition().x, Variables.STICK_Y + 5));
@@ -382,7 +382,7 @@ public class GameplayState extends BasicGameState {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				if (OptionsHandler.isCheatModeActive() && !gc.isPaused()) {
-					LevelHandler.destroyAllSticksExceptFirst();
+					LevelHandler.destroyBotSticks();
 				}
 			}
 		});

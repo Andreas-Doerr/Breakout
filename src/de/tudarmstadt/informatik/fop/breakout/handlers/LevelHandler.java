@@ -413,6 +413,19 @@ public class LevelHandler {
 			stickList[0].destroyStick();
 		}
 	}
+	// TODO destroy all Bot-Sticks
+	public static void destroyBotSticks() {
+		for (int i = 0; i < stickList.length; i++) {
+			if (stickList[i] != null) {
+				if (stickList[i].getID().equals("botStick")) {
+					// searching for a botStick
+					stickList[i].destroyStick();
+					// destroying a stick removes it from the list too. therefore check the same Index again
+					i--;
+				}
+			}
+		}
+	}
 
 
 	// maps

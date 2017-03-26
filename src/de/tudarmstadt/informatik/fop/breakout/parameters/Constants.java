@@ -61,8 +61,9 @@ public interface Constants {
 	int MAX_AMOUNT_OF_BALLS = 100;
 
 	// Stick
-	String STICK_ID = "stick";
-	String STICK_ID_TOP = "stickTop";
+	String PLAYER_STICK_ID = "playerStick";
+	String PLAYER_STICK_ID_TOP = "playerStickTop";
+	String BOT_STICK_ID = "botStick";
 	enum StickShape {
 		SLIM, NORMAL, WIDE
 	}
