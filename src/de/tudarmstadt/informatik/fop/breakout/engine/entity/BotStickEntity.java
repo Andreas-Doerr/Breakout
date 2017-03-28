@@ -23,7 +23,9 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class BotStickEntity extends StickEntity {
 
-	public BotStickEntity(float pos_x, BallEntity givenBall) {
+	private Entity indicatorOut;
+
+	public BotStickEntity(float pos_x) {
 		super(Constants.BOT_STICK_ID);
 
 		// starting position
@@ -32,31 +34,21 @@ public class BotStickEntity extends StickEntity {
 		LoopEvent stickBotLoop = new LoopEvent();
 		addComponent(stickBotLoop);
 
-		Entity indicator = new Entity("indicator");
-		indicator.setPassable(true);
+		indicatorOut = new Entity("indicatorOut");
+		indicatorOut.setPassable(true);
 		try {
-			indicator.addComponent(new ImageRenderComponent(new Image("images/indicator.png")));
+			indicatorOut.addComponent(new ImageRenderComponent(new Image("images/indicatorOut.png")));
 		} catch (SlickException e) {
-			System.err.println("ERROR: Could not load image: images/indicator.png");
+			System.err.println("ERROR: Could not load image: images/indicatorOut.png");
 			e.printStackTrace();
 		}
-		StateBasedEntityManager.getInstance().addEntity(Breakout.GAMEPLAY_STATE, indicator);
+		indicatorOut.setVisible(false);
+		StateBasedEntityManager.getInstance().addEntity(Breakout.GAMEPLAY_STATE, indicatorOut);
 
-		Entity indicator2 = new Entity("indicator2");
-		indicator2.setPassable(true);
-		try {
-			indicator2.addComponent(new ImageRenderComponent(new Image("images/indicator2.png")));
-		} catch (SlickException e) {
-			System.err.println("ERROR: Could not load image: images/indicator2.png");
-			e.printStackTrace();
-		}
-		StateBasedEntityManager.getInstance().addEntity(Breakout.GAMEPLAY_STATE, indicator2);
-
-
-
+		LevelHandler.readdIndicators();
 
 		// movement and loosing the ball
-		stickBotLoop.addAction(new Action() {
+		stickBotLoop.addAction(new Action(){
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				// movement
@@ -70,64 +62,61 @@ public class BotStickEntity extends StickEntity {
 					float hitY = Variables.STICK_Y - Variables.COLLISION_DISTANCE;
 					float ballX = ball.getPosition().x;
 					float ballY = ball.getPosition().y;
-					float ballDirection = ball.getMovementAngleRAD();
-					float offsetY = (hitY - ballY) /(float) Math.tan(ballDirection);
+					float angle = ball.getMovementAngleRAD();
+					float offsetY = (hitY - ballY) / (float) Math.tan(angle);
 
 					float newX = ballX - offsetY;
 
+					setPosition(new Vector2f(newX, Variables.STICK_Y));
 
-					// TODO indicator for how the ball will be reflected
 					float ballDirectionDEG = ball.getMovementAngleDEG();
-
-					if (ballDirectionDEG > 0) {
-						indicator.setRotation(90-ballDirectionDEG);
-					} else {
-						indicator.setRotation(270-ballDirectionDEG);
-					}
 
 					// due to prior stick movement calculations
 					float offsetX = newX - getPosition().x;
 
-					float angle_change = offsetX / (getSize().x / 2);
+					if (offsetX < (getSize().x * 0.6f) && offsetX > -(getSize().x * 0.6f)) {
 
-					angle_change = -angle_change;
-					if (ball.getSpeedRight() > 0) {
-						angle_change = -angle_change;
+						float angle_change = offsetX / (getSize().x / 2);
+
+						if (ball.getSpeedRight() > 0) {
+							angle_change = -angle_change;
+						}
+
+						// angle_change is to be >= 0, <= 1
+						if (angle_change > 1f) {
+							angle_change = 1f;
+						} else if (angle_change < -1f) {
+							angle_change = -1f;
+						}
+
+						angle_change = (angle_change + 1) / 2;
+
+						float newDirection = -(angle * (angle_change + 0.5f));
+
+						float newDirectionDEG = (float) (newDirection / Math.PI * 180);
+
+						if (newDirectionDEG > 0) {
+							indicatorOut.setRotation(90 - newDirectionDEG);
+						} else {
+							indicatorOut.setRotation(270 - newDirectionDEG);
+						}
+
+
+						indicatorOut.setVisible(true);
+						indicatorOut.setPosition(new Vector2f(newX, Variables.STICK_Y - getSize().y * 0.75f));
+
+					} else if (indicatorOut.isVisible()) {
+						indicatorOut.setVisible(false);
 					}
-					// angle_change is to be >= 0, <= 1
-					if (angle_change > 1f) {
-						angle_change = 1f;
-					} else if (angle_change < -1f) {
-						angle_change = -1f;
-					}
-					angle_change = (angle_change + 1) / 2;
-					float newDirection = ballDirection * (angle_change + 0.5f);
-
-
-
-					float newDirectionDEG = (float) (newDirection / Math.PI * 180);
-
-					if (newDirectionDEG > 0) {
-						indicator2.setRotation(90-newDirectionDEG);
-					} else {
-						indicator2.setRotation(270-newDirectionDEG);
-					}
-
-
-
-
-					// TODO use blockList from LevelHandler to aim for the blocks
-					if (newX < (getSize().x / 2)) {
-						newX = getSize().x / 2;
-					} else if (newX > (Variables.WINDOW_WIDTH - (getSize().x / 2))) {
-						newX = Variables.WINDOW_WIDTH - (getSize().x / 2);
-					}
-					setPosition(new Vector2f(newX - 80, Variables.STICK_Y));
-
-					indicator.setPosition(new Vector2f(newX, Variables.STICK_Y + - getSize().y/2));
-					indicator2.setPosition(new Vector2f(newX, Variables.STICK_Y + - getSize().y/2));
+				} else if (indicatorOut.isVisible()) {
+					indicatorOut.setVisible(false);
 				}
 			}
 		});
+	}
+
+	public void readdIndicators() {
+		StateBasedEntityManager.getInstance().removeEntity(Breakout.GAMEPLAY_STATE, indicatorOut);
+		StateBasedEntityManager.getInstance().addEntity(Breakout.GAMEPLAY_STATE, indicatorOut);
 	}
 }

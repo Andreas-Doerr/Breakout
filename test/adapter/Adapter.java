@@ -85,7 +85,7 @@ public class Adapter implements Constants {
 			e.printStackTrace();
 		}
 
-		ball = new BallEntity(new Vector2f(0,0));
+		ball = new BallEntity(0,0);
 		stick = new StickEntity(Constants.PLAYER_STICK_ID);
 
 		PlayerHandler.reset();
@@ -140,7 +140,7 @@ public class Adapter implements Constants {
 	public Entity createBallInstance(String ballID) {
 		BallEntity ball = null;
 		if (LevelHandler.ballListHasSpace()) {
-			ball = new BallEntity(new Vector2f(0,0));
+			ball = new BallEntity(0,0);
 		} else {
 			System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
 		}

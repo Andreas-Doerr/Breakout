@@ -91,7 +91,6 @@ public class HighscoreHandler {
 	}
 
 	public static int addHighscore(String newName, int newDesBlocks, long newTime, int newPoints) {
-		System.out.println("\nAdding player: " + newName);
 		int gameMode = OptionsHandler.getGameMode();
 		int iteration = 0;
 		while (iteration <= getHighscoreCount() && newPoints < points[gameMode][iteration]) {
@@ -101,11 +100,8 @@ public class HighscoreHandler {
 			iteration++;
 		}
 		while (newPoints == points[gameMode][iteration] && newDesBlocks == desBlocks[gameMode][iteration] && time[gameMode][iteration] != null && newTime > time[gameMode][iteration]) {
-			System.out.println("newDesBlocks: " + newDesBlocks + " == desBlocks[gameMode][iteration]: " + desBlocks[gameMode][iteration] + " && newTime: " + newTime + " > time[gameMode][iteration]: " + time[gameMode][iteration]);
 			iteration++;
 		}
-
-		System.out.println("Ended with: newDesBlocks: " + newDesBlocks + " != desBlocks[gameMode][iteration]: " + desBlocks[gameMode][iteration] + " || newTime: " + newTime + " !> time[gameMode][iteration]: " + time[gameMode][iteration]);
 
 		moveDown(iteration);
 

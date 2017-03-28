@@ -26,7 +26,7 @@ public class BallEntity extends Entity {
 	private float SpeedRight;
 	private Entity lastCollidedWith;
 
-	public BallEntity(Vector2f original_pos) {
+	public BallEntity(float pos_x , float pos_y) {
 		super(Constants.BALL_ID);
 		this.SpeedUp = Variables.INITIAL_BALL_SPEED_UP;
 		this.SpeedRight = Variables.INITIAL_BALL_SPEED_RIGHT;
@@ -43,10 +43,11 @@ public class BallEntity extends Entity {
 		// ball scaling
 		setScale(Variables.BLOCK_SCALE * 4 * 0.7f);
 
-		// set position
-		setPosition(original_pos);
 
 		updateImage();
+
+		// set position
+		setPosition(new Vector2f(pos_x, pos_y + getSize().y / 2));
 
 		// ball movement
 		LoopEvent ballLoop = new LoopEvent();
@@ -120,7 +121,6 @@ public class BallEntity extends Entity {
 							&& getSpeedUp() > 0)
 
 							&& !getLastCollidedWith().equals(collidedEntity)) {
-
 						// STICK
 						// if the ball collided with the collidedWith (except if the last collision was with exactly this entity, the ball is too low or is not moving downwards)
 
@@ -141,21 +141,22 @@ public class BallEntity extends Entity {
 						if (getSpeedRight() > 0) {
 							angle_change = -angle_change;
 						}
+
 						// angle_change is to be >= 0, <= 1
 						if (angle_change > 1f) {
 							angle_change = 1f;
 						} else if (angle_change < -1f) {
 							angle_change = -1f;
 						}
+
 						angle_change = (angle_change + 1) / 2;
+
 
 						// calculating reflected speeds
 						float angle = getMovementAngleRAD();
 						float angle_new = angle * (angle_change + 0.5f);
-						//float v_ges = (float) ((getSpeedUp() / Math.sin(angle)));
 
 						// calculate current speed (not absolute )
-						//float v_ges = (float) ((getSpeedUp() / Math.sin(angle)));
 						float v_ges = getTotalSpeed();
 						// adding speedup to it
 						float v_ges_new = v_ges + Variables.SPEEDUP_VALUE;
@@ -358,7 +359,7 @@ public class BallEntity extends Entity {
 	public void duplicateBall() {
 		if (LevelHandler.ballListHasSpace()) {
 			// creating a new ball
-			BallEntity ball2 = new BallEntity(getPosition());
+			BallEntity ball2 = new BallEntity(getPosition().x, getPosition().y);
 			// giving the new ball movement in the opposite direction of the existing ball
 
 			// calculating the angle this ball is moving in ad its speed

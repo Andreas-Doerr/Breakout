@@ -236,8 +236,11 @@ public class LevelHandler {
 		}
 	}
 	// getter
-	public static BallEntity[] getnallList() {
+	public static BallEntity[] getBallList() {
 		return ballList;
+	}
+	public static boolean isBallListEmpty() {
+		return ballList[0] == null;
 	}
 	public static BallEntity getLowestDownMovingBall() {
 		BallEntity toReturn = null;
@@ -425,12 +428,6 @@ public class LevelHandler {
 			stickList[1].destroyStick();
 		}
 	}
-	public static void destroyFirstStick() {
-		if (stickList[0] != null) {
-			stickList[0].destroyStick();
-		}
-	}
-	// TODO destroy all Bot-Sticks
 	public static void destroyBotSticks() {
 		for (int i = 0; i < stickList.length; i++) {
 			if (stickList[i] != null) {
@@ -440,6 +437,17 @@ public class LevelHandler {
 					// destroying a stick removes it from the list too. therefore check the same Index again
 					i--;
 				}
+			} else {
+				break;
+			}
+		}
+	}
+	public static void readdIndicators() {
+		for (StickEntity eachStickList : stickList) {
+			if (eachStickList != null) {
+				eachStickList.readdIndicators();
+			} else {
+				break;
 			}
 		}
 	}

@@ -110,4 +110,6 @@ public class StickEntity extends Entity {
 		StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, this);
 
 	}
+
+	public void readdIndicators() {}
 }

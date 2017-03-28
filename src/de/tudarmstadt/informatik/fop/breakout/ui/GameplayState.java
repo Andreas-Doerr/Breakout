@@ -93,6 +93,7 @@ public class GameplayState extends BasicGameState {
 		}
 
 	// Stick
+		//new BotStickEntity(200, new BallEntity(200,Variables.STICK_Y));
 		PlayerStickEntity stick = new PlayerStickEntity(Constants.PLAYER_STICK_ID, new Vector2f((Variables.WINDOW_WIDTH / 2), Variables.STICK_Y), Input.KEY_LEFT, Input.KEY_RIGHT , true, 0);
 
 	// pause
@@ -233,9 +234,7 @@ public class GameplayState extends BasicGameState {
 						currentlyRunning = true;
 
 						// creating a ball
-						BallEntity ball = new BallEntity(new Vector2f(stick.getPosition().x, (stick.getPosition().y)));
-						// ball at stick position
-						ball.setPosition(new Vector2f(stick.getPosition().x, (stick.getPosition().y - ((stick.getSize().y / 2) + (ball.getSize().y / 2)))));
+						BallEntity ball = new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
 					} else {
 						SoundHandler.playNotAcceptable();
 						System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
@@ -260,9 +259,7 @@ public class GameplayState extends BasicGameState {
 						currentlyRunning = true;
 
 						// creating a ball
-						BallEntity ball = new BallEntity(new Vector2f(stick.getPosition().x, (stick.getPosition().y)));
-						// ball at stick position
-						ball.setPosition(new Vector2f(stick.getPosition().x, (stick.getPosition().y - ((stick.getSize().y / 2) + (ball.getSize().y / 2)))));
+						BallEntity ball = new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
 					} else {
 						SoundHandler.playNotAcceptable();
 						System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
@@ -289,9 +286,7 @@ public class GameplayState extends BasicGameState {
 							currentlyRunning = true;
 
 							// creating a ball
-							BallEntity ball = new BallEntity(new Vector2f(stick.getPosition().x, (stick.getPosition().y)));
-							// ball at stick position
-							ball.setPosition(new Vector2f(stick.getPosition().x, (stick.getPosition().y - ((stick.getSize().y / 2) + (ball.getSize().y / 2)))));
+							BallEntity ball = new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
 						} else {
 							SoundHandler.playNotAcceptable();
 							System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
@@ -312,21 +307,21 @@ public class GameplayState extends BasicGameState {
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				if (!gc.isPaused() && OptionsHandler.isCheatModeActive()) {
 					if (LevelHandler.stickListHasSpace()) {
-						if (LevelHandler.ballListHasSpace()) {
+						if (LevelHandler.isBallListEmpty()) {
 							SoundHandler.playButtonPress();
 							// activate the ability to resume the Game
 							currentlyRunning = true;
 
 							// creating a ball
-							BallEntity ball = new BallEntity(new Vector2f(stick.getPosition().x, (stick.getPosition().y)));
-							// ball at stick position
-							ball.setPosition(new Vector2f(stick.getPosition().x, (stick.getPosition().y - ((stick.getSize().y / 2) + (ball.getSize().y / 2)))));
+							new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
 
 							// adding the StickBot and giving it the ball entity to follow
-							new BotStickEntity(stick.getPosition().x, ball);
+							new BotStickEntity(stick.getPosition().x);
 
 							// setting the Player's stick a bit lower than the BotSticks
 							stick.setPosition(new Vector2f(stick.getPosition().x, Variables.STICK_Y + 5));
+						} else if (LevelHandler.ballListHasSpace()) {
+							new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
 						} else {
 							SoundHandler.playNotAcceptable();
 							System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
@@ -353,13 +348,10 @@ public class GameplayState extends BasicGameState {
 							currentlyRunning = true;
 
 							// creating a ball
-							BallEntity ball = new BallEntity(new Vector2f(stick.getPosition().x, (stick.getPosition().y)));
-
-							// ball at stick position
-							ball.setPosition(new Vector2f(stick.getPosition().x, (stick.getPosition().y - ((stick.getSize().y / 2) + (ball.getSize().y / 2)))));
+							new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
 
 							// adding the StickBot and giving it the ball entity to follow
-							new BotStickEntity(stick.getPosition().x, ball);
+							new BotStickEntity(stick.getPosition().x);
 
 							// setting the Player's stick a bit lower than the BotSticks
 							stick.setPosition(new Vector2f(stick.getPosition().x, Variables.STICK_Y + 5));
@@ -453,7 +445,7 @@ public class GameplayState extends BasicGameState {
 		l_pressed.addAction(new Action() {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				PlayerHandler.addLives(100);
+				LevelHandler.readdIndicators();
 			}
 		});
 		// giving the listener-entity the s_pressed-event
@@ -520,7 +512,6 @@ public class GameplayState extends BasicGameState {
 				LevelHandler.switchMap();
 
 				if (OptionsHandler.getSelectedMap() != 0) {
-					System.out.println(OptionsHandler.getSelectedMap() + " < " + (Constants.MAX_MAPS));
 					System.out.println("Loading next level... (" + OptionsHandler.getSelectedMapName() + ")");
 					LevelHandler.initMapLevel();
 				} else {
