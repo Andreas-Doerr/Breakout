@@ -56,8 +56,8 @@ public class StickEntity extends Entity {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				// stick can't move out of screen or when game is paused or when the controller is trying to move it
-				if (OptionsHandler.getControlMode() == 0 && getPosition().x > (getSize().x / 2) && !(gc.isPaused())) {
-					moveLeft();
+				if (OptionsHandler.getControlMode() == 0) {
+					moveStick(-1f);
 				}
 			}
 		});
@@ -70,8 +70,8 @@ public class StickEntity extends Entity {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				// stick can't move out of screen or when game is paused or when the controller is trying to move it
-				if (OptionsHandler.getControlMode() == 0 && getPosition().x < (Variables.WINDOW_WIDTH - (getSize().x / 2)) && !(gc.isPaused())) {
-					moveRight();
+				if (OptionsHandler.getControlMode() == 0) {
+					moveStick(1f);
 				}
 			}
 		});
@@ -85,11 +85,9 @@ public class StickEntity extends Entity {
 		stickLoop.addAction(new Action() {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				if (OptionsHandler.getControlMode() == 2 &&!gc.isPaused() &&
-						((ControllerHandler.getStick(controllerAxis) > 0 && getPosition().x < (Variables.WINDOW_WIDTH - (getSize().x / 2)))
-								|| (ControllerHandler.getStick(controllerAxis) < 0 && getPosition().x > (getSize().x / 2)))) {
-					setPosition(new Vector2f(getPosition().x + (Variables.STICK_SPEED * ControllerHandler.getStick(controllerAxis)) * (float) Constants.FRAME_RATE / (float) gc.getFPS(), getPosition().y));
-				} else if (mouseInput && OptionsHandler.getControlMode() == 1) {
+				if (OptionsHandler.getControlMode() == 2) {
+					moveStick(ControllerHandler.getStick(controllerAxis));
+				} else if (mouseInput && OptionsHandler.getControlMode() == 1 && !(gc.isPaused())) {
 					if (gc.getInput().getMouseX() < (getSize().x / 2)) {
 						// too far left
 						setPosition(new Vector2f(getSize().x / 2, getPosition().y));
@@ -198,12 +196,6 @@ public class StickEntity extends Entity {
 
 						angle_change = (angle_change + 1) / 2;
 
-
-
-
-
-
-
 						float newDirectionDEG;
 						if (bottom) {
 							float newDirection = -(angle * (angle_change + 0.5f));
@@ -222,28 +214,24 @@ public class StickEntity extends Entity {
 							} else {
 								newDirectionDEG = 90 - newDirectionDEG;
 							}
-
 						}
 						indicatorOut.setRotation(newDirectionDEG);
 						indicatorOut.setPosition(new Vector2f(newX, indicator_Y));
 						indicatorOut.setVisible(true);
-
-
-
-
-
 					} else if (indicatorOut.isVisible()) {
 						indicatorOut.setVisible(false);
 					}
 
 					// BOT
 					if (bot) {
-						if (newX < (getSize().x / 2)) {
-							setPosition(new Vector2f(getSize().x / 2, getPosition().y));
-						} else if (newX > (Variables.WINDOW_WIDTH - getSize().x / 2)) {
-							setPosition(new Vector2f(Variables.WINDOW_WIDTH - getSize().x / 2, getPosition().y));
-						} else {
-							setPosition(new Vector2f(newX, getPosition().y));
+						float speed = (newX - getPosition().x) / 10;
+						if (speed < -1f) {
+							speed = -1f;
+						} else if (speed > 1f) {
+							speed = 1f;
+						}
+						if (speed < -0.01f || speed > 0.01f) {
+							moveStick(speed);
 						}
 					}
 
@@ -261,19 +249,10 @@ public class StickEntity extends Entity {
 		LevelHandler.readdIndicators();
 	}
 
-
-	public Constants.StickShape getWidthModifier() {
-		return widthModifier;
-	}
-	public void setWidthModifier(Constants.StickShape newWidthModifier) {
-		widthModifier = newWidthModifier;
-	}
-
-	void moveLeft() {
-		setPosition(new Vector2f(getPosition().x - Variables.STICK_SPEED * (float) Constants.FRAME_RATE / (float) Breakout.getApp().getFPS(), getPosition().y));
-	}
-	void moveRight() {
-		setPosition(new Vector2f (getPosition().x + Variables.STICK_SPEED * (float) Constants.FRAME_RATE / (float) Breakout.getApp().getFPS(), getPosition().y));
+	private void moveStick(float speed) {
+		if (!Breakout.getApp().isPaused() && (speed < 0 && (getPosition().x > getSize().x / 2)) || (speed > 0 && getPosition().x < (Variables.WINDOW_WIDTH - (getSize().x / 2)))) {
+			setPosition(new Vector2f(getPosition().x + Variables.STICK_SPEED * speed * (float) Constants.FRAME_RATE / (float) Breakout.getApp().getFPS(), getPosition().y));
+		}
 	}
 
 	public void activateBot() {
@@ -344,12 +323,10 @@ public class StickEntity extends Entity {
 
 	public void readdIndicators() {
 		if (indicator != null) {
-			System.out.println("readding indicator");
 			StateBasedEntityManager.getInstance().removeEntity(Breakout.GAMEPLAY_STATE, indicator);
 			StateBasedEntityManager.getInstance().addEntity(Breakout.GAMEPLAY_STATE, indicator);
 		}
 		if (indicatorOut != null) {
-			System.out.println("readding indicatorOut");
 			StateBasedEntityManager.getInstance().removeEntity(Breakout.GAMEPLAY_STATE, indicatorOut);
 			StateBasedEntityManager.getInstance().addEntity(Breakout.GAMEPLAY_STATE, indicatorOut);
 		}
