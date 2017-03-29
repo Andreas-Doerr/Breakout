@@ -40,4 +40,7 @@ public class ItemHandler {
 	public static void destroyAllItems() {
 		itemsToBeDestroyed = itemsActive;
 	}
+	public static void oneItemLessToDestroy() {
+		itemsToBeDestroyed--;
+	}
 }

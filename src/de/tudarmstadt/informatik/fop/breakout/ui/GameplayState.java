@@ -304,20 +304,7 @@ public class GameplayState extends BasicGameState {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				if (!gc.isPaused() && OptionsHandler.isCheatModeActive()) {
-					if (LevelHandler.isBallListEmpty()) {
-						SoundHandler.playButtonPress();
-						// activate the ability to resume the Game
-						currentlyRunning = true;
-
-						// creating a ball
-						//new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
 						LevelHandler.switchAllBots();
-					} else if (LevelHandler.ballListHasSpace()) {
-						new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
-					} else {
-						SoundHandler.playNotAcceptable();
-						System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
-					}
 				}
 			}
 		});
@@ -329,17 +316,7 @@ public class GameplayState extends BasicGameState {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				if (OptionsHandler.isCheatModeActive() && ControllerHandler.isButtonPressed(0) && !gc.isPaused()) {
-					if (LevelHandler.ballListHasSpace()) {
-						// if the button 2 was not pressed before but is pressed now
-						// activate the ability to resume the Game
-						currentlyRunning = true;
-
-						// creating a ball
-						new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
-					} else {
-						SoundHandler.playNotAcceptable();
-						System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
-					}
+					LevelHandler.switchAllBots();
 				}
 			}
 		});

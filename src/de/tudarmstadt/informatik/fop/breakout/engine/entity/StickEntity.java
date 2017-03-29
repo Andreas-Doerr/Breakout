@@ -1,10 +1,7 @@
 package de.tudarmstadt.informatik.fop.breakout.engine.entity;
 
-import de.tudarmstadt.informatik.fop.breakout.handlers.ControllerHandler;
-import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
+import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
-import de.tudarmstadt.informatik.fop.breakout.handlers.LevelHandler;
-import de.tudarmstadt.informatik.fop.breakout.handlers.ThemeHandler;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
 import eea.engine.action.Action;
@@ -133,39 +130,34 @@ public class StickEntity extends Entity {
 		stickLoop.addAction(new Action() {
 			@Override
 			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				boolean bottom = false;
+				boolean bottom = true;
 				BallEntity ball;
 				if (getPosition().y > (Variables.WINDOW_HEIGHT / 2)) {
 					ball = LevelHandler.getLowestDownMovingBall();
 				} else {
 					ball = LevelHandler.getHighestUpMovingBall();
-					bottom = true;
+					bottom = false;
 				}
 
 				if (ball != null) {
 					// calculate the x-pos for the ball when reaching y == hitY with its current direction
-					float hitY = Variables.STICK_Y - Variables.COLLISION_DISTANCE;
 					float ballX = ball.getPosition().x;
 					float ballY = ball.getPosition().y;
 					float angle = ball.getMovementAngleRAD();
-					float offsetY = (hitY - ballY) / (float) Math.tan(angle);
-
+					float offsetY = ((getPosition().y - Variables.COLLISION_DISTANCE) - ballY) / (float) Math.tan(angle);
 					float newX = ballX - offsetY;
-
-
-					// BOT
-					if (bot) {
-						setPosition(new Vector2f(newX, getPosition().y));
+					if (!bottom) {
+						angle = -angle;
+						offsetY = ((getPosition().y + Variables.COLLISION_DISTANCE) - ballY) / (float) Math.tan(angle);
+						newX = ballX + offsetY;
 					}
-
-
 
 					float ballDirectionDEG = ball.getMovementAngleDEG();
 
 					float indicator_DEG;
 					float indicator_Y = getPosition().y;
 
-					if (!bottom) {
+					if (bottom) {
 						if (ballDirectionDEG > 0) {
 							indicator_DEG = 90 - ballDirectionDEG;
 						} else {
@@ -175,9 +167,9 @@ public class StickEntity extends Entity {
 
 					} else {
 						if (ballDirectionDEG > 0) {
-							indicator_DEG = 90 - ballDirectionDEG;
-						} else {
 							indicator_DEG = 270 - ballDirectionDEG;
+						} else {
+							indicator_DEG = 90 - ballDirectionDEG;
 						}
 						indicator_Y += getSize().y * 0.75f;
 
@@ -206,23 +198,55 @@ public class StickEntity extends Entity {
 
 						angle_change = (angle_change + 1) / 2;
 
-						float newDirection = -(angle * (angle_change + 0.5f));
 
-						float newDirectionDEG = (float) (newDirection / Math.PI * 180);
 
-						if (newDirectionDEG > 0) {
-							indicatorOut.setRotation(90 - newDirectionDEG);
+
+
+
+
+						float newDirectionDEG;
+						if (bottom) {
+							float newDirection = -(angle * (angle_change + 0.5f));
+							newDirectionDEG = (float) (newDirection / Math.PI * 180);
+							if (newDirectionDEG > 0) {
+								newDirectionDEG = 90 - newDirectionDEG;
+							} else {
+								newDirectionDEG = 270 - newDirectionDEG;
+							}
+
 						} else {
-							indicatorOut.setRotation(270 - newDirectionDEG);
+							float newDirection = (angle * (angle_change + 0.5f));
+							newDirectionDEG = (float) (newDirection / Math.PI * 180);
+							if (newDirectionDEG > 0) {
+								newDirectionDEG = 270 - newDirectionDEG;
+							} else {
+								newDirectionDEG = 90 - newDirectionDEG;
+							}
+
 						}
-
-
+						indicatorOut.setRotation(newDirectionDEG);
+						indicatorOut.setPosition(new Vector2f(newX, indicator_Y));
 						indicatorOut.setVisible(true);
-						indicatorOut.setPosition(new Vector2f(newX, Variables.STICK_Y - getSize().y * 0.75f));
+
+
+
+
 
 					} else if (indicatorOut.isVisible()) {
 						indicatorOut.setVisible(false);
 					}
+
+					// BOT
+					if (bot) {
+						if (newX < (getSize().x / 2)) {
+							setPosition(new Vector2f(getSize().x / 2, getPosition().y));
+						} else if (newX > (Variables.WINDOW_WIDTH - getSize().x / 2)) {
+							setPosition(new Vector2f(Variables.WINDOW_WIDTH - getSize().x / 2, getPosition().y));
+						} else {
+							setPosition(new Vector2f(newX, getPosition().y));
+						}
+					}
+
 				} else if (indicator.isVisible()) {
 					indicator.setVisible(false);
 					indicatorOut.setVisible(false);

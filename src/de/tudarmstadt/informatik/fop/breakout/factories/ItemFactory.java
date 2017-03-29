@@ -224,7 +224,11 @@ public class ItemFactory implements IEntityFactory, Constants {
 
 		// item movement
 		LoopEvent moveLoop = new LoopEvent();
-		moveLoop.addAction(new MoveDownAction(Variables.INITIAL_BALL_SPEED_UP / 4));
+		if (OptionsHandler.getGameMode() == 1 && Math.random() < 0.5f) {
+			moveLoop.addAction(new MoveDownAction( - Variables.INITIAL_BALL_SPEED_UP / 4));
+		} else {
+			moveLoop.addAction(new MoveDownAction(Variables.INITIAL_BALL_SPEED_UP / 4));
+		}
 		// item deletion upon exiting visible area
 		moveLoop.addAction(new Action() {
 			@Override
@@ -243,9 +247,10 @@ public class ItemFactory implements IEntityFactory, Constants {
 			@Override
 			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
 				if (ItemHandler.getItemsToBeDestroyed() > 0) {
-					// if the item fully left the screen: delete it
-					// set the counter down one if it left the screen
+					// if the item is to be destroyed by a cheat
+					// set the counter down one if it got destroyed
 					ItemHandler.addItemsActive(-1);
+					ItemHandler.oneItemLessToDestroy();
 					// (item is half an item-height below the window)
 					StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, item);
 				}
