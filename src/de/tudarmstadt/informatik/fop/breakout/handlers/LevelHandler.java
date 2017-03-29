@@ -27,12 +27,12 @@ import java.io.*;
  * @author Andreas Dörr
  */	//TODO commenting
 public class LevelHandler {
-
+// COUNTER
 	private static int activeBlocks = 0;
 	private static int destroyedBlocks = 0;
 	private static int activeBallCount = 0;
 	private static int activeDestroyedBallCount = 0;
-
+// LISTS
 	private static BlockEntity[] blockList = new BlockEntity[160 + 1];	// meaning max is 160 since the last entry stays null
 	private static BallEntity[] ballList = new BallEntity[Constants.MAX_AMOUNT_OF_BALLS + 1];	// meaning max is 100 since the last entry stays null
 	private static StickEntity[] stickList = new StickEntity[Constants.MAX_AMOUNT_OF_STICKS + 1];	// meaning max is 10 since the last entry stays null
@@ -50,12 +50,10 @@ public class LevelHandler {
 	public static int getActiveDestroyedBallCount() {
 		return activeDestroyedBallCount;
 	}
-
 	// setter
 	public static void setActiveBlocks(int newLevelInitBlocks) {
 		activeBlocks = newLevelInitBlocks;
 	}
-
 	// adding / subtracting
 	public static void addOneDestroyedBlock() {
 		destroyedBlocks++;
@@ -69,7 +67,6 @@ public class LevelHandler {
 	public static void addActiveBlocks(int addedBlocks) {
 		activeBlocks += addedBlocks;
 	}
-
 	// resetter
 	public static void resetCounter() {
 		activeBlocks = 0;
@@ -84,10 +81,8 @@ public class LevelHandler {
 		stickList = new StickEntity[Constants.MAX_AMOUNT_OF_STICKS + 1];	// meaning max is 10 since the last entry stays null
 	}
 
-
-	// entity lists
-
-	// block entity list
+// ENTITY LISTS
+// BLOCK
 	public static boolean blockListHasSpace() {
 		return blockList[blockList.length - 1] == null;
 	}
@@ -124,7 +119,6 @@ public class LevelHandler {
 			blockList[blockList.length - 1] = null;
 		}
 	}
-
 	// actions
 	public static void destroyRandomBlock() {
 		int amountOfBlocks = 0;
@@ -198,7 +192,7 @@ public class LevelHandler {
 
 	}
 
-	// ball entity list
+// BALL
 	public static boolean ballListHasSpace() {
 		return ballList[ballList.length - 1] == null;
 	}
@@ -244,12 +238,25 @@ public class LevelHandler {
 	}
 	public static BallEntity getLowestDownMovingBall() {
 		BallEntity toReturn = null;
-		for (int i = 0; i < ballList.length; i++) {
-			if (ballList[i] != null ) {
-				if (ballList[i].getSpeedUp() < 0 && toReturn == null) {
-					toReturn = ballList[i];
-				} else if (toReturn != null && ballList[i].getSpeedUp() < 0 && toReturn.getPosition().y < ballList[i].getPosition().y) {
-					toReturn = ballList[i];
+		for (BallEntity eachBallList : ballList) {
+			if (eachBallList != null) {
+				if (eachBallList.getSpeedUp() < 0 && toReturn == null) {
+					toReturn = eachBallList;
+				} else if (toReturn != null && eachBallList.getSpeedUp() < 0 && toReturn.getPosition().y < eachBallList.getPosition().y) {
+					toReturn = eachBallList;
+				}
+			} else break;
+		}
+		return toReturn;
+	}
+	public static BallEntity getHighestUpMovingBall() {
+		BallEntity toReturn = null;
+		for (BallEntity eachBallList : ballList) {
+			if (eachBallList != null) {
+				if (eachBallList.getSpeedUp() > 0 && toReturn == null) {
+					toReturn = eachBallList;
+				} else if (toReturn != null && eachBallList.getSpeedUp() > 0 && toReturn.getPosition().y > eachBallList.getPosition().y) {
+					toReturn = eachBallList;
 				}
 			} else break;
 		}
@@ -380,7 +387,7 @@ public class LevelHandler {
 		destroyedBall.addComponent(destroyedLoop);
 	}
 
-	// stick entity list
+// STICK
 	public static boolean stickListHasSpace() {
 		return stickList[stickList.length - 1] == null;
 	}
@@ -451,9 +458,36 @@ public class LevelHandler {
 			}
 		}
 	}
+	public static void activateAllBots() {
+		for (StickEntity eachStickList : stickList) {
+			if (eachStickList != null) {
+				eachStickList.activateBot();
+			} else {
+				break;
+			}
+		}
+	}
+	public static void deactivateAllBots() {
+		for (StickEntity eachStickList : stickList) {
+			if (eachStickList != null) {
+				eachStickList.deactivateBot();
+			} else {
+				break;
+			}
+		}
+	}
+	public static void switchAllBots() {
+		for (StickEntity eachStickList : stickList) {
+			if (eachStickList != null) {
+				eachStickList.switchBot();
+			} else {
+				break;
+			}
+		}
+	}
 
 
-	// maps
+// MAP
 	public static void switchMap() {
 		if (OptionsHandler.getSelectedMap() < Constants.MAX_MAPS - 1) {
 			OptionsHandler.setSelectedMap(OptionsHandler.getSelectedMap() + 1);

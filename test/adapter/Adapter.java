@@ -86,7 +86,7 @@ public class Adapter implements Constants {
 		}
 
 		ball = new BallEntity(0,0);
-		stick = new StickEntity(Constants.PLAYER_STICK_ID);
+		stick = new StickEntity(Constants.PLAYER_STICK_ID, 0, 0, Input.KEY_LEFT, Input.KEY_RIGHT, false, 0);
 
 		PlayerHandler.reset();
 		OptionsHandler.readOptions();

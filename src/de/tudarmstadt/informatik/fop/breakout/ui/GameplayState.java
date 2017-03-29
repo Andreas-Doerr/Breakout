@@ -1,9 +1,8 @@
 package de.tudarmstadt.informatik.fop.breakout.ui;
 
 
+import de.tudarmstadt.informatik.fop.breakout.engine.entity.StickEntity;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
-import de.tudarmstadt.informatik.fop.breakout.engine.entity.BotStickEntity;
-import de.tudarmstadt.informatik.fop.breakout.engine.entity.PlayerStickEntity;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.BallEntity;
 import de.tudarmstadt.informatik.fop.breakout.factories.BorderFactory;
@@ -89,12 +88,11 @@ public class GameplayState extends BasicGameState {
 		if (OptionsHandler.getGameMode() == 0) {
 			new BorderFactory(TOP).createEntity();
 		} else if (OptionsHandler.getGameMode() == 1){
-			new PlayerStickEntity(Constants.PLAYER_STICK_ID_TOP, new Vector2f((Variables.WINDOW_WIDTH / 2), Variables.STICK_Y_TOP), Input.KEY_A, Input.KEY_D, false, 3);
+			new StickEntity(Constants.PLAYER_STICK_ID_TOP, (Variables.WINDOW_WIDTH / 2), Variables.STICK_Y_TOP, Input.KEY_A, Input.KEY_D, false, 3);
 		}
 
 	// Stick
-		//new BotStickEntity(200, new BallEntity(200,Variables.STICK_Y));
-		PlayerStickEntity stick = new PlayerStickEntity(Constants.PLAYER_STICK_ID, new Vector2f((Variables.WINDOW_WIDTH / 2), Variables.STICK_Y), Input.KEY_LEFT, Input.KEY_RIGHT , true, 0);
+		StickEntity stick = new StickEntity(Constants.PLAYER_STICK_ID, (Variables.WINDOW_WIDTH / 2), Variables.STICK_Y, Input.KEY_LEFT, Input.KEY_RIGHT , true, 0);
 
 	// pause
 		// creating pause-entity
@@ -306,29 +304,19 @@ public class GameplayState extends BasicGameState {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				if (!gc.isPaused() && OptionsHandler.isCheatModeActive()) {
-					if (LevelHandler.stickListHasSpace()) {
-						if (LevelHandler.isBallListEmpty()) {
-							SoundHandler.playButtonPress();
-							// activate the ability to resume the Game
-							currentlyRunning = true;
+					if (LevelHandler.isBallListEmpty()) {
+						SoundHandler.playButtonPress();
+						// activate the ability to resume the Game
+						currentlyRunning = true;
 
-							// creating a ball
-							new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
-
-							// adding the StickBot and giving it the ball entity to follow
-							new BotStickEntity(stick.getPosition().x);
-
-							// setting the Player's stick a bit lower than the BotSticks
-							stick.setPosition(new Vector2f(stick.getPosition().x, Variables.STICK_Y + 5));
-						} else if (LevelHandler.ballListHasSpace()) {
-							new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
-						} else {
-							SoundHandler.playNotAcceptable();
-							System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
-						}
+						// creating a ball
+						//new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
+						LevelHandler.switchAllBots();
+					} else if (LevelHandler.ballListHasSpace()) {
+						new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
 					} else {
 						SoundHandler.playNotAcceptable();
-						System.err.println("The maximum supported amount of sticks active at one time has been surpassed!");
+						System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
 					}
 				}
 			}
@@ -341,27 +329,16 @@ public class GameplayState extends BasicGameState {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				if (OptionsHandler.isCheatModeActive() && ControllerHandler.isButtonPressed(0) && !gc.isPaused()) {
-					if (LevelHandler.stickListHasSpace()) {
-						if (LevelHandler.ballListHasSpace()) {
-							// if the button 2 was not pressed before but is pressed now
-							// activate the ability to resume the Game
-							currentlyRunning = true;
+					if (LevelHandler.ballListHasSpace()) {
+						// if the button 2 was not pressed before but is pressed now
+						// activate the ability to resume the Game
+						currentlyRunning = true;
 
-							// creating a ball
-							new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
-
-							// adding the StickBot and giving it the ball entity to follow
-							new BotStickEntity(stick.getPosition().x);
-
-							// setting the Player's stick a bit lower than the BotSticks
-							stick.setPosition(new Vector2f(stick.getPosition().x, Variables.STICK_Y + 5));
-						} else {
-							SoundHandler.playNotAcceptable();
-							System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
-						}
+						// creating a ball
+						new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
 					} else {
 						SoundHandler.playNotAcceptable();
-						System.err.println("The maximum supported amount of sticks active at one time has been surpassed!");
+						System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
 					}
 				}
 			}
