@@ -124,6 +124,8 @@ public class StickEntity extends Entity {
 		indicatorOut.setVisible(false);
 		StateBasedEntityManager.getInstance().addEntity(Breakout.GAMEPLAY_STATE, indicatorOut);
 
+		// TODO make indicators invisible when not tracking a ball
+
 		// indicator positioning
 		stickLoop.addAction(new Action() {
 			@Override
@@ -224,12 +226,39 @@ public class StickEntity extends Entity {
 
 					// BOT
 					if (bot) {
+						// calculating the desired offset to hit the targeted block
+						float targetX = LevelHandler.getMostLeftLowestBlock().getPosition().x;
+						float targetY = LevelHandler.getMostLeftLowestBlock().getPosition().y;
+						float ballHitX = newX;
+						float ballHitY = getPosition().y - Variables.COLLISION_DISTANCE;
+
+						// calculating newAngle needed to reach target from ballHit
+						float neededAngle = 0f;
+
+
+
+						// calculating desiredOffset from neededAngle
+						float desiredOffset = 0f;
+
+
+						// capping the desiredOffset to the stick's width
+						if (desiredOffset < - getSize().x / 2) {
+							desiredOffset = - getSize().x / 2;
+						} else if (desiredOffset > getSize().x / 2) {
+							desiredOffset = getSize().x / 2;
+						}
+						// adding the desiredOffset to the ballHitX
+						newX = ballHitX + desiredOffset;
+
+						// making the stick move to its destination (faster the further it is away from it)
 						float speed = (newX - getPosition().x) / 10;
+						// capping the speed to 1 / -1
 						if (speed < -1f) {
 							speed = -1f;
 						} else if (speed > 1f) {
 							speed = 1f;
 						}
+						// no moving at ridiculously slow speeds
 						if (speed < -0.01f || speed > 0.01f) {
 							moveStick(speed);
 						}
