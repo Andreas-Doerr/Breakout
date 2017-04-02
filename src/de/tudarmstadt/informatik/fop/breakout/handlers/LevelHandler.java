@@ -13,6 +13,7 @@ import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.event.basicevents.LoopEvent;
+import org.lwjgl.Sys;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -118,6 +119,23 @@ public class LevelHandler {
 			// the last entry is set to null
 			blockList[blockList.length - 1] = null;
 		}
+	}
+	// getter
+	public static BlockEntity getMostLeftLowestBlock() {
+		BlockEntity toReturn = null;
+		if (blockList[0] != null) {
+			toReturn = blockList[0];
+			for (BlockEntity eachBlockList : blockList) {
+				if (eachBlockList != null) {
+					if (eachBlockList.getPosition().y > toReturn.getPosition().y) {
+						toReturn = eachBlockList;
+					} else if (eachBlockList.getPosition().y >= toReturn.getPosition().y && eachBlockList.getPosition().x < toReturn.getPosition().x) {
+						toReturn = eachBlockList;
+					} else break;
+				}
+			}
+		}
+		return toReturn;
 	}
 	// actions
 	public static void destroyRandomBlock() {
@@ -238,27 +256,29 @@ public class LevelHandler {
 	}
 	public static BallEntity getLowestDownMovingBall() {
 		BallEntity toReturn = null;
-		for (BallEntity eachBallList : ballList) {
-			if (eachBallList != null) {
-				if (eachBallList.getSpeedUp() < 0 && toReturn == null) {
-					toReturn = eachBallList;
-				} else if (toReturn != null && eachBallList.getSpeedUp() < 0 && toReturn.getPosition().y < eachBallList.getPosition().y) {
-					toReturn = eachBallList;
-				}
-			} else break;
+		if (ballList[0] != null) {
+			toReturn = ballList[0];
+			for (BallEntity eachBallList : ballList) {
+				if (eachBallList != null) {
+					if (eachBallList.getSpeedUp() < 0 && toReturn.getPosition().y < eachBallList.getPosition().y) {
+						toReturn = eachBallList;
+					}
+				} else break;
+			}
 		}
 		return toReturn;
 	}
 	public static BallEntity getHighestUpMovingBall() {
 		BallEntity toReturn = null;
-		for (BallEntity eachBallList : ballList) {
-			if (eachBallList != null) {
-				if (eachBallList.getSpeedUp() > 0 && toReturn == null) {
-					toReturn = eachBallList;
-				} else if (toReturn != null && eachBallList.getSpeedUp() > 0 && toReturn.getPosition().y > eachBallList.getPosition().y) {
-					toReturn = eachBallList;
-				}
-			} else break;
+		if (ballList[0] != null) {
+			toReturn = ballList[0];
+			for (BallEntity eachBallList : ballList) {
+				if (eachBallList != null) {
+					if (eachBallList.getSpeedUp() > 0 && toReturn.getPosition().y > eachBallList.getPosition().y) {
+						toReturn = eachBallList;
+					}
+				} else break;
+			}
 		}
 		return toReturn;
 	}

@@ -399,7 +399,7 @@ public class GameplayState extends BasicGameState {
 		l_pressed.addAction(new Action() {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				LevelHandler.readdIndicators();
+				PlayerHandler.addLives(100);
 			}
 		});
 		// giving the listener-entity the s_pressed-event

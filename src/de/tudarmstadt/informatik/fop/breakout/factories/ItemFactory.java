@@ -233,7 +233,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 		moveLoop.addAction(new Action() {
 			@Override
 			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				if (item.getPosition().y > Variables.WINDOW_HEIGHT + item.getSize().y) {
+				if (item.getPosition().y > Variables.WINDOW_HEIGHT + item.getSize().y || item.getPosition().y < -item.getSize().y) {
 					// if the item fully left the screen: delete it
 					// set the counter down one if it left the screen
 					ItemHandler.addItemsActive(-1);
