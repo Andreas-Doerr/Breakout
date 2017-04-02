@@ -181,6 +181,7 @@ public class StickEntity extends Entity {
 					// due to prior stick movement calculations
 					float offsetX = newX - getPosition().x;
 
+					float newDirection = 0f;
 					if (offsetX < (getSize().x * 0.6f) && offsetX > -(getSize().x * 0.6f)) {
 
 						float angle_change = offsetX / (getSize().x / 2);
@@ -189,18 +190,19 @@ public class StickEntity extends Entity {
 							angle_change = -angle_change;
 						}
 
-						// angle_change is to be >= 0, <= 1
+						// (-1) <= (angle_change) <= (1)
 						if (angle_change > 1f) {
 							angle_change = 1f;
 						} else if (angle_change < -1f) {
 							angle_change = -1f;
 						}
 
+						// (0) <= (angle_change) <= (1)
 						angle_change = (angle_change + 1) / 2;
 
 						float newDirectionDEG;
 						if (bottom) {
-							float newDirection = -(angle * (angle_change + 0.5f));
+							newDirection = -(angle * (angle_change + 0.5f));
 							newDirectionDEG = (float) (newDirection / Math.PI * 180);
 							if (newDirectionDEG > 0) {
 								newDirectionDEG = 90 - newDirectionDEG;
@@ -209,7 +211,7 @@ public class StickEntity extends Entity {
 							}
 
 						} else {
-							float newDirection = (angle * (angle_change + 0.5f));
+							newDirection = (angle * (angle_change + 0.5f));
 							newDirectionDEG = (float) (newDirection / Math.PI * 180);
 							if (newDirectionDEG > 0) {
 								newDirectionDEG = 270 - newDirectionDEG;
@@ -226,29 +228,69 @@ public class StickEntity extends Entity {
 
 					// BOT
 					if (bot) {
-						// calculating the desired offset to hit the targeted block
-						float targetX = LevelHandler.getMostLeftLowestBlock().getPosition().x;
-						float targetY = LevelHandler.getMostLeftLowestBlock().getPosition().y;
-						float ballHitX = newX;
-						float ballHitY = getPosition().y - Variables.COLLISION_DISTANCE;
+						BlockEntity target = LevelHandler.getMostLeftLowestBlock();
+						if (target != null) {
+							// calculating the desired offset to hit the targeted block
+							float targetX = target.getPosition().x;
+							float targetY = target.getPosition().y;
+							float ballHitX = newX;
+							float ballHitY = getPosition().y - Variables.COLLISION_DISTANCE;
 
-						// calculating newAngle needed to reach target from ballHit
-						float neededAngle = 0f;
+							// calculating newAngle needed to reach target from ballHit = 0f;
+							float dY = ballHitY - targetY;
+							float dX = targetX - ballHitX;
+							float m = dY / dX;
+							float neededAngle = (float) Math.atan(m);
 
+							// calculating desiredOffset from neededAngle
+							float desiredOffset;
 
+							float neededAngleChange = (-neededAngle / angle) * 2;
 
-						// calculating desiredOffset from neededAngle
-						float desiredOffset = 0f;
+							// (-1) <= (angle_change) <= (1)
+							if (neededAngleChange > 1f) {
+								neededAngleChange = 1f;
+							} else if (neededAngleChange < -1f) {
+								neededAngleChange = -1f;
+							}
 
+							desiredOffset = neededAngleChange * (getSize().x / 2);
 
-						// capping the desiredOffset to the stick's width
-						if (desiredOffset < - getSize().x / 2) {
-							desiredOffset = - getSize().x / 2;
-						} else if (desiredOffset > getSize().x / 2) {
-							desiredOffset = getSize().x / 2;
+							if (bottom) {
+								if (neededAngle < 0) {
+									if (neededAngle < newDirection) {
+										desiredOffset = Math.abs(desiredOffset);
+									} else desiredOffset = -Math.abs(desiredOffset);
+									if (newDirection > 0) desiredOffset = -desiredOffset;
+								} else {
+									if (neededAngle < newDirection) {
+										desiredOffset = Math.abs(desiredOffset);
+									} else desiredOffset = -Math.abs(desiredOffset);
+									if (newDirection < 0) desiredOffset = -desiredOffset;
+								}
+							} else {
+								if (neededAngle < 0) {
+									if (neededAngle < newDirection) {
+										desiredOffset = Math.abs(desiredOffset);
+									} else desiredOffset = - Math.abs(desiredOffset);
+									if (newDirection < 0) desiredOffset = -desiredOffset;
+								} else {
+									if (neededAngle < newDirection) {
+										desiredOffset = Math.abs(desiredOffset);
+									} else desiredOffset = - Math.abs(desiredOffset);
+									if (newDirection > 0) desiredOffset = -desiredOffset;
+								}
+							}
+
+							// capping the desiredOffset to the stick's width
+							if (desiredOffset < -getSize().x / 2) {
+								desiredOffset = -getSize().x / 2;
+							} else if (desiredOffset > getSize().x / 2) {
+								desiredOffset = getSize().x / 2;
+							}
+							// adding the desiredOffset to the ballHitX
+							newX = ballHitX - desiredOffset;
 						}
-						// adding the desiredOffset to the ballHitX
-						newX = ballHitX + desiredOffset;
 
 						// making the stick move to its destination (faster the further it is away from it)
 						float speed = (newX - getPosition().x) / 10;

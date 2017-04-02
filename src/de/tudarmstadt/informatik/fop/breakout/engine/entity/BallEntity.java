@@ -119,7 +119,6 @@ public class BallEntity extends Entity {
 							|| (collidedEntity.getID().equals(Constants.PLAYER_STICK_ID_TOP)
 							&& getPosition().y > Variables.STICK_Y_TOP
 							&& getSpeedUp() > 0)
-
 							&& !getLastCollidedWith().equals(collidedEntity)) {
 						// STICK
 						// if the ball collided with the collidedWith (except if the last collision was with exactly this entity, the ball is too low or is not moving downwards)
@@ -127,7 +126,7 @@ public class BallEntity extends Entity {
 						// set this balls lastCollidedWith to this collidedWith-entity
 						setLastCollidedWith(collidedEntity);
 						// calculate new speeds for this ball
-						// not intended to support gravity since the ball won't bounce off the collidedWith twice without hitting something else inbetween
+						// not intended to support gravity since the ball won't bounce off the collidedWith twice without hitting something else in between
 						// angle_change < 0 -> ball goes further left than normal
 						// angle_change > 0 -> ball goes further right than normal
 						// calculating angle_change

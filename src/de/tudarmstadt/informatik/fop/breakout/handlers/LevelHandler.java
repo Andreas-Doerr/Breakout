@@ -256,30 +256,29 @@ public class LevelHandler {
 	}
 	public static BallEntity getLowestDownMovingBall() {
 		BallEntity toReturn = null;
-		if (ballList[0] != null) {
-			toReturn = ballList[0];
-			for (BallEntity eachBallList : ballList) {
-				if (eachBallList != null) {
-					if (eachBallList.getSpeedUp() < 0 && toReturn.getPosition().y < eachBallList.getPosition().y) {
-						toReturn = eachBallList;
-					}
-				} else break;
-			}
+		for (BallEntity eachBallList : ballList) {
+			if (eachBallList != null) {
+				if (toReturn == null && eachBallList.getSpeedUp() < 0) {
+					toReturn = eachBallList;
+				} else if (toReturn != null && eachBallList.getSpeedUp() < 0 && toReturn.getPosition().y < eachBallList.getPosition().y) {
+					toReturn = eachBallList;
+				}
+			} else break;
 		}
 		return toReturn;
 	}
 	public static BallEntity getHighestUpMovingBall() {
 		BallEntity toReturn = null;
-		if (ballList[0] != null) {
-			toReturn = ballList[0];
 			for (BallEntity eachBallList : ballList) {
 				if (eachBallList != null) {
-					if (eachBallList.getSpeedUp() > 0 && toReturn.getPosition().y > eachBallList.getPosition().y) {
+					if (toReturn == null && eachBallList.getSpeedUp() > 0) {
+						toReturn = eachBallList;
+					} else if (toReturn != null && eachBallList.getSpeedUp() > 0 && toReturn.getPosition().y > eachBallList.getPosition().y) {
 						toReturn = eachBallList;
 					}
 				} else break;
 			}
-		}
+
 		return toReturn;
 	}
 	// actions
