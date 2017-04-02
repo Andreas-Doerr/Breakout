@@ -93,7 +93,6 @@ public class AboutState extends BasicGameState {
 	/**#####
 	 * Wird mit dem Frame ausgefuehrt
 	 */
-	// TODO add Names, lines
 	@Override
 	public void render(GameContainer container, StateBasedGame game,
 					   Graphics g) throws SlickException {

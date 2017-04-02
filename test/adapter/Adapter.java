@@ -29,9 +29,6 @@ public class Adapter implements Constants {
 	 * The TestAppGameContainer for running the tests
 	 */
 	TestAppGameContainer app;
-
-  //TODO you should declare the additional attributes you may require here.
-
 	BallEntity ball;
 	StickEntity stick;
 

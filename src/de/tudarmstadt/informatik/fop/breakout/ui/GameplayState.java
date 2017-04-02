@@ -507,7 +507,7 @@ public class GameplayState extends BasicGameState {
 		// scaling texts
 		g.scale(Variables.BACKGROUND_SCALE, Variables.BACKGROUND_SCALE);
 
-		// TODO this following new
+		// TODO redo the following
 		int lives_pos_y;
 		int active_blocks_pos_y;
 		int destroyed_blocks_pos_y;

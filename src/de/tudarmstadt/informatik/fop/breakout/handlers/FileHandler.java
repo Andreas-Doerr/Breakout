@@ -9,7 +9,7 @@ import java.io.*;
  */
 public class FileHandler {
 
-	//TODO create folders
+	//TODO create folders (highscore) if they do not exist on startup
 
 	public static String[] read(String ref, int noOfEntries) throws FileNotFoundException{
 

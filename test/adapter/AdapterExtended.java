@@ -4,8 +4,6 @@ import de.tudarmstadt.informatik.fop.breakout.handlers.HighscoreHandler;
 
 public class AdapterExtended extends Adapter {
 
-  //TODO you probably should declare a highscore object of the "proper type" here...
-	
 	/**
 	 * Use this constructor to set up everything you need.
 	 */
