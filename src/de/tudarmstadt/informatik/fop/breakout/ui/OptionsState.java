@@ -52,7 +52,7 @@ public class OptionsState extends BasicGameState {
 	// langSelect-entity
 		Entity langSelect_Entity = new Entity("Language Selector");
 		langSelect_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X_WIDE, Variables.BUTTON_1_Y));
-		langSelect_Entity.setScale(Variables.Entity_SCALE);
+		langSelect_Entity.setScale(Variables.ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			langSelect_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
@@ -74,7 +74,7 @@ public class OptionsState extends BasicGameState {
 	// resolution-entity
 		Entity resolutionSelect_Entity = new Entity("Resolution Selector");
 		resolutionSelect_Entity.setPosition(new Vector2f(Variables.BUTTON_2_X, Variables.BUTTON_1_Y));
-		resolutionSelect_Entity.setScale(Variables.Entity_SCALE);
+		resolutionSelect_Entity.setScale(Variables.ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			resolutionSelect_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
@@ -103,7 +103,7 @@ public class OptionsState extends BasicGameState {
 	// controllerSelect-entity
 		Entity controllerSelect_Entity = new Entity("Controller Selector");
 		controllerSelect_Entity.setPosition(new Vector2f(Variables.BUTTON_3_X, Variables.BUTTON_1_Y));
-		controllerSelect_Entity.setScale(Variables.Entity_SCALE);
+		controllerSelect_Entity.setScale(Variables.ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			controllerSelect_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
@@ -125,7 +125,7 @@ public class OptionsState extends BasicGameState {
 	// show_fps-entity
 		Entity show_fps_Entity = new Entity("Show FPS");
 		show_fps_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X_WIDE, Variables.BUTTON_2_Y));
-		show_fps_Entity.setScale(Variables.Entity_SCALE);
+		show_fps_Entity.setScale(Variables.ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			show_fps_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
@@ -155,7 +155,7 @@ public class OptionsState extends BasicGameState {
 	// controlModeSelector_Entity
 		Entity controlModeSelector_Entity = new Entity("controlModeSelector_Entity");
 		controlModeSelector_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X_WIDE, Variables.BUTTON_3_Y));
-		controlModeSelector_Entity.setScale(Variables.Entity_SCALE);
+		controlModeSelector_Entity.setScale(Variables.ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			controlModeSelector_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
@@ -184,7 +184,7 @@ public class OptionsState extends BasicGameState {
 	// fullscreenModeSelector_Entity
 		Entity fullscreenSelector_Entity = new Entity("fullscreenModeSelector_Entity");
 		fullscreenSelector_Entity.setPosition(new Vector2f(Variables.BUTTON_2_X, Variables.BUTTON_2_Y));
-		fullscreenSelector_Entity.setScale(Variables.Entity_SCALE);
+		fullscreenSelector_Entity.setScale(Variables.ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			fullscreenSelector_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
@@ -211,7 +211,7 @@ public class OptionsState extends BasicGameState {
 	// gameModeSelector_Entity
 		Entity gameModeSelector_Entity = new Entity("gameModeSelector_Entity");
 		gameModeSelector_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X_WIDE, Variables.BUTTON_4_Y));
-		gameModeSelector_Entity.setScale(Variables.Entity_SCALE);
+		gameModeSelector_Entity.setScale(Variables.ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			gameModeSelector_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
@@ -239,7 +239,7 @@ public class OptionsState extends BasicGameState {
 	// cheatModeSelector_Entity
 		Entity cheatModeSelector_Entity = new Entity("cheatModeSelector_Entity");
 		cheatModeSelector_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X_WIDE, Variables.BUTTON_5_Y));
-		cheatModeSelector_Entity.setScale(Variables.Entity_SCALE);
+		cheatModeSelector_Entity.setScale(Variables.ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			cheatModeSelector_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
@@ -267,7 +267,7 @@ public class OptionsState extends BasicGameState {
 	// mapSelector_Entity
 		Entity mapSelector_Entity = new Entity("mapSelector_Entity");
 		mapSelector_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X_WIDE, Variables.BUTTON_6_Y));
-		mapSelector_Entity.setScale(Variables.Entity_SCALE);
+		mapSelector_Entity.setScale(Variables.ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			mapSelector_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
@@ -290,7 +290,7 @@ public class OptionsState extends BasicGameState {
 	// themeSelector_Entity
 		Entity themeSelector_Entity = new Entity("themeSelector_Entity");
 		themeSelector_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X_WIDE, Variables.BUTTON_7_Y));
-		themeSelector_Entity.setScale(Variables.Entity_SCALE);
+		themeSelector_Entity.setScale(Variables.ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			themeSelector_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
@@ -331,7 +331,7 @@ public class OptionsState extends BasicGameState {
 	// back-entity
 		Entity back_Entity = new Entity("Back");
 		back_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X, Variables.BUTTON_8_Y));
-		back_Entity.setScale(Variables.Entity_SCALE);
+		back_Entity.setScale(Variables.ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			back_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON)));

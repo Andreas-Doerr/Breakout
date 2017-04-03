@@ -70,6 +70,9 @@ public interface Constants {
 	int MAX_AMOUNT_OF_STICKS = 10;
 
 	// Buttons
+	enum ButtonType {
+		NORMAL, WIDE, MAINMENU
+	}
 	int TEXT_OFFSET_X = -60;
 	int TEXT_OFFSET_X_WIDE = -120;
 	int TEXT_OFFSET_Y = -9;

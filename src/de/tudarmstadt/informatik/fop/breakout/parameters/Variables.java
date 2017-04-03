@@ -35,7 +35,7 @@ public class Variables {
 
 	// Buttons
 	public static float MENU_ENTRY_SCALE = BACKGROUND_SCALE;
-	public static float Entity_SCALE = 0.55f * BACKGROUND_SCALE;
+	public static float ENTRY_SCALE = 0.55f * BACKGROUND_SCALE;
 
 	// Button positions
 	// MainMenu
@@ -101,7 +101,7 @@ public class Variables {
 
 		// Buttons
 		MENU_ENTRY_SCALE = BACKGROUND_SCALE;
-		Entity_SCALE = 0.55f * BACKGROUND_SCALE;
+		ENTRY_SCALE = 0.55f * BACKGROUND_SCALE;
 
 // Button positions
 		// MainMenu

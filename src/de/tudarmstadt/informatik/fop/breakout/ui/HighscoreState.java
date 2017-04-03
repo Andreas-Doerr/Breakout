@@ -111,7 +111,7 @@ public class HighscoreState extends BasicGameState {
 		// back-entity
 		Entity back_Entity = new Entity("Back");
 		back_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X, Variables.BUTTON_8_Y));
-		back_Entity.setScale(Variables.Entity_SCALE);
+		back_Entity.setScale(Variables.ENTRY_SCALE);
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			back_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON)));

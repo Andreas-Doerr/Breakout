@@ -104,22 +104,28 @@ public class StickEntity extends Entity {
 		// indicators
 		indicator = new Entity("indicator");
 		indicator.setPassable(true);
-		try {
-			indicator.addComponent(new ImageRenderComponent(new Image("images/indicator.png")));
-		} catch (SlickException e) {
-			System.err.println("ERROR: Could not load image: images/indicator.png");
-			e.printStackTrace();
+		if (!Breakout.getDebug()) {
+			// only if not in debug-mode
+			try {
+				indicator.addComponent(new ImageRenderComponent(new Image("images/indicator.png")));
+			} catch (SlickException e) {
+				System.err.println("ERROR: Could not load image: images/indicator.png");
+				e.printStackTrace();
+			}
 		}
 		indicator.setVisible(false);
 		StateBasedEntityManager.getInstance().addEntity(Breakout.GAMEPLAY_STATE, indicator);
 
 		indicatorOut = new Entity("indicatorOut");
 		indicatorOut.setPassable(true);
-		try {
-			indicatorOut.addComponent(new ImageRenderComponent(new Image("images/indicatorOut.png")));
-		} catch (SlickException e) {
-			System.err.println("ERROR: Could not load image: images/indicatorOut.png");
-			e.printStackTrace();
+		if (!Breakout.getDebug()) {
+			// only if not in debug-mode
+			try {
+				indicatorOut.addComponent(new ImageRenderComponent(new Image("images/indicatorOut.png")));
+			} catch (SlickException e) {
+				System.err.println("ERROR: Could not load image: images/indicatorOut.png");
+				e.printStackTrace();
+			}
 		}
 		indicatorOut.setVisible(false);
 		StateBasedEntityManager.getInstance().addEntity(Breakout.GAMEPLAY_STATE, indicatorOut);
