@@ -251,7 +251,7 @@ public class StickEntity extends Entity {
 							// calculating desiredOffset from neededAngle
 							float desiredOffset;
 
-							float neededAngleChange = (-neededAngle / angle) * 2;
+							float neededAngleChange = (-neededAngle / angle);
 
 							// (-1) <= (angle_change) <= (1)
 							if (neededAngleChange > 1f) {
@@ -299,17 +299,15 @@ public class StickEntity extends Entity {
 						}
 
 						// making the stick move to its destination (faster the further it is away from it)
-						float speed = (newX - getPosition().x) / 10;
+						float speed = (newX - getPosition().x) / 25;
 						// capping the speed to 1 / -1
 						if (speed < -1f) {
 							speed = -1f;
 						} else if (speed > 1f) {
 							speed = 1f;
 						}
-						// no moving at ridiculously slow speeds
-						if (speed < -0.01f || speed > 0.01f) {
-							moveStick(speed);
-						}
+
+						moveStick(speed);
 					}
 
 				} else if (indicator.isVisible()) {
@@ -327,7 +325,7 @@ public class StickEntity extends Entity {
 	}
 
 	private void moveStick(float speed) {
-		if (!Breakout.getApp().isPaused() && (speed < 0 && (getPosition().x > getSize().x / 2)) || (speed > 0 && getPosition().x < (Variables.WINDOW_WIDTH - (getSize().x / 2)))) {
+		if (!Breakout.getApp().isPaused() && (speed < -0.001f && (getPosition().x > getSize().x / 2)) || (speed > 0.001f && getPosition().x < (Variables.WINDOW_WIDTH - (getSize().x / 2)))) {
 			setPosition(new Vector2f(getPosition().x + Variables.STICK_SPEED * speed * (float) Constants.FRAME_RATE / (float) Breakout.getApp().getFPS(), getPosition().y));
 		}
 	}

@@ -1,5 +1,6 @@
 package de.tudarmstadt.informatik.fop.breakout.ui;
 
+import de.tudarmstadt.informatik.fop.breakout.engine.entity.ButtonEntity;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
@@ -50,41 +51,18 @@ public class OptionsState extends BasicGameState {
 		entityManager.addEntity(stateID, background);
 
 	// langSelect-entity
-		Entity langSelect_Entity = new Entity("Language Selector");
-		langSelect_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X_WIDE, Variables.BUTTON_1_Y));
-		langSelect_Entity.setScale(Variables.ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			langSelect_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
-		}
-		// giving StateBasedEntityManager the langSelect-entity
-		entityManager.addEntity(stateID, langSelect_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent langSelect_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		langSelect_Events.addAction(new Action() {
+		ButtonEntity langSelect = new ButtonEntity("langSelect", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_1_Y);
+		langSelect.addAction(new Action() {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				SoundHandler.playButtonPress();
 				LanguageHandler.switchLang();
 			}
 		});
-		langSelect_Entity.addComponent(langSelect_Events);
 
 	// resolution-entity
-		Entity resolutionSelect_Entity = new Entity("Resolution Selector");
-		resolutionSelect_Entity.setPosition(new Vector2f(Variables.BUTTON_2_X, Variables.BUTTON_1_Y));
-		resolutionSelect_Entity.setScale(Variables.ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			resolutionSelect_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
-		}
-		// giving StateBasedEntityManager the resolutionSelect-entity
-		entityManager.addEntity(stateID, resolutionSelect_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent resolutionSelect_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		resolutionSelect_Events.addAction(new Action() {
+		ButtonEntity resolutionSelect = new ButtonEntity("resolutionSelect", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_2_X, Variables.BUTTON_1_Y);
+		resolutionSelect.addAction(new Action() {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				SoundHandler.playButtonPress();
@@ -98,44 +76,20 @@ public class OptionsState extends BasicGameState {
 				OptionsHandler.saveOptions();
 			}
 		});
-		resolutionSelect_Entity.addComponent(resolutionSelect_Events);
 
 	// controllerSelect-entity
-		Entity controllerSelect_Entity = new Entity("Controller Selector");
-		controllerSelect_Entity.setPosition(new Vector2f(Variables.BUTTON_3_X, Variables.BUTTON_1_Y));
-		controllerSelect_Entity.setScale(Variables.ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			controllerSelect_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
-		}
-		// giving StateBasedEntityManager the controllerSelect-entity
-		entityManager.addEntity(stateID, controllerSelect_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent controllerSelect_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		controllerSelect_Events.addAction(new Action() {
+		ButtonEntity controllerSelect = new ButtonEntity("controllerSelect", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_3_X, Variables.BUTTON_1_Y);
+		controllerSelect.addAction(new Action() {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				SoundHandler.playButtonPress();
 				ControllerHandler.switchController();
 			}
 		});
-		controllerSelect_Entity.addComponent(controllerSelect_Events);
 
 	// show_fps-entity
-		Entity show_fps_Entity = new Entity("Show FPS");
-		show_fps_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X_WIDE, Variables.BUTTON_2_Y));
-		show_fps_Entity.setScale(Variables.ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			show_fps_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
-		}
-		// giving StateBasedEntityManager the show_fps-entity
-		entityManager.addEntity(stateID, show_fps_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent show_fps_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		show_fps_Events.addAction(new Action() {
+		ButtonEntity showFps = new ButtonEntity("showFps", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_2_Y);
+		showFps.addAction(new Action() {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				SoundHandler.playButtonPress();
@@ -149,23 +103,11 @@ public class OptionsState extends BasicGameState {
 				OptionsHandler.saveOptions();
 			}
 		});
-		show_fps_Entity.addComponent(show_fps_Events);
 
 
 	// controlModeSelector_Entity
-		Entity controlModeSelector_Entity = new Entity("controlModeSelector_Entity");
-		controlModeSelector_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X_WIDE, Variables.BUTTON_3_Y));
-		controlModeSelector_Entity.setScale(Variables.ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			controlModeSelector_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
-		}
-		// giving StateBasedEntityManager the back-entity
-		entityManager.addEntity(stateID, controlModeSelector_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent controlModeSelector_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		controlModeSelector_Events.addAction(new Action() {
+		ButtonEntity controlModeSelector = new ButtonEntity("controlModeSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_3_Y);
+		controlModeSelector.addAction(new Action() {
 			@Override
 			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
 				SoundHandler.playButtonPress();
@@ -179,22 +121,10 @@ public class OptionsState extends BasicGameState {
 				OptionsHandler.saveOptions();
 			}
 		});
-		controlModeSelector_Entity.addComponent(controlModeSelector_Events);
 
 	// fullscreenModeSelector_Entity
-		Entity fullscreenSelector_Entity = new Entity("fullscreenModeSelector_Entity");
-		fullscreenSelector_Entity.setPosition(new Vector2f(Variables.BUTTON_2_X, Variables.BUTTON_2_Y));
-		fullscreenSelector_Entity.setScale(Variables.ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			fullscreenSelector_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
-		}
-		// giving StateBasedEntityManager the back-entity
-		entityManager.addEntity(stateID, fullscreenSelector_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent fullscreenSelector_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		fullscreenSelector_Events.addAction(new Action() {
+		ButtonEntity fullscreenSelector = new ButtonEntity("fullscreenSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_2_X, Variables.BUTTON_2_Y);
+		fullscreenSelector.addAction(new Action() {
 			@Override
 			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
 				SoundHandler.playButtonPress();
@@ -206,22 +136,10 @@ public class OptionsState extends BasicGameState {
 				OptionsHandler.saveOptions();
 			}
 		});
-		fullscreenSelector_Entity.addComponent(fullscreenSelector_Events);
 
 	// gameModeSelector_Entity
-		Entity gameModeSelector_Entity = new Entity("gameModeSelector_Entity");
-		gameModeSelector_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X_WIDE, Variables.BUTTON_4_Y));
-		gameModeSelector_Entity.setScale(Variables.ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			gameModeSelector_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
-		}
-		// giving StateBasedEntityManager the back-entity
-		entityManager.addEntity(stateID, gameModeSelector_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent gameModeSelector_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		gameModeSelector_Events.addAction(new Action() {
+		ButtonEntity gameModeSelector = new ButtonEntity("gameModeSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_4_Y);
+		gameModeSelector.addAction(new Action() {
 			@Override
 			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
 				SoundHandler.playButtonPress();
@@ -233,23 +151,11 @@ public class OptionsState extends BasicGameState {
 				OptionsHandler.saveOptions();
 			}
 		});
-		gameModeSelector_Entity.addComponent(gameModeSelector_Events);
 
 
 	// cheatModeSelector_Entity
-		Entity cheatModeSelector_Entity = new Entity("cheatModeSelector_Entity");
-		cheatModeSelector_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X_WIDE, Variables.BUTTON_5_Y));
-		cheatModeSelector_Entity.setScale(Variables.ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			cheatModeSelector_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
-		}
-		// giving StateBasedEntityManager the back-entity
-		entityManager.addEntity(stateID, cheatModeSelector_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent cheatModeSelector_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		cheatModeSelector_Events.addAction(new Action() {
+		ButtonEntity cheatModeSelector = new ButtonEntity("cheatModeSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_5_Y);
+		cheatModeSelector.addAction(new Action() {
 			@Override
 			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
 				SoundHandler.playButtonPress();
@@ -261,46 +167,22 @@ public class OptionsState extends BasicGameState {
 				OptionsHandler.saveOptions();
 			}
 		});
-		cheatModeSelector_Entity.addComponent(cheatModeSelector_Events);
 
 
 	// mapSelector_Entity
-		Entity mapSelector_Entity = new Entity("mapSelector_Entity");
-		mapSelector_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X_WIDE, Variables.BUTTON_6_Y));
-		mapSelector_Entity.setScale(Variables.ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			mapSelector_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
-		}
-		// giving StateBasedEntityManager the back-entity
-		entityManager.addEntity(stateID, mapSelector_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent map_selector_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		map_selector_Events.addAction(new Action() {
+		ButtonEntity mapSelector = new ButtonEntity("mapSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_6_Y);
+		mapSelector.addAction(new Action() {
 			@Override
 			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
 				SoundHandler.playButtonPress();
 				LevelHandler.switchMap();
 			}
 		});
-		mapSelector_Entity.addComponent(map_selector_Events);
 
 
 	// themeSelector_Entity
-		Entity themeSelector_Entity = new Entity("themeSelector_Entity");
-		themeSelector_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X_WIDE, Variables.BUTTON_7_Y));
-		themeSelector_Entity.setScale(Variables.ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			themeSelector_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON_WIDE)));
-		}
-		// giving StateBasedEntityManager the back-entity
-		entityManager.addEntity(stateID, themeSelector_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent themeSelector_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		themeSelector_Events.addAction(new Action() {
+		ButtonEntity themeSelector = new ButtonEntity("themeSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_7_Y);
+		themeSelector.addAction(new Action() {
 			@Override
 			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
 				if (!GameplayState.currentlyRunning) {
@@ -325,30 +207,17 @@ public class OptionsState extends BasicGameState {
 				}
 			}
 		});
-		themeSelector_Entity.addComponent(themeSelector_Events);
 
 
 	// back-entity
-		Entity back_Entity = new Entity("Back");
-		back_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X, Variables.BUTTON_8_Y));
-		back_Entity.setScale(Variables.ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			back_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON)));
-		}
-		// giving StateBasedEntityManager the back-entity
-		entityManager.addEntity(stateID, back_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent back_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		back_Events.addAction(new ChangeStateAction(Breakout.MAINMENU_STATE));
-		back_Events.addAction(new Action() {
+		ButtonEntity back = new ButtonEntity("back", stateID, Constants.ButtonType.NORMAL, Variables.BUTTON_1_X, Variables.BUTTON_8_Y);
+		back.addAction(new ChangeStateAction(Breakout.MAINMENU_STATE));
+		back.addAction(new Action() {
 			@Override
 			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
 				SoundHandler.playButtonPress();
 			}
 		});
-		back_Entity.addComponent(back_Events);
 
 	}
 

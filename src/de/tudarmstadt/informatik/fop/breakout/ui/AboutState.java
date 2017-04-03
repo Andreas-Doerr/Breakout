@@ -1,10 +1,8 @@
 package de.tudarmstadt.informatik.fop.breakout.ui;
 
+import de.tudarmstadt.informatik.fop.breakout.engine.entity.ButtonEntity;
+import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
-import de.tudarmstadt.informatik.fop.breakout.handlers.LanguageHandler;
-import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
-import de.tudarmstadt.informatik.fop.breakout.handlers.SoundHandler;
-import de.tudarmstadt.informatik.fop.breakout.handlers.ThemeHandler;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;
@@ -13,6 +11,7 @@ import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.event.ANDEvent;
+import eea.engine.event.basicevents.LoopEvent;
 import eea.engine.event.basicevents.MouseClickedEvent;
 import eea.engine.event.basicevents.MouseEnteredEvent;
 import org.newdawn.slick.GameContainer;
@@ -56,26 +55,38 @@ public class AboutState extends BasicGameState {
 		entityManager.addEntity(stateID, background);
 
 		// back-entity
-		Entity back_Entity = new Entity("Back");
-		back_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X, Variables.BUTTON_8_Y));
-		back_Entity.setScale(Variables.ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			back_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON)));
-		}
-		// giving StateBasedEntityManager the back-entity
-		entityManager.addEntity(this.stateID, back_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent back_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		back_Events.addAction(new ChangeStateAction(Breakout.MAINMENU_STATE));
-		back_Events.addAction(new Action() {
+		ButtonEntity back = new ButtonEntity("back", stateID, Constants.ButtonType.NORMAL, Variables.BUTTON_1_X, Variables.BUTTON_8_Y);
+		back.addAction(new ChangeStateAction(Breakout.MAINMENU_STATE));
+		back.addAction(new Action() {
 			@Override
 			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
 				SoundHandler.playButtonPress();
 			}
 		});
-		back_Entity.addComponent(back_Events);
+
+
+	// listener entity
+		Entity listener = new Entity("listener");
+		entityManager.addEntity(stateID, listener);
+		// Loop event for various uses (controller input)
+		LoopEvent listenerLoop = new LoopEvent();
+		listener.addComponent(listenerLoop);
+
+		// controller "listener" (Button 2)
+		listenerLoop.addAction(new Action() {
+			@Override
+			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
+				if (ControllerHandler.isButtonPressed(1)) {
+					// if the button 3 was not pressed before but is pressed now
+
+					// going to MainMenuState
+					sb.enterState(Breakout.MAINMENU_STATE);
+					if(gc.isPaused()) {
+						gc.resume();
+					}
+				}
+			}
+		});
 
 	}
 

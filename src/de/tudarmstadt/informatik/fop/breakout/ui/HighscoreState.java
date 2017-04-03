@@ -1,5 +1,6 @@
 package de.tudarmstadt.informatik.fop.breakout.ui;
 
+import de.tudarmstadt.informatik.fop.breakout.engine.entity.ButtonEntity;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
@@ -109,22 +110,11 @@ public class HighscoreState extends BasicGameState {
 		listener.addComponent(listenerLoop);
 
 		// back-entity
-		Entity back_Entity = new Entity("Back");
-		back_Entity.setPosition(new Vector2f(Variables.BUTTON_1_X, Variables.BUTTON_8_Y));
-		back_Entity.setScale(Variables.ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			back_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.BUTTON)));
-		}
-		// giving StateBasedEntityManager the back-entity
-		entityManager.addEntity(this.stateID, back_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent back_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
+		ButtonEntity back = new ButtonEntity("back", stateID, Constants.ButtonType.NORMAL, Variables.BUTTON_1_X, Variables.BUTTON_8_Y);
 		// going to MainMenuState
-		back_Events.addAction(new ChangeStateAction(Breakout.MAINMENU_STATE));
+		back.addAction(new ChangeStateAction(Breakout.MAINMENU_STATE));
 		// resetting the scores
-		back_Events.addAction(new Action() {
+		back.addAction(new Action() {
 			@Override
 			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
 				// playing sound
@@ -133,7 +123,6 @@ public class HighscoreState extends BasicGameState {
 				thisHighscore = -1;
 			}
 		});
-		back_Entity.addComponent(back_Events);
 
 		// controller "listener" (Button 2)
 		listenerLoop.addAction(new Action() {

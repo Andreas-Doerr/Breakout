@@ -64,20 +64,9 @@ public class MainMenuState extends BasicGameState {
 		listener.addComponent(listenerLoop);
 
 	// new_Game-entity
-		String new_Game = "New Game";
-		Entity new_Game_Entity = new Entity(new_Game);
-		new_Game_Entity.setPosition(new Vector2f(Variables.MAIN_MENU_BUTTON_1_X, Variables.MAIN_MENU_BUTTON_1_Y));
-		new_Game_Entity.setScale(Variables.MENU_ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			new_Game_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BUTTON)));
-		}
-		// giving StateBasedEntityManager the new_Game-entity
-		entityManager.addEntity(this.stateID, new_Game_Entity);
 
-		// creating trigger event and its actions
-		ANDEvent new_Game_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		new_Game_Events.addAction(new Action() {
+		ButtonEntity newGame = new ButtonEntity("newGame", stateID, Constants.ButtonType.MAINMENU, Variables.MAIN_MENU_BUTTON_1_X, Variables.MAIN_MENU_BUTTON_1_Y);
+		newGame.addAction(new Action() {
 			@Override
 			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 				SoundHandler.playButtonPress();
@@ -86,8 +75,7 @@ public class MainMenuState extends BasicGameState {
 				gc.setMouseGrabbed(true);
 			}
 		});
-		new_Game_Events.addAction(new ChangeStateInitAction(Breakout.GAMEPLAY_STATE));
-		new_Game_Entity.addComponent(new_Game_Events);
+		newGame.addAction(new ChangeStateInitAction(Breakout.GAMEPLAY_STATE));
 
 		// controller "listener" (Button 4)
 		listenerLoop.addAction(new Action() {
@@ -123,20 +111,8 @@ public class MainMenuState extends BasicGameState {
 		});
 
 	// resume_Game-entity
-		String resume_Game = "Resume Game";
-		Entity resume_Game_Entity = new Entity(resume_Game);
-		resume_Game_Entity.setPosition(new Vector2f(Variables.MAIN_MENU_BUTTON_2_X, Variables.MAIN_MENU_BUTTON_1_Y));
-		resume_Game_Entity.setScale(Variables.MENU_ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			resume_Game_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BUTTON)));
-		}
-		// giving StateBasedEntityManager the resume_Game-entity
-		entityManager.addEntity(this.stateID, resume_Game_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent resume_Game_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		resume_Game_Events.addAction(new Action() {
+		ButtonEntity resumeGame = new ButtonEntity("resumeGame", stateID, Constants.ButtonType.MAINMENU, Variables.MAIN_MENU_BUTTON_2_X, Variables.MAIN_MENU_BUTTON_1_Y);
+		resumeGame.addAction(new Action() {
 				@Override
 				public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
 					if (GameplayState.currentlyRunning) {
@@ -155,7 +131,6 @@ public class MainMenuState extends BasicGameState {
 					}
 				}
 			});
-		resume_Game_Entity.addComponent(resume_Game_Events);
 
 	// controller "listener" (Button 3)
 		listenerLoop.addAction(new Action() {
@@ -179,67 +154,30 @@ public class MainMenuState extends BasicGameState {
 			}
 		});
 
-	// highscore-entity
-		String highscore = "Highscore";
-		Entity highscore_Entity = new Entity(highscore);
-		highscore_Entity.setPosition(new Vector2f(Variables.MAIN_MENU_BUTTON_2_X, Variables.MAIN_MENU_BUTTON_2_Y));
-		highscore_Entity.setScale(Variables.MENU_ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			highscore_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BUTTON)));
-		}
-		// giving StateBasedEntityManager the highscore-entity
-		entityManager.addEntity(this.stateID, highscore_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent highscore_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		highscore_Events.addAction(new ChangeStateAction(Breakout.HIGHSCORE_STATE));
-		highscore_Events.addAction(new Action() {
-			@Override
-			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				SoundHandler.playButtonPress();
-			}
-		});
-		highscore_Entity.addComponent(highscore_Events);
-
 	// options-entity
-		String options = "Options";
-		Entity options_Entity = new Entity(options);
-		options_Entity.setPosition(new Vector2f(Variables.MAIN_MENU_BUTTON_1_X, Variables.MAIN_MENU_BUTTON_2_Y));
-		options_Entity.setScale(Variables.MENU_ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			options_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BUTTON)));
-		}
-		// giving StateBasedEntityManager the options-entity
-		entityManager.addEntity(this.stateID, options_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent options_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		options_Events.addAction(new ChangeStateAction(Breakout.OPTIONS_STATE));
-		options_Events.addAction(new Action() {
+		ButtonEntity options = new ButtonEntity("options", stateID, Constants.ButtonType.MAINMENU, Variables.MAIN_MENU_BUTTON_1_X, Variables.MAIN_MENU_BUTTON_2_Y);
+		options.addAction(new ChangeStateAction(Breakout.OPTIONS_STATE));
+		options.addAction(new Action() {
 			@Override
 			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
 				SoundHandler.playButtonPress();
 			}
 		});
-		options_Entity.addComponent(options_Events);
+
+	// highscore-entity
+		ButtonEntity highscore = new ButtonEntity("highscore", stateID, Constants.ButtonType.MAINMENU, Variables.MAIN_MENU_BUTTON_2_X, Variables.MAIN_MENU_BUTTON_2_Y);
+		highscore.addAction(new ChangeStateAction(Breakout.HIGHSCORE_STATE));
+		highscore.addAction(new Action() {
+			@Override
+			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
+				SoundHandler.playButtonPress();
+			}
+		});
+
 
 	// quit-entity
-		Entity quit_Entity = new Entity("Quit");
-		quit_Entity.setPosition(new Vector2f(Variables.MAIN_MENU_BUTTON_1_X, Variables.MAIN_MENU_BUTTON_3_Y));
-		quit_Entity.setScale(Variables.MENU_ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			quit_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BUTTON)));
-		}
-		// giving StateBasedEntityManager the quit-entity
-		entityManager.addEntity(this.stateID, quit_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent quit_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		quit_Events.addAction(new QuitAction());
-		quit_Entity.addComponent(quit_Events);
+		ButtonEntity quit = new ButtonEntity("quit", stateID, Constants.ButtonType.MAINMENU, Variables.MAIN_MENU_BUTTON_1_X, Variables.MAIN_MENU_BUTTON_3_Y);
+		quit.addAction(new QuitAction());
 
 		// controller "listener" (Button 2)
 		listenerLoop.addAction(new Action() {
@@ -254,27 +192,14 @@ public class MainMenuState extends BasicGameState {
 		});
 
 	// about-entity
-		String about = "About";
-		Entity about_Entity = new Entity(about);
-		about_Entity.setPosition(new Vector2f(Variables.MAIN_MENU_BUTTON_2_X, Variables.MAIN_MENU_BUTTON_3_Y));
-		about_Entity.setScale(Variables.MENU_ENTRY_SCALE);
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			about_Entity.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BUTTON)));
-		}
-		// giving StateBasedEntityManager the about-entity
-		entityManager.addEntity(this.stateID, about_Entity);
-
-		// creating trigger event and its actions
-		ANDEvent about_Events = new ANDEvent(new MouseEnteredEvent(), new MouseClickedEvent());
-		about_Events.addAction(new ChangeStateAction(Breakout.ABOUT_STATE));
-		about_Events.addAction(new Action() {
+		ButtonEntity about = new ButtonEntity("about", stateID, Constants.ButtonType.MAINMENU, Variables.MAIN_MENU_BUTTON_2_X, Variables.MAIN_MENU_BUTTON_3_Y);
+		about.addAction(new ChangeStateAction(Breakout.ABOUT_STATE));
+		about.addAction(new Action() {
 			@Override
 			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
 				SoundHandler.playButtonPress();
 			}
 		});
-		about_Entity.addComponent(about_Events);
 
 	}
 

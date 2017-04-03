@@ -22,10 +22,10 @@ import org.newdawn.slick.geom.Vector2f;
  */
 public class ButtonEntity extends Entity {
 
-	ANDEvent buttonEvents;
+	private ANDEvent buttonEvents;
 
 	public ButtonEntity(String entityID, int stateID, Constants.ButtonType type, int x, int y) {
-		super(entityID);
+		super(entityID + "Button");
 
 		// position
 		setPosition(new Vector2f(x, y));

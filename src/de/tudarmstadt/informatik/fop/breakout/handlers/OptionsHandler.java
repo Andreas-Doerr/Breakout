@@ -17,8 +17,8 @@ import java.io.*;
  */	//TODO commenting
 public class OptionsHandler {
 
-	private static int window_x = 1280;
-	private static int window_y = 1280 / 4 * 3;
+	private static int window_x = 1200;
+	private static int window_y = 1200 / 4 * 3;
 	private static boolean fullscreen = false;
 	private static boolean showFPS = false;
 	private static String[] availableLanguages = new String[Constants.MAX_LANGUAGES];
@@ -220,7 +220,6 @@ public class OptionsHandler {
 	public static boolean setWindowSize(int new_window_x, int new_window_y) {
 		if (new_window_x != window_x || new_window_y != window_y) {
 			if (new_window_x < Breakout.getApp().getScreenWidth() && (new_window_x / 4 * 3) <= Breakout.getApp().getScreenHeight() - 25) {
-				System.out.println("setting to: resized values: new:window_y: " + new_window_y + " screenHeight: " + (Breakout.getApp().getScreenHeight() - 25));
 				if (new_window_x != window_x) {
 					window_x = new_window_x;
 					window_y = new_window_x / 4 * 3;
@@ -229,7 +228,6 @@ public class OptionsHandler {
 					window_y = new_window_y;
 				}
 			} else if (new_window_y != Breakout.getApp().getScreenHeight()){
-				System.out.println("setting to: screen height");
 				window_y = Breakout.getApp().getScreenHeight() - 25;
 				window_x = window_y / 3 * 4;
 			}

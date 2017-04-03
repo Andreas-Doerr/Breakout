@@ -140,8 +140,5 @@ public class Variables {
 		POINTS_POS_X = (int) (10 / BACKGROUND_SCALE);
 		// timer
 		TIMER_X = (int) ((WINDOW_WIDTH / 2 - 20) / BACKGROUND_SCALE);
-
-		System.out.println(BLOCK_SCALE);
-		System.out.println(COLLISION_DISTANCE);
 	}
 }
