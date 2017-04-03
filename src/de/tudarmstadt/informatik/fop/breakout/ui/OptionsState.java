@@ -5,15 +5,10 @@ import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
-import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;
-import eea.engine.component.Component;
 import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
-import eea.engine.event.ANDEvent;
-import eea.engine.event.basicevents.MouseClickedEvent;
-import eea.engine.event.basicevents.MouseEnteredEvent;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
@@ -52,173 +47,133 @@ public class OptionsState extends BasicGameState {
 
 	// langSelect-entity
 		ButtonEntity langSelect = new ButtonEntity("langSelect", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_1_Y);
-		langSelect.addAction(new Action() {
-			@Override
-			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				SoundHandler.playButtonPress();
-				LanguageHandler.switchLang();
-			}
+		langSelect.addAction((gc, sb, delta, event) -> {
+			SoundHandler.playButtonPress();
+			LanguageHandler.switchLang();
 		});
 
 	// resolution-entity
 		ButtonEntity resolutionSelect = new ButtonEntity("resolutionSelect", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_2_X, Variables.BUTTON_1_Y);
-		resolutionSelect.addAction(new Action() {
-			@Override
-			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				SoundHandler.playButtonPress();
-				if (OptionsHandler.getWindow_x() == 800) {
-					OptionsHandler.updateWindow(gc, sb, stateID, 1200, 900);
-				} else if (OptionsHandler.getWindow_x() == 1200) {
-					OptionsHandler.updateWindow(gc, sb, stateID, 1600, 1200);
-				}else {
-					OptionsHandler.updateWindow(gc, sb, stateID, 800, 600);
-				}
-				OptionsHandler.saveOptions();
+		resolutionSelect.addAction((gc, sb, delta, event) -> {
+			SoundHandler.playButtonPress();
+			if (OptionsHandler.getWindow_x() == 800) {
+				OptionsHandler.updateWindow(gc, sb, stateID, 1200, 900);
+			} else if (OptionsHandler.getWindow_x() == 1200) {
+				OptionsHandler.updateWindow(gc, sb, stateID, 1600, 1200);
+			}else {
+				OptionsHandler.updateWindow(gc, sb, stateID, 800, 600);
 			}
+			OptionsHandler.saveOptions();
 		});
 
 	// controllerSelect-entity
 		ButtonEntity controllerSelect = new ButtonEntity("controllerSelect", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_3_X, Variables.BUTTON_1_Y);
-		controllerSelect.addAction(new Action() {
-			@Override
-			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				SoundHandler.playButtonPress();
-				ControllerHandler.switchController();
-			}
+		controllerSelect.addAction((gc, sb, delta, event) -> {
+			SoundHandler.playButtonPress();
+			ControllerHandler.switchController();
 		});
 
 	// show_fps-entity
 		ButtonEntity showFps = new ButtonEntity("showFps", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_2_Y);
-		showFps.addAction(new Action() {
-			@Override
-			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				SoundHandler.playButtonPress();
-				if (gc.isShowingFPS()) {
-					gc.setShowFPS(false);
-					OptionsHandler.setShowFPS(false);
-				} else {
-					gc.setShowFPS(true);
-					OptionsHandler.setShowFPS(true);
-				}
-				OptionsHandler.saveOptions();
+		showFps.addAction((gc, sb, delta, event) -> {
+			SoundHandler.playButtonPress();
+			if (gc.isShowingFPS()) {
+				gc.setShowFPS(false);
+				OptionsHandler.setShowFPS(false);
+			} else {
+				gc.setShowFPS(true);
+				OptionsHandler.setShowFPS(true);
 			}
+			OptionsHandler.saveOptions();
 		});
 
 
 	// controlModeSelector_Entity
 		ButtonEntity controlModeSelector = new ButtonEntity("controlModeSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_3_Y);
-		controlModeSelector.addAction(new Action() {
-			@Override
-			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				SoundHandler.playButtonPress();
-				if (OptionsHandler.getControlMode() == 0) {
-					OptionsHandler.setControlMode(1);
-				} else if (OptionsHandler.getControlMode() == 1) {
-					OptionsHandler.setControlMode(2);
-				} else {
-					OptionsHandler.setControlMode(0);
-				}
-				OptionsHandler.saveOptions();
+		controlModeSelector.addAction((gc, sb, delta, event) -> {
+			SoundHandler.playButtonPress();
+			if (OptionsHandler.getControlMode() == 0) {
+				OptionsHandler.setControlMode(1);
+			} else if (OptionsHandler.getControlMode() == 1) {
+				OptionsHandler.setControlMode(2);
+			} else {
+				OptionsHandler.setControlMode(0);
 			}
+			OptionsHandler.saveOptions();
 		});
 
 	// fullscreenModeSelector_Entity
 		ButtonEntity fullscreenSelector = new ButtonEntity("fullscreenSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_2_X, Variables.BUTTON_2_Y);
-		fullscreenSelector.addAction(new Action() {
-			@Override
-			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				SoundHandler.playButtonPress();
-				if (OptionsHandler.isFullscreen()) {
-					OptionsHandler.setFullscreen(false);
-				} else {
-					OptionsHandler.setFullscreen(true);
-				}
-				OptionsHandler.saveOptions();
+		fullscreenSelector.addAction((gc, sb, delta, event) -> {
+			SoundHandler.playButtonPress();
+			if (OptionsHandler.isFullscreen()) {
+				OptionsHandler.setFullscreen(false);
+			} else {
+				OptionsHandler.setFullscreen(true);
 			}
+			OptionsHandler.saveOptions();
 		});
 
 	// gameModeSelector_Entity
 		ButtonEntity gameModeSelector = new ButtonEntity("gameModeSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_4_Y);
-		gameModeSelector.addAction(new Action() {
-			@Override
-			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				SoundHandler.playButtonPress();
-				if (OptionsHandler.getGameMode() == 0) {
-					OptionsHandler.setGameMode(1);
-				} else {
-					OptionsHandler.setGameMode(0);
-				}
-				OptionsHandler.saveOptions();
+		gameModeSelector.addAction((gc, sb, delta, event) -> {
+			SoundHandler.playButtonPress();
+			if (OptionsHandler.getGameMode() == 0) {
+				OptionsHandler.setGameMode(1);
+			} else {
+				OptionsHandler.setGameMode(0);
 			}
+			OptionsHandler.saveOptions();
 		});
-
 
 	// cheatModeSelector_Entity
 		ButtonEntity cheatModeSelector = new ButtonEntity("cheatModeSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_5_Y);
-		cheatModeSelector.addAction(new Action() {
-			@Override
-			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				SoundHandler.playButtonPress();
-				if (OptionsHandler.isCheatModeActive()) {
-					OptionsHandler.setCheatMode(false);
-				} else {
-					OptionsHandler.setCheatMode(true);
-				}
-				OptionsHandler.saveOptions();
+		cheatModeSelector.addAction((gc, sb, delta, event) -> {
+			SoundHandler.playButtonPress();
+			if (OptionsHandler.isCheatModeActive()) {
+				OptionsHandler.setCheatMode(false);
+			} else {
+				OptionsHandler.setCheatMode(true);
 			}
+			OptionsHandler.saveOptions();
 		});
-
 
 	// mapSelector_Entity
 		ButtonEntity mapSelector = new ButtonEntity("mapSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_6_Y);
-		mapSelector.addAction(new Action() {
-			@Override
-			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				SoundHandler.playButtonPress();
-				LevelHandler.switchMap();
-			}
+		mapSelector.addAction((gc, sb, delta, event) -> {
+			SoundHandler.playButtonPress();
+			LevelHandler.switchMap();
 		});
-
 
 	// themeSelector_Entity
 		ButtonEntity themeSelector = new ButtonEntity("themeSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_7_Y);
-		themeSelector.addAction(new Action() {
-			@Override
-			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				if (!GameplayState.currentlyRunning) {
-					SoundHandler.playButtonPress();
-					if (OptionsHandler.getThemeSelector() < Constants.MAX_THEMES - 1) {
-						OptionsHandler.setThemeSelector(OptionsHandler.getThemeSelector() + 1);
-					} else {
-						OptionsHandler.setThemeSelector(0);
-					}
-					ThemeHandler.initTheme();
-
-					OptionsHandler.saveOptions();
-
-					// try to init the States thereby reloading textures
-					try {
-						stateBasedGame.init(gameContainer);
-					} catch (SlickException e) {
-						e.printStackTrace();
-					}
+		themeSelector.addAction((gc, sb, delta, event) -> {
+			if (!GameplayState.currentlyRunning) {
+				SoundHandler.playButtonPress();
+				if (OptionsHandler.getThemeSelector() < Constants.MAX_THEMES - 1) {
+					OptionsHandler.setThemeSelector(OptionsHandler.getThemeSelector() + 1);
 				} else {
-					SoundHandler.playNotAcceptable();
+					OptionsHandler.setThemeSelector(0);
 				}
+				ThemeHandler.initTheme();
+
+				OptionsHandler.saveOptions();
+
+				// try to init the States thereby reloading textures
+				try {
+					sb.init(gc);
+				} catch (SlickException e) {
+					e.printStackTrace();
+				}
+			} else {
+				SoundHandler.playNotAcceptable();
 			}
 		});
-
 
 	// back-entity
 		ButtonEntity back = new ButtonEntity("back", stateID, Constants.ButtonType.NORMAL, Variables.BUTTON_1_X, Variables.BUTTON_8_Y);
 		back.addAction(new ChangeStateAction(Breakout.MAINMENU_STATE));
-		back.addAction(new Action() {
-			@Override
-			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				SoundHandler.playButtonPress();
-			}
-		});
-
+		back.addAction((gc, sb, delta, event) -> SoundHandler.playButtonPress());
 	}
 
 	/**
@@ -315,7 +270,6 @@ public class OptionsState extends BasicGameState {
 				"  Button 2: Back";
 		// 4.5 0.
 		g.drawString(controllerInfo, (Variables.WINDOW_WIDTH * 0.64f) / Variables.BACKGROUND_SCALE,(Variables.WINDOW_HEIGHT * 0.6f) / Variables.BACKGROUND_SCALE);
-
 	}
 
 	@Override

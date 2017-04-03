@@ -4,16 +4,11 @@ import de.tudarmstadt.informatik.fop.breakout.engine.entity.ButtonEntity;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
-import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;
-import eea.engine.component.Component;
 import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
-import eea.engine.event.ANDEvent;
 import eea.engine.event.basicevents.LoopEvent;
-import eea.engine.event.basicevents.MouseClickedEvent;
-import eea.engine.event.basicevents.MouseEnteredEvent;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -57,12 +52,7 @@ public class AboutState extends BasicGameState {
 		// back-entity
 		ButtonEntity back = new ButtonEntity("back", stateID, Constants.ButtonType.NORMAL, Variables.BUTTON_1_X, Variables.BUTTON_8_Y);
 		back.addAction(new ChangeStateAction(Breakout.MAINMENU_STATE));
-		back.addAction(new Action() {
-			@Override
-			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				SoundHandler.playButtonPress();
-			}
-		});
+		back.addAction((gc, sb, delta, event) -> SoundHandler.playButtonPress());
 
 
 	// listener entity
@@ -73,17 +63,14 @@ public class AboutState extends BasicGameState {
 		listener.addComponent(listenerLoop);
 
 		// controller "listener" (Button 2)
-		listenerLoop.addAction(new Action() {
-			@Override
-			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				if (ControllerHandler.isButtonPressed(1)) {
-					// if the button 3 was not pressed before but is pressed now
+		listenerLoop.addAction((gc, sb, delta, event) -> {
+			if (ControllerHandler.isButtonPressed(1)) {
+				// if the button 3 was not pressed before but is pressed now
 
-					// going to MainMenuState
-					sb.enterState(Breakout.MAINMENU_STATE);
-					if(gc.isPaused()) {
-						gc.resume();
-					}
+				// going to MainMenuState
+				sb.enterState(Breakout.MAINMENU_STATE);
+				if(gc.isPaused()) {
+					gc.resume();
 				}
 			}
 		});

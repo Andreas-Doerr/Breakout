@@ -6,22 +6,17 @@ import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import eea.engine.action.basicactions.ChangeStateAction;
-import eea.engine.component.Component;
 import eea.engine.event.basicevents.LoopEvent;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateInitAction;
 import eea.engine.action.basicactions.QuitAction;
 import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
-import eea.engine.event.ANDEvent;
-import eea.engine.event.basicevents.MouseClickedEvent;
-import eea.engine.event.basicevents.MouseEnteredEvent;
 
 /**
  * @author Timo Bähr
@@ -66,90 +61,78 @@ public class MainMenuState extends BasicGameState {
 	// new_Game-entity
 
 		ButtonEntity newGame = new ButtonEntity("newGame", stateID, Constants.ButtonType.MAINMENU, Variables.MAIN_MENU_BUTTON_1_X, Variables.MAIN_MENU_BUTTON_1_Y);
-		newGame.addAction(new Action() {
-			@Override
-			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				SoundHandler.playButtonPress();
-				PlayerHandler.reset();
-				// grab the mouse
-				gc.setMouseGrabbed(true);
-			}
+		newGame.addAction((gc1, sb1, delta, event) -> {
+			SoundHandler.playButtonPress();
+			PlayerHandler.reset();
+			// grab the mouse
+			gc1.setMouseGrabbed(true);
 		});
 		newGame.addAction(new ChangeStateInitAction(Breakout.GAMEPLAY_STATE));
 
 		// controller "listener" (Button 4)
-		listenerLoop.addAction(new Action() {
-			@Override
-			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				if (ControllerHandler.isButtonPressed(3)) {
-					// if the button 3 was not pressed before but is pressed now
+		listenerLoop.addAction((gc1, sb1, delta, event) -> {
+			if (ControllerHandler.isButtonPressed(3)) {
+				// if the button 3 was not pressed before but is pressed now
 
-					// resetting the players progress / stats
-					PlayerHandler.reset();
+				// resetting the players progress / stats
+				PlayerHandler.reset();
 
-					// grab the mouse
-					gc.setMouseGrabbed(true);
+				// grab the mouse
+				gc1.setMouseGrabbed(true);
 
-					// going into GameplayState (like changeStateInitAction)
-					sb.enterState(Constants.GAMEPLAY_STATE);
+				// going into GameplayState (like changeStateInitAction)
+				sb1.enterState(Constants.GAMEPLAY_STATE);
 
-					// forcing init for all states
-					StateBasedEntityManager.getInstance().clearEntitiesFromState(Constants.GAMEPLAY_STATE);
-					try {
-						gc.getInput().clearKeyPressedRecord();
-						gc.getInput().clearControlPressedRecord();
-						gc.getInput().clearMousePressedRecord();
-						sb.init(gc);
-					} catch (SlickException var6) {
-						var6.printStackTrace();
-					}
-					if(gc.isPaused()) {
-						gc.resume();
-					}
+				// forcing init for all states
+				StateBasedEntityManager.getInstance().clearEntitiesFromState(Constants.GAMEPLAY_STATE);
+				try {
+					gc1.getInput().clearKeyPressedRecord();
+					gc1.getInput().clearControlPressedRecord();
+					gc1.getInput().clearMousePressedRecord();
+					sb1.init(gc1);
+				} catch (SlickException var6) {
+					var6.printStackTrace();
+				}
+				if(gc1.isPaused()) {
+					gc1.resume();
 				}
 			}
 		});
 
 	// resume_Game-entity
 		ButtonEntity resumeGame = new ButtonEntity("resumeGame", stateID, Constants.ButtonType.MAINMENU, Variables.MAIN_MENU_BUTTON_2_X, Variables.MAIN_MENU_BUTTON_1_Y);
-		resumeGame.addAction(new Action() {
-				@Override
-				public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-					if (GameplayState.currentlyRunning) {
-						// play sound for acceptable button press
-						SoundHandler.playButtonPress();
-						// grab the mouse
-						gc.setMouseGrabbed(true);
-						// keep track of the time (pause time ended now)
-						GameplayState.pauseTime += gc.getTime() - GameplayState.startPauseTime;
-						sb.enterState(Breakout.GAMEPLAY_STATE);
-						if(gc.isPaused()) {
-							gc.resume();
-						}
-					} else {
-						SoundHandler.playNotAcceptable();
-					}
+		resumeGame.addAction((gc1, sb1, delta, event) -> {
+			if (GameplayState.currentlyRunning) {
+				// play sound for acceptable button press
+				SoundHandler.playButtonPress();
+				// grab the mouse
+				gc1.setMouseGrabbed(true);
+				// keep track of the time (pause time ended now)
+				GameplayState.pauseTime += gc1.getTime() - GameplayState.startPauseTime;
+				sb1.enterState(Breakout.GAMEPLAY_STATE);
+				if(gc1.isPaused()) {
+					gc1.resume();
 				}
-			});
+			} else {
+				SoundHandler.playNotAcceptable();
+			}
+		});
 
 	// controller "listener" (Button 3)
-		listenerLoop.addAction(new Action() {
-			@Override
-			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				if (ControllerHandler.isButtonPressed(2)) {
-					// if the button 3 was not pressed before but is pressed now
+		listenerLoop.addAction((gc1, sb1, delta, event) -> {
+			if (ControllerHandler.isButtonPressed(2)) {
+				// if the button 3 was not pressed before but is pressed now
 
-					if (GameplayState.currentlyRunning) {
-						GameplayState.pauseTime += gc.getTime() - GameplayState.startPauseTime;
-						// grab the mouse
-						gc.setMouseGrabbed(true);
-						sb.enterState(Breakout.GAMEPLAY_STATE);
-						if(gc.isPaused()) {
-							gc.resume();
-						}
-					} else {
-						SoundHandler.playNotAcceptable();
+				if (GameplayState.currentlyRunning) {
+					GameplayState.pauseTime += gc1.getTime() - GameplayState.startPauseTime;
+					// grab the mouse
+					gc1.setMouseGrabbed(true);
+					sb1.enterState(Breakout.GAMEPLAY_STATE);
+					if(gc1.isPaused()) {
+						gc1.resume();
 					}
+				} else {
+					SoundHandler.playNotAcceptable();
 				}
 			}
 		});
@@ -157,22 +140,12 @@ public class MainMenuState extends BasicGameState {
 	// options-entity
 		ButtonEntity options = new ButtonEntity("options", stateID, Constants.ButtonType.MAINMENU, Variables.MAIN_MENU_BUTTON_1_X, Variables.MAIN_MENU_BUTTON_2_Y);
 		options.addAction(new ChangeStateAction(Breakout.OPTIONS_STATE));
-		options.addAction(new Action() {
-			@Override
-			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				SoundHandler.playButtonPress();
-			}
-		});
+		options.addAction((gc1, sb1, delta, event) -> SoundHandler.playButtonPress());
 
 	// highscore-entity
 		ButtonEntity highscore = new ButtonEntity("highscore", stateID, Constants.ButtonType.MAINMENU, Variables.MAIN_MENU_BUTTON_2_X, Variables.MAIN_MENU_BUTTON_2_Y);
 		highscore.addAction(new ChangeStateAction(Breakout.HIGHSCORE_STATE));
-		highscore.addAction(new Action() {
-			@Override
-			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				SoundHandler.playButtonPress();
-			}
-		});
+		highscore.addAction((gc1, sb1, delta, event) -> SoundHandler.playButtonPress());
 
 
 	// quit-entity
@@ -180,26 +153,18 @@ public class MainMenuState extends BasicGameState {
 		quit.addAction(new QuitAction());
 
 		// controller "listener" (Button 2)
-		listenerLoop.addAction(new Action() {
-			@Override
-			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				if (ControllerHandler.isButtonPressed(1)) {
-					// if the button 3 was not pressed before but is pressed now
-					// exit the game
-					gc.exit();
-				}
+		listenerLoop.addAction((gc1, sb1, delta, event) -> {
+			if (ControllerHandler.isButtonPressed(1)) {
+				// if the button 3 was not pressed before but is pressed now
+				// exit the game
+				gc1.exit();
 			}
 		});
 
 	// about-entity
 		ButtonEntity about = new ButtonEntity("about", stateID, Constants.ButtonType.MAINMENU, Variables.MAIN_MENU_BUTTON_2_X, Variables.MAIN_MENU_BUTTON_3_Y);
 		about.addAction(new ChangeStateAction(Breakout.ABOUT_STATE));
-		about.addAction(new Action() {
-			@Override
-			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				SoundHandler.playButtonPress();
-			}
-		});
+		about.addAction((gc1, sb1, delta, event) -> SoundHandler.playButtonPress());
 
 	}
 

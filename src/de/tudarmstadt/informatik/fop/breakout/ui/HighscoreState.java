@@ -4,16 +4,11 @@ import de.tudarmstadt.informatik.fop.breakout.engine.entity.ButtonEntity;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
-import eea.engine.action.Action;
 import eea.engine.action.basicactions.ChangeStateAction;
-import eea.engine.component.Component;
 import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
-import eea.engine.event.ANDEvent;
 import eea.engine.event.basicevents.LoopEvent;
-import eea.engine.event.basicevents.MouseClickedEvent;
-import eea.engine.event.basicevents.MouseEnteredEvent;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
@@ -38,7 +33,7 @@ public class HighscoreState extends BasicGameState {
 	private static boolean isSaved = false;
 	private static int thisHighscore = -1;
 	// getName
-	int[] keysListenedFor = new int[36];
+	private int[] keysListenedFor = new int[36];
 
 	HighscoreState( int sid ) {
 		stateID = sid;
@@ -114,31 +109,25 @@ public class HighscoreState extends BasicGameState {
 		// going to MainMenuState
 		back.addAction(new ChangeStateAction(Breakout.MAINMENU_STATE));
 		// resetting the scores
-		back.addAction(new Action() {
-			@Override
-			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				// playing sound
-				SoundHandler.playButtonPress();
-				isSaved = false;
-				thisHighscore = -1;
-			}
+		back.addAction((gc, sb, delta, event) -> {
+			// playing sound
+			SoundHandler.playButtonPress();
+			isSaved = false;
+			thisHighscore = -1;
 		});
 
 		// controller "listener" (Button 2)
-		listenerLoop.addAction(new Action() {
-			@Override
-			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				if (ControllerHandler.isButtonPressed(1)) {
-					// if the button 3 was not pressed before but is pressed now
+		listenerLoop.addAction((gc, sb, delta, event) -> {
+			if (ControllerHandler.isButtonPressed(1)) {
+				// if the button 3 was not pressed before but is pressed now
 
-					isSaved = false;
-					thisHighscore = -1;
+				isSaved = false;
+				thisHighscore = -1;
 
-					// going to MainMenuState
-					sb.enterState(Breakout.MAINMENU_STATE);
-					if(gc.isPaused()) {
-						gc.resume();
-					}
+				// going to MainMenuState
+				sb.enterState(Breakout.MAINMENU_STATE);
+				if(gc.isPaused()) {
+					gc.resume();
 				}
 			}
 		});
@@ -189,7 +178,7 @@ public class HighscoreState extends BasicGameState {
 			if (gc.getInput().isKeyPressed(Input.KEY_ENTER) && newName.length() > 0) {
 				askName = false;
 				thisHighscore = HighscoreHandler.addHighscore(newName, newBlocksDestroyed, newTime, newPoints);
-				isSaved =true;
+				isSaved = true;
 				newEntry = false;
 				newIsVictory = false;
 				newTime = 0;
