@@ -28,8 +28,8 @@ public class ItemHandler {
 	public static int getItemsActive() {
 		return itemsActive;
 	}
-	public static void setItemsActive(int new_itemsActive) {
-		itemsActive = new_itemsActive;
+	public static void resetItemsActive() {
+		itemsActive = 0;
 	}
 	public static void addItemsActive(int toAdd) {
 		itemsActive += toAdd;

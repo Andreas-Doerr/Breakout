@@ -50,14 +50,18 @@ public class OptionsHandler {
 				availableMaps = optionsContent[9].split(",");
 				selectedMap = Integer.valueOf(optionsContent[10]);
 				themeSelector = Integer.valueOf(optionsContent[11]);
-			} catch (NumberFormatException e) {
-				String[] test = e.getLocalizedMessage().split(": ");
+
+			} catch (NumberFormatException nfE) {
+				String[] test = nfE.getLocalizedMessage().split(": ");
 				System.err.println("ERROR: Corrupted options-file! The entry: " + test[1] + " is not a number, but should be one!");
 			}
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException fnfE) {
 			System.err.println("Could not find options-file at: " + Constants.OPTIONS_FILE);
 			System.out.println("INFO: Creating new options.config-file based on default parameters.");
 			saveOptions();
+		} catch (IOException ioE) {
+			System.err.println("ERROR: Could not read options file.");
+			ioE.printStackTrace();
 		}
 	}
 

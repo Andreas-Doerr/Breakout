@@ -4,20 +4,14 @@ import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
-import eea.engine.action.Action;
-import eea.engine.component.Component;
 import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.event.basicevents.KeyDownEvent;
-import eea.engine.event.basicevents.KeyPressedEvent;
 import eea.engine.event.basicevents.LoopEvent;
-import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
-import org.newdawn.slick.state.StateBasedGame;
 
 /**
  * Created by PC - Andreas on 14.03.2017.
@@ -52,13 +46,10 @@ public class StickEntity extends Entity {
 		// left button listener
 		KeyDownEvent left_down = new KeyDownEvent(left_button);
 		// stick movement
-		left_down.addAction(new Action() {
-			@Override
-			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				// stick can't move out of screen or when game is paused or when the controller is trying to move it
-				if (OptionsHandler.getControlMode() == 0) {
-					moveStick(-1f);
-				}
+		left_down.addAction((gc, sb, delta, event) -> {
+			// stick can't move out of screen or when game is paused or when the controller is trying to move it
+			if (OptionsHandler.getControlMode() == 0) {
+				moveStick(-1f);
 			}
 		});
 		addComponent(left_down);
@@ -66,13 +57,10 @@ public class StickEntity extends Entity {
 		// right button listener
 		KeyDownEvent right_down = new KeyDownEvent(right_button);
 		// stick movement
-		right_down.addAction(new Action() {
-			@Override
-			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				// stick can't move out of screen or when game is paused or when the controller is trying to move it
-				if (OptionsHandler.getControlMode() == 0) {
-					moveStick(1f);
-				}
+		right_down.addAction((gc, sb, delta, event) -> {
+			// stick can't move out of screen or when game is paused or when the controller is trying to move it
+			if (OptionsHandler.getControlMode() == 0) {
+				moveStick(1f);
 			}
 		});
 		addComponent(right_down);
@@ -82,21 +70,18 @@ public class StickEntity extends Entity {
 		addComponent(stickLoop);
 
 		// Controller Input and mouse Input
-		stickLoop.addAction(new Action() {
-			@Override
-			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				if (OptionsHandler.getControlMode() == 2) {
-					moveStick(ControllerHandler.getStick(controllerAxis));
-				} else if (mouseInput && OptionsHandler.getControlMode() == 1 && !(gc.isPaused())) {
-					if (gc.getInput().getMouseX() < (getSize().x / 2)) {
-						// too far left
-						setPosition(new Vector2f(getSize().x / 2, getPosition().y));
-					} else if (gc.getInput().getMouseX() > (Variables.WINDOW_WIDTH - (getSize().x / 2))) {
-						// too far right
-						setPosition(new Vector2f(Variables.WINDOW_WIDTH - (getSize().x / 2), getPosition().y));
-					} else {
-						setPosition(new Vector2f(gc.getInput().getMouseX(), getPosition().y));
-					}
+		stickLoop.addAction((gc, sb, delta, event) -> {
+			if (OptionsHandler.getControlMode() == 2) {
+				moveStick(ControllerHandler.getStick(controllerAxis));
+			} else if (mouseInput && OptionsHandler.getControlMode() == 1 && !(gc.isPaused())) {
+				if (gc.getInput().getMouseX() < (getSize().x / 2)) {
+					// too far left
+					setPosition(new Vector2f(getSize().x / 2, getPosition().y));
+				} else if (gc.getInput().getMouseX() > (Variables.WINDOW_WIDTH - (getSize().x / 2))) {
+					// too far right
+					setPosition(new Vector2f(Variables.WINDOW_WIDTH - (getSize().x / 2), getPosition().y));
+				} else {
+					setPosition(new Vector2f(gc.getInput().getMouseX(), getPosition().y));
 				}
 			}
 		});
@@ -133,187 +118,184 @@ public class StickEntity extends Entity {
 		// TODO make indicators invisible when not tracking a ball in Gamemode !
 
 		// indicator positioning
-		stickLoop.addAction(new Action() {
-			@Override
-			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				boolean bottom = true;
-				BallEntity ball;
-				if (getPosition().y > (Variables.WINDOW_HEIGHT / 2)) {
-					ball = LevelHandler.getLowestDownMovingBall();
-				} else {
-					ball = LevelHandler.getHighestUpMovingBall();
-					bottom = false;
+		stickLoop.addAction((gc, sb, delta, event) -> {
+			boolean bottom = true;
+			BallEntity ball;
+			if (getPosition().y > (Variables.WINDOW_HEIGHT / 2)) {
+				ball = LevelHandler.getLowestDownMovingBall();
+			} else {
+				ball = LevelHandler.getHighestUpMovingBall();
+				bottom = false;
+			}
+
+			if (ball != null) {
+				// calculate the x-pos for the ball when reaching y == hitY with its current direction
+				float ballX = ball.getPosition().x;
+				float ballY = ball.getPosition().y;
+				float angle = ball.getMovementAngleRAD();
+				float offsetY = ((getPosition().y - Variables.COLLISION_DISTANCE) - ballY) / (float) Math.tan(angle);
+				float newX = ballX - offsetY;
+				if (!bottom) {
+					angle = -angle;
+					offsetY = ((getPosition().y + Variables.COLLISION_DISTANCE) - ballY) / (float) Math.tan(angle);
+					newX = ballX + offsetY;
 				}
 
-				if (ball != null) {
-					// calculate the x-pos for the ball when reaching y == hitY with its current direction
-					float ballX = ball.getPosition().x;
-					float ballY = ball.getPosition().y;
-					float angle = ball.getMovementAngleRAD();
-					float offsetY = ((getPosition().y - Variables.COLLISION_DISTANCE) - ballY) / (float) Math.tan(angle);
-					float newX = ballX - offsetY;
-					if (!bottom) {
-						angle = -angle;
-						offsetY = ((getPosition().y + Variables.COLLISION_DISTANCE) - ballY) / (float) Math.tan(angle);
-						newX = ballX + offsetY;
+				float ballDirectionDEG = ball.getMovementAngleDEG();
+
+				float indicator_DEG;
+				float indicator_Y = getPosition().y;
+
+				if (bottom) {
+					if (ballDirectionDEG > 0) {
+						indicator_DEG = 90 - ballDirectionDEG;
+					} else {
+						indicator_DEG = 270 - ballDirectionDEG;
+					}
+					indicator_Y -= getSize().y * 0.75f;
+
+				} else {
+					if (ballDirectionDEG > 0) {
+						indicator_DEG = 270 - ballDirectionDEG;
+					} else {
+						indicator_DEG = 90 - ballDirectionDEG;
+					}
+					indicator_Y += getSize().y * 0.75f;
+
+				}
+				indicator.setRotation(indicator_DEG);
+				indicator.setPosition(new Vector2f(newX, indicator_Y));
+				indicator.setVisible(true);
+
+				// due to prior stick movement calculations
+				float offsetX = newX - getPosition().x;
+
+				float newDirection = 0f;
+				if (offsetX < (getSize().x * 0.6f) && offsetX > -(getSize().x * 0.6f)) {
+
+					float angle_change = offsetX / (getSize().x / 2);
+
+					if (ball.getSpeedRight() > 0) {
+						angle_change = -angle_change;
 					}
 
-					float ballDirectionDEG = ball.getMovementAngleDEG();
+					// (-1) <= (angle_change) <= (1)
+					if (angle_change > 1f) {
+						angle_change = 1f;
+					} else if (angle_change < -1f) {
+						angle_change = -1f;
+					}
 
-					float indicator_DEG;
-					float indicator_Y = getPosition().y;
+					// (0) <= (angle_change) <= (1)
+					angle_change = (angle_change + 1) / 2;
 
+					float newDirectionDEG;
 					if (bottom) {
-						if (ballDirectionDEG > 0) {
-							indicator_DEG = 90 - ballDirectionDEG;
+						newDirection = -(angle * (angle_change + 0.5f));
+						newDirectionDEG = (float) (newDirection / Math.PI * 180);
+						if (newDirectionDEG > 0) {
+							newDirectionDEG = 90 - newDirectionDEG;
 						} else {
-							indicator_DEG = 270 - ballDirectionDEG;
+							newDirectionDEG = 270 - newDirectionDEG;
 						}
-						indicator_Y -= getSize().y * 0.75f;
 
 					} else {
-						if (ballDirectionDEG > 0) {
-							indicator_DEG = 270 - ballDirectionDEG;
+						newDirection = (angle * (angle_change + 0.5f));
+						newDirectionDEG = (float) (newDirection / Math.PI * 180);
+						if (newDirectionDEG > 0) {
+							newDirectionDEG = 270 - newDirectionDEG;
 						} else {
-							indicator_DEG = 90 - ballDirectionDEG;
+							newDirectionDEG = 90 - newDirectionDEG;
 						}
-						indicator_Y += getSize().y * 0.75f;
-
 					}
-					indicator.setRotation(indicator_DEG);
-					indicator.setPosition(new Vector2f(newX, indicator_Y));
-					indicator.setVisible(true);
-
-					// due to prior stick movement calculations
-					float offsetX = newX - getPosition().x;
-
-					float newDirection = 0f;
-					if (offsetX < (getSize().x * 0.6f) && offsetX > -(getSize().x * 0.6f)) {
-
-						float angle_change = offsetX / (getSize().x / 2);
-
-						if (ball.getSpeedRight() > 0) {
-							angle_change = -angle_change;
-						}
-
-						// (-1) <= (angle_change) <= (1)
-						if (angle_change > 1f) {
-							angle_change = 1f;
-						} else if (angle_change < -1f) {
-							angle_change = -1f;
-						}
-
-						// (0) <= (angle_change) <= (1)
-						angle_change = (angle_change + 1) / 2;
-
-						float newDirectionDEG;
-						if (bottom) {
-							newDirection = -(angle * (angle_change + 0.5f));
-							newDirectionDEG = (float) (newDirection / Math.PI * 180);
-							if (newDirectionDEG > 0) {
-								newDirectionDEG = 90 - newDirectionDEG;
-							} else {
-								newDirectionDEG = 270 - newDirectionDEG;
-							}
-
-						} else {
-							newDirection = (angle * (angle_change + 0.5f));
-							newDirectionDEG = (float) (newDirection / Math.PI * 180);
-							if (newDirectionDEG > 0) {
-								newDirectionDEG = 270 - newDirectionDEG;
-							} else {
-								newDirectionDEG = 90 - newDirectionDEG;
-							}
-						}
-						indicatorOut.setRotation(newDirectionDEG);
-						indicatorOut.setPosition(new Vector2f(newX, indicator_Y));
-						indicatorOut.setVisible(true);
-					} else if (indicatorOut.isVisible()) {
-						indicatorOut.setVisible(false);
-					}
-
-					// BOT
-					if (bot) {
-						BlockEntity target = LevelHandler.getMostLeftLowestBlock();
-						if (target != null) {
-							// calculating the desired offset to hit the targeted block
-							float targetX = target.getPosition().x;
-							float targetY = target.getPosition().y;
-							float ballHitX = newX;
-							float ballHitY = getPosition().y - Variables.COLLISION_DISTANCE;
-
-							// calculating newAngle needed to reach target from ballHit = 0f;
-							float dY = ballHitY - targetY;
-							float dX = targetX - ballHitX;
-							float m = dY / dX;
-							float neededAngle = (float) Math.atan(m);
-
-							// calculating desiredOffset from neededAngle
-							float desiredOffset;
-
-							float neededAngleChange = (-neededAngle / angle);
-
-							// (-1) <= (angle_change) <= (1)
-							if (neededAngleChange > 1f) {
-								neededAngleChange = 1f;
-							} else if (neededAngleChange < -1f) {
-								neededAngleChange = -1f;
-							}
-
-							desiredOffset = neededAngleChange * (getSize().x / 2);
-
-							if (bottom) {
-								if (neededAngle < 0) {
-									if (neededAngle < newDirection) {
-										desiredOffset = Math.abs(desiredOffset);
-									} else desiredOffset = -Math.abs(desiredOffset);
-									if (newDirection > 0) desiredOffset = -desiredOffset;
-								} else {
-									if (neededAngle < newDirection) {
-										desiredOffset = Math.abs(desiredOffset);
-									} else desiredOffset = -Math.abs(desiredOffset);
-									if (newDirection < 0) desiredOffset = -desiredOffset;
-								}
-							} else {
-								if (neededAngle < 0) {
-									if (neededAngle < newDirection) {
-										desiredOffset = Math.abs(desiredOffset);
-									} else desiredOffset = - Math.abs(desiredOffset);
-									if (newDirection < 0) desiredOffset = -desiredOffset;
-								} else {
-									if (neededAngle < newDirection) {
-										desiredOffset = Math.abs(desiredOffset);
-									} else desiredOffset = - Math.abs(desiredOffset);
-									if (newDirection > 0) desiredOffset = -desiredOffset;
-								}
-							}
-
-							// capping the desiredOffset to the stick's width
-							if (desiredOffset < -getSize().x / 2) {
-								desiredOffset = -getSize().x / 2;
-							} else if (desiredOffset > getSize().x / 2) {
-								desiredOffset = getSize().x / 2;
-							}
-							// adding the desiredOffset to the ballHitX
-							newX = ballHitX - desiredOffset;
-						}
-
-						// making the stick move to its destination (faster the further it is away from it)
-						float speed = (newX - getPosition().x) / 25;
-						// capping the speed to 1 / -1
-						if (speed < -1f) {
-							speed = -1f;
-						} else if (speed > 1f) {
-							speed = 1f;
-						}
-
-						moveStick(speed);
-					}
-
-				} else if (indicator.isVisible()) {
-					indicator.setVisible(false);
+					indicatorOut.setRotation(newDirectionDEG);
+					indicatorOut.setPosition(new Vector2f(newX, indicator_Y));
+					indicatorOut.setVisible(true);
+				} else if (indicatorOut.isVisible()) {
 					indicatorOut.setVisible(false);
 				}
+
+				// BOT
+				if (bot) {
+					BlockEntity target = LevelHandler.getMostLeftLowestBlock();
+					if (target != null) {
+						// calculating the desired offset to hit the targeted block
+						float targetX = target.getPosition().x;
+						float targetY = target.getPosition().y;
+						float ballHitX = newX;
+						float ballHitY = getPosition().y - Variables.COLLISION_DISTANCE;
+
+						// calculating newAngle needed to reach target from ballHit = 0f;
+						float dY = ballHitY - targetY;
+						float dX = targetX - ballHitX;
+						float m = dY / dX;
+						float neededAngle = (float) Math.atan(m);
+
+						// calculating desiredOffset from neededAngle
+						float desiredOffset;
+
+						float neededAngleChange = (-neededAngle / angle);
+
+						// (-1) <= (angle_change) <= (1)
+						if (neededAngleChange > 1f) {
+							neededAngleChange = 1f;
+						} else if (neededAngleChange < -1f) {
+							neededAngleChange = -1f;
+						}
+
+						desiredOffset = neededAngleChange * (getSize().x / 2);
+
+						if (bottom) {
+							if (neededAngle < 0) {
+								if (neededAngle < newDirection) {
+									desiredOffset = Math.abs(desiredOffset);
+								} else desiredOffset = -Math.abs(desiredOffset);
+								if (newDirection > 0) desiredOffset = -desiredOffset;
+							} else {
+								if (neededAngle < newDirection) {
+									desiredOffset = Math.abs(desiredOffset);
+								} else desiredOffset = -Math.abs(desiredOffset);
+								if (newDirection < 0) desiredOffset = -desiredOffset;
+							}
+						} else {
+							if (neededAngle < 0) {
+								if (neededAngle < newDirection) {
+									desiredOffset = Math.abs(desiredOffset);
+								} else desiredOffset = - Math.abs(desiredOffset);
+								if (newDirection < 0) desiredOffset = -desiredOffset;
+							} else {
+								if (neededAngle < newDirection) {
+									desiredOffset = Math.abs(desiredOffset);
+								} else desiredOffset = - Math.abs(desiredOffset);
+								if (newDirection > 0) desiredOffset = -desiredOffset;
+							}
+						}
+
+						// capping the desiredOffset to the stick's width
+						if (desiredOffset < -getSize().x / 2) {
+							desiredOffset = -getSize().x / 2;
+						} else if (desiredOffset > getSize().x / 2) {
+							desiredOffset = getSize().x / 2;
+						}
+						// adding the desiredOffset to the ballHitX
+						newX = ballHitX - desiredOffset;
+					}
+
+					// making the stick move to its destination (faster the further it is away from it)
+					float speed = (newX - getPosition().x) / 25;
+					// capping the speed to 1 / -1
+					if (speed < -1f) {
+						speed = -1f;
+					} else if (speed > 1f) {
+						speed = 1f;
+					}
+
+					moveStick(speed);
+				}
+
+			} else if (indicator.isVisible()) {
+				indicator.setVisible(false);
+				indicatorOut.setVisible(false);
 			}
 		});
 

@@ -1,6 +1,7 @@
 package de.tudarmstadt.informatik.fop.breakout.handlers;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * @author Andreas Dörr
@@ -93,6 +94,9 @@ public class LanguageHandler {
 			} catch (FileNotFoundException e) {
 				System.out.println("WARNING: Skipping language \"" + selectedLang + "\" since it's .lang file can not be found.");
 				switchLang();
+			} catch (IOException ioE) {
+				System.err.println("ERROR: Could not read lang file.");
+				ioE.printStackTrace();
 			}
 		}
 	}

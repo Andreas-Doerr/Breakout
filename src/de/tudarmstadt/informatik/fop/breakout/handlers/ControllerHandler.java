@@ -4,7 +4,6 @@ import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Controller;
 import org.lwjgl.input.Controllers;
-import org.newdawn.slick.Sound;
 
 /**
  * Created by PC - Andreas on 19.03.2017.

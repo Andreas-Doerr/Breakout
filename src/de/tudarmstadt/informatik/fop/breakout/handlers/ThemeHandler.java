@@ -100,7 +100,7 @@ public class ThemeHandler implements Constants {
 		MENU_BUTTON = folder + Constants.MENU_BUTTON + IMAGE_ENDING;
 		SELECTED_MENU_BUTTON = folder + Constants.SELECTED_MENU_BUTTON + IMAGE_ENDING;
 
-		// miscelanious
+		// miscellaneous
 		PAUSE = folder + Constants.PAUSE + IMAGE_ENDING;
 
 	}

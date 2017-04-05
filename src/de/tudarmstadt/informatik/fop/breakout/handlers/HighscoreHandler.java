@@ -3,6 +3,7 @@ package de.tudarmstadt.informatik.fop.breakout.handlers;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Created by PC - Andreas on 21.03.2017.
@@ -57,11 +58,14 @@ public class HighscoreHandler {
 					time[gm][i - 1] = Long.valueOf(entryContent[2]);
 					points[gm][i - 1] = Integer.valueOf(entryContent[3]);
 				}
-			} catch (FileNotFoundException e) {
+			} catch (FileNotFoundException fnfE) {
 				System.err.println("ERROR: Could not find highscore-file at: " + Constants.HIGHSCORE_FOLDER + Constants.HIGHSCORE_FILE + gm + Constants.HIGHSCORE_FILE_ENDING);
 				System.out.println("INFO: Saving empty highscore.hsc-file to: " + Constants.HIGHSCORE_FOLDER + Constants.HIGHSCORE_FILE + gm + Constants.HIGHSCORE_FILE_ENDING);
 				saveHighscore();
-			} catch (NumberFormatException a) {
+			} catch (IOException ioE) {
+				System.err.println("ERROR: Could not read highscore file.");
+				ioE.printStackTrace();
+			} catch (NumberFormatException nfE) {
 				System.err.println("ERROR: There is a NumberFormatException in the Line: " + highscoreContent[i]);
 			}
 		}

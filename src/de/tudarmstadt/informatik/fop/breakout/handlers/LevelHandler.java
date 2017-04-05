@@ -13,7 +13,6 @@ import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.event.basicevents.LoopEvent;
-import org.lwjgl.Sys;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -391,16 +390,13 @@ public class LevelHandler {
 
 		destroyedLoop.addAction(new RotateLeftAction(0.3f));
 		// remove the destroyedBall after it left the screen and reduce the counter for destroyedBalls in play
-		destroyedLoop.addAction(new Action() {
-			@Override
-			public void update(GameContainer gc, StateBasedGame sb, int delta, Component event) {
-				if (destroyedBall.getPosition().y > Variables.WINDOW_HEIGHT + destroyedBall.getSize().y
-						|| destroyedBall.getPosition().y < (- destroyedBall.getSize().y)
-						|| destroyedBall.getPosition().x > (Variables.WINDOW_WIDTH + destroyedBall.getSize().x)
-						|| destroyedBall.getPosition().x < (- destroyedBall.getSize().x)) {
-					StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, destroyedBall);
-					LevelHandler.addActiveDestroyedBall(-1);
-				}
+		destroyedLoop.addAction((gc, sb, delta, event) -> {
+			if (destroyedBall.getPosition().y > Variables.WINDOW_HEIGHT + destroyedBall.getSize().y
+					|| destroyedBall.getPosition().y < (- destroyedBall.getSize().y)
+					|| destroyedBall.getPosition().x > (Variables.WINDOW_WIDTH + destroyedBall.getSize().x)
+					|| destroyedBall.getPosition().x < (- destroyedBall.getSize().x)) {
+				StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, destroyedBall);
+				LevelHandler.addActiveDestroyedBall(-1);
 			}
 		});
 		destroyedBall.addComponent(destroyedLoop);
@@ -447,11 +443,6 @@ public class LevelHandler {
 	public static void destroyAllSticks() {
 		while (stickList[0] != null) {
 			stickList[0].destroyStick();
-		}
-	}
-	public static void destroyAllSticksExceptFirst() {
-		while (stickList[1] != null) {
-			stickList[1].destroyStick();
 		}
 	}
 	public static void destroyBotSticks() {
@@ -528,9 +519,13 @@ public class LevelHandler {
 			}
 
 			return map;
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException fnfE) {
 			System.err.println("ERROR: Could not find map-file: " + ref);
 			nextMap();
+			return null;
+		} catch (IOException ioE) {
+			System.err.println("ERROR: Could not read options file.");
+			ioE.printStackTrace();
 			return null;
 		}
 	}

@@ -40,7 +40,7 @@ public class PlayerHandler {
 	public static void reset() {
 		lives = Constants.INITIAL_LIVES;
 		points = 0;
-		ItemHandler.setItemsActive(0);
+		ItemHandler.resetItemsActive();
 		GameplayState.setCurrentlyRunning(false);
 		LevelHandler.resetCounter();
 	}

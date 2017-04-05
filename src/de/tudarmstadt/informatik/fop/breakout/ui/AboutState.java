@@ -120,7 +120,10 @@ public class AboutState extends BasicGameState {
 				"  Textures by Daniel Friesen, Rúben Costa\n" +
 				"  Maps by Jens Abels, Rúben Costa\n" +
 				"  Marketing by Jens Abels\n" +
-				"  Tested by David Volz\n";
+				"  Tested by David Volz\n\n" +
+				"Current development:\n" +
+				"  Time: since 22.02.2017\n" +
+				"  Lines: 5502";
 		g.drawString(aboutDoc2, (Variables.WINDOW_WIDTH * 0.56f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.4f) / Variables.BACKGROUND_SCALE);
 
 		g.drawString("Problems or suggestions ?\nmail us at: breakout.darujean@gmail.com", (Variables.WINDOW_WIDTH * 0.26f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.6f) / Variables.BACKGROUND_SCALE);

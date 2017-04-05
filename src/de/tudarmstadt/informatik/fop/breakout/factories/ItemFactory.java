@@ -5,20 +5,16 @@ import de.tudarmstadt.informatik.fop.breakout.engine.entity.StickEntity;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
-import eea.engine.action.Action;
 import eea.engine.action.basicactions.MoveDownAction;
-import eea.engine.component.Component;
 import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.event.basicevents.CollisionEvent;
 import eea.engine.event.basicevents.LoopEvent;
 import eea.engine.interfaces.IEntityFactory;
-import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
-import org.newdawn.slick.state.StateBasedGame;
 
 /**
  * Created by PC - Andreas on 14.03.2017.
@@ -63,22 +59,19 @@ public class ItemFactory implements IEntityFactory, Constants {
 				item = new Entity(ITEM_1_ID);
 				image = ThemeHandler.BIGGER;
 				// pickup-action
-				ce.addAction(new Action() {
-					@Override
-					public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-						if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
-							// if the item hits the stick
-							StickEntity stick = (StickEntity) ce.getCollidedEntity();
-							// set the counter down one if it got collected
-							ItemHandler.addItemsActive(-1);
-							// remove the item
-							StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, item);
-							// play sound
-							SoundHandler.playPickupItem();
-							// do ...
-							stick.wider();
-							PlayerHandler.addPoints(50);
-						}
+				ce.addAction((gc, sb, delta, event) -> {
+					if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
+						// if the item hits the stick
+						StickEntity stick = (StickEntity) ce.getCollidedEntity();
+						// set the counter down one if it got collected
+						ItemHandler.addItemsActive(-1);
+						// remove the item
+						StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, item);
+						// play sound
+						SoundHandler.playPickupItem();
+						// do ...
+						stick.wider();
+						PlayerHandler.addPoints(50);
 					}
 				});
 				break;
@@ -87,22 +80,19 @@ public class ItemFactory implements IEntityFactory, Constants {
 				item =  new Entity(ITEM_2_ID);
 				image = ThemeHandler.SMALLER;
 				// pickup-action
-				ce.addAction(new Action() {
-					@Override
-					public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-						if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
-							// if the item hits the stick
-							StickEntity stick = (StickEntity) ce.getCollidedEntity();
-							// set the counter down one if it got collected
-							ItemHandler.addItemsActive(-1);
-							// remove the item
-							StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, item);
-							// play sound
-							SoundHandler.playPickupItem();
-							// do ...
-							stick.slimmer();
-							PlayerHandler.addPoints(25);
-						}
+				ce.addAction((gc, sb, delta, event) -> {
+					if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
+						// if the item hits the stick
+						StickEntity stick = (StickEntity) ce.getCollidedEntity();
+						// set the counter down one if it got collected
+						ItemHandler.addItemsActive(-1);
+						// remove the item
+						StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, item);
+						// play sound
+						SoundHandler.playPickupItem();
+						// do ...
+						stick.slimmer();
+						PlayerHandler.addPoints(25);
 					}
 				});
 				break;
@@ -111,20 +101,17 @@ public class ItemFactory implements IEntityFactory, Constants {
 				item =  new Entity(ITEM_3_ID);
 				image = ThemeHandler.DESTROY_BALL;
 				// pickup-action
-				ce.addAction(new Action() {
-					@Override
-					public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-						if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
-							// set the counter down one if it got collected
-							ItemHandler.addItemsActive(-1);
-							// remove the item
-							StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, item);
-							// play sound
-							SoundHandler.playPickupItem();
-							// do ...
-							LevelHandler.destroyRandomBall();
-							PlayerHandler.addPoints(-50);
-						}
+				ce.addAction((gc, sb, delta, event) -> {
+					if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
+						// set the counter down one if it got collected
+						ItemHandler.addItemsActive(-1);
+						// remove the item
+						StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, item);
+						// play sound
+						SoundHandler.playPickupItem();
+						// do ...
+						LevelHandler.destroyRandomBall();
+						PlayerHandler.addPoints(-50);
 					}
 				});
 				break;
@@ -133,20 +120,17 @@ public class ItemFactory implements IEntityFactory, Constants {
 				item =  new Entity(ITEM_4_ID);
 				image = ThemeHandler.DUP;
 				// pickup-action
-				ce.addAction(new Action() {
-					@Override
-					public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-						if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
-							// set the counter down one if it got collected
-							ItemHandler.addItemsActive(-1);
-							// remove the item
-							StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, item);
-							// play sound
-							SoundHandler.playPickupItem();
-							// do ...
-							LevelHandler.duplicateAllBalls();
-							PlayerHandler.addPoints(75);
-						}
+				ce.addAction((gc, sb, delta, event) -> {
+					if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
+						// set the counter down one if it got collected
+						ItemHandler.addItemsActive(-1);
+						// remove the item
+						StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, item);
+						// play sound
+						SoundHandler.playPickupItem();
+						// do ...
+						LevelHandler.duplicateAllBalls();
+						PlayerHandler.addPoints(75);
 					}
 				});
 				break;
@@ -155,20 +139,17 @@ public class ItemFactory implements IEntityFactory, Constants {
 				item =  new Entity(ITEM_5_ID);
 				image = ThemeHandler.FASTER;
 				// pickup-action
-				ce.addAction(new Action() {
-					@Override
-					public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-						if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
-							// set the counter down one if it got collected
-							ItemHandler.addItemsActive(-1);
-							// remove the item
-							StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, item);
-							// play sound
-							SoundHandler.playPickupItem();
-							// do ...
-							LevelHandler.max_speedAllBalls();
-							PlayerHandler.addPoints(10);
-						}
+				ce.addAction((gc, sb, delta, event) -> {
+					if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
+						// set the counter down one if it got collected
+						ItemHandler.addItemsActive(-1);
+						// remove the item
+						StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, item);
+						// play sound
+						SoundHandler.playPickupItem();
+						// do ...
+						LevelHandler.max_speedAllBalls();
+						PlayerHandler.addPoints(10);
 					}
 				});
 				break;
@@ -177,20 +158,17 @@ public class ItemFactory implements IEntityFactory, Constants {
 				item =  new Entity(ITEM_6_ID);
 				image = ThemeHandler.SLOWER;
 				// pickup-action
-				ce.addAction(new Action() {
-					@Override
-					public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-						if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
-							// set the counter down one if it got collected
-							ItemHandler.addItemsActive(-1);
-							// remove the item
-							StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, item);
-							// play sound
-							SoundHandler.playPickupItem();
-							// do ...
-							LevelHandler.min_speedAllBalls();
-							PlayerHandler.addPoints(15);
-						}
+				ce.addAction((gc, sb, delta, event) -> {
+					if (ce.getCollidedEntity().getID().equals(Constants.PLAYER_STICK_ID)) {
+						// set the counter down one if it got collected
+						ItemHandler.addItemsActive(-1);
+						// remove the item
+						StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, item);
+						// play sound
+						SoundHandler.playPickupItem();
+						// do ...
+						LevelHandler.min_speedAllBalls();
+						PlayerHandler.addPoints(15);
 					}
 				});
 				break;
@@ -230,30 +208,24 @@ public class ItemFactory implements IEntityFactory, Constants {
 			moveLoop.addAction(new MoveDownAction(Variables.INITIAL_BALL_SPEED_UP / 4));
 		}
 		// item deletion upon exiting visible area
-		moveLoop.addAction(new Action() {
-			@Override
-			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				if (item.getPosition().y > Variables.WINDOW_HEIGHT + item.getSize().y || item.getPosition().y < -item.getSize().y) {
-					// if the item fully left the screen: delete it
-					// set the counter down one if it left the screen
-					ItemHandler.addItemsActive(-1);
-					// (item is half an item-height below the window)
-					StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, item);
-				}
+		moveLoop.addAction((gc, sb, delta, event) -> {
+			if (item.getPosition().y > Variables.WINDOW_HEIGHT + item.getSize().y || item.getPosition().y < -item.getSize().y) {
+				// if the item fully left the screen: delete it
+				// set the counter down one if it left the screen
+				ItemHandler.addItemsActive(-1);
+				// (item is half an item-height below the window)
+				StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, item);
 			}
 		});
 		//for desrtoy all Items
-		moveLoop.addAction(new Action() {
-			@Override
-			public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i, Component component) {
-				if (ItemHandler.getItemsToBeDestroyed() > 0) {
-					// if the item is to be destroyed by a cheat
-					// set the counter down one if it got destroyed
-					ItemHandler.addItemsActive(-1);
-					ItemHandler.oneItemLessToDestroy();
-					// (item is half an item-height below the window)
-					StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, item);
-				}
+		moveLoop.addAction((gc, sb, delta, event) -> {
+			if (ItemHandler.getItemsToBeDestroyed() > 0) {
+				// if the item is to be destroyed by a cheat
+				// set the counter down one if it got destroyed
+				ItemHandler.addItemsActive(-1);
+				ItemHandler.oneItemLessToDestroy();
+				// (item is half an item-height below the window)
+				StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, item);
 			}
 		});
 		item.addComponent(moveLoop);
