@@ -338,18 +338,6 @@ public class Adapter implements Constants {
 	 */
 
 	/**
-	 * Sets a number of necessary hits for degrading this block
-	 * 
-	 * @param hitsLeft
-	 *            number of necessary hits
-	 * @param blockID
-	 *            blockID ID of the chosen block
-	 */
-	public void setHitsLeft(int hitsLeft, String blockID) {
-	  //TODO write code to set the number of required hits for 'blockID' to hitsLeft
-	}
-
-	/**
 	 * Returns the number of necessary hits for degrading this block
 	 * 
 	 * @param blockID
@@ -358,18 +346,6 @@ public class Adapter implements Constants {
 	 */
 	public int getHitsLeft(String blockID) {
 	  return LevelHandler.getHitsLeft(blockID);
-	}
-
-	/**
-	 * Adds a number of necessary hits for degrading this block
-	 * 
-	 * @param hitsLeft
-	 *            number of hits added
-	 * @param blockID
-	 *            blockID ID of the chosen block
-	 */
-	public void addHitsLeft(int hitsLeft, String blockID) {
-    //TODO write code to add the given number to the block's "hit capacity"
 	}
 
 	/**

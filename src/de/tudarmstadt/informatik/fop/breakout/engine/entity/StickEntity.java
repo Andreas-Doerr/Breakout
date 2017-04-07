@@ -115,8 +115,6 @@ public class StickEntity extends Entity {
 		indicatorOut.setVisible(false);
 		StateBasedEntityManager.getInstance().addEntity(Breakout.GAMEPLAY_STATE, indicatorOut);
 
-		// TODO make indicators invisible when not tracking a ball in Gamemode !
-
 		// indicator positioning
 		stickLoop.addAction((gc, sb, delta, event) -> {
 			boolean bottom = true;

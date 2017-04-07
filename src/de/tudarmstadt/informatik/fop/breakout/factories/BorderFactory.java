@@ -13,8 +13,7 @@ import eea.engine.interfaces.IEntityFactory;
  * passable entities for holding the ball in the field.
  * 
  * @author Tobias Otterbein, Benedikt Wartusch
- * 
- */	// TODO commenting
+ */
 public class BorderFactory implements IEntityFactory, Constants {
 
 	private BorderType type;

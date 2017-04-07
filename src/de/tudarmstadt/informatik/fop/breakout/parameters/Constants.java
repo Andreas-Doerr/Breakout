@@ -15,6 +15,10 @@ public interface Constants {
 	// Options
 	String OPTIONS_FILE = "options.config";
 
+	// Player
+	// Lives
+	int INITIAL_LIVES = 3;
+
 	// Background
 	// in Game
 	String BACKGROUND_ID = "background";
@@ -77,7 +81,6 @@ public interface Constants {
 	int TEXT_OFFSET_X_WIDE = -120;
 	int TEXT_OFFSET_Y = -9;
 
-
 	// Pause
 	String PAUSE_ID = "pause";
 
@@ -88,21 +91,7 @@ public interface Constants {
 	int MAX_HIGHSCORES = 100;
 
 	// GUI
-	int y_to_next = 20;
-	// Lives
-	int INITIAL_LIVES = 3;
-	int LIVES_POS_Y = 0;
-
-	// Blocks
-	int ACTIVE_BLOCKS_POS_Y = y_to_next;
-	int DESTROYED_BLOCKS_POS_Y = y_to_next * 2;
-
-	// active balls
-	int ACTIVE_BALLS_POS_Y = y_to_next * 3;
-	int ACTIVE_DESTROYED_BALLS_POS_Y = y_to_next * 4;
-
-	// points
-	int POINTS_POS_Y = y_to_next * 5;
+	int Y_TO_NEXT = 20;
 
 	// Timer
 	int TIMER_Y = 10;

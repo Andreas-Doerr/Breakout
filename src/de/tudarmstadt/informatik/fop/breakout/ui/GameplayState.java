@@ -458,37 +458,24 @@ public class GameplayState extends BasicGameState {
 		// scaling texts
 		g.scale(Variables.BACKGROUND_SCALE, Variables.BACKGROUND_SCALE);
 
-		// TODO redo the following
-		int lives_pos_y;
-		int active_blocks_pos_y;
-		int destroyed_blocks_pos_y;
-		int active_balls_pos_y;
-		int destroyed_balls_pos_y;
-		int points_pos_y;
-		int showFPS_y = 0;
+		// move everything down one if the fps is shown
+		int showFPS_y;
 		if (gc.isShowingFPS()) {
 			showFPS_y = (int) (30 / Variables.BACKGROUND_SCALE);
+		} else {
+			showFPS_y = 0;
 		}
-		lives_pos_y = Constants.LIVES_POS_Y + showFPS_y;
-		active_blocks_pos_y = Constants.ACTIVE_BLOCKS_POS_Y + showFPS_y;
-		destroyed_blocks_pos_y = Constants.DESTROYED_BLOCKS_POS_Y + showFPS_y;
-		active_balls_pos_y = Constants.ACTIVE_BALLS_POS_Y + showFPS_y;
-		destroyed_balls_pos_y = Constants.ACTIVE_DESTROYED_BALLS_POS_Y + showFPS_y;
-		points_pos_y = Constants.POINTS_POS_Y + showFPS_y;
-
 
 		// show lives left
-		g.drawString(LanguageHandler.LIVES_LEFT + ": " + (Integer.toString(PlayerHandler.getLives())), (Variables.LIVES_POS_X), lives_pos_y);
+		g.drawString(LanguageHandler.LIVES_LEFT + ": " + (Integer.toString(PlayerHandler.getLives())), (Variables.LEFT_X), showFPS_y);
 		// show blocks left
-		g.drawString(LanguageHandler.ACTIVE_BLOCKS + ": " + (Integer.toString(LevelHandler.getActiveBlocks())), (Variables.ACTIVE_BLOCKS_POS_X), active_blocks_pos_y);
+		g.drawString(LanguageHandler.ACTIVE_BLOCKS + ": " + (Integer.toString(LevelHandler.getActiveBlocks())), (Variables.LEFT_X), Constants.Y_TO_NEXT + showFPS_y);
 		// show blocks destroyed
-		g.drawString(LanguageHandler.DESTROYED_BLOCKS + ": " + (Integer.toString(LevelHandler.getDestroyedBlocks())), (Variables.DESTROYED_BLOCKS_POS_X), destroyed_blocks_pos_y);
+		g.drawString(LanguageHandler.DESTROYED_BLOCKS + ": " + (Integer.toString(LevelHandler.getDestroyedBlocks())), (Variables.LEFT_X), Constants.Y_TO_NEXT * 2 + showFPS_y);
 		// show amount of active balls (DEBUG)
-		g.drawString(LanguageHandler.BALLS_ACTIVE + ": " + (Integer.toString(LevelHandler.getActiveBallCount())), (Variables.ACTIVE_BALLS_POS_X), active_balls_pos_y);
-		// show amount of active destroyed balls (DEBUG)
-		g.drawString(LanguageHandler.DESTROYED_BALLS_ACTIVE + ": " + (Integer.toString(LevelHandler.getActiveDestroyedBallCount())), (Variables.ACTIVE_DESTROYED_BALLS_POS_X), destroyed_balls_pos_y);
+		g.drawString(LanguageHandler.BALLS_ACTIVE + ": " + (Integer.toString(LevelHandler.getActiveBallCount())), (Variables.LEFT_X), Constants.Y_TO_NEXT * 3 + showFPS_y);
 		// show points
-		g.drawString(LanguageHandler.POINTS + ": " + Integer.toString(PlayerHandler.getPoints()), (Variables.POINTS_POS_X), points_pos_y);
+		g.drawString(LanguageHandler.POINTS + ": " + Integer.toString(PlayerHandler.getPoints()), (Variables.LEFT_X), Constants.Y_TO_NEXT * 4 + showFPS_y);
 		// show elapsed Time
 		g.setColor(timeColor);
 		g.drawString(LanguageHandler.TIMER + ": " + Float.toString(playtime / 10 /100f), (Variables.TIMER_X), (Constants.TIMER_Y));

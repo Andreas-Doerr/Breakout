@@ -50,10 +50,6 @@ public class LevelHandler {
 	public static int getActiveDestroyedBallCount() {
 		return activeDestroyedBallCount;
 	}
-	// setter
-	public static void setActiveBlocks(int newLevelInitBlocks) {
-		activeBlocks = newLevelInitBlocks;
-	}
 	// adding / subtracting
 	public static void addOneDestroyedBlock() {
 		destroyedBlocks++;
@@ -157,14 +153,11 @@ public class LevelHandler {
 		}
 	}
 	public static int getHitsLeft(String block_ID) throws NullPointerException {
-		int toReturn = -1;
 		for (BlockEntity eachBlockList : blockList) {
 			if (eachBlockList != null) {
 				if (eachBlockList.getID().equals(block_ID)) {
 					// searching for the entry which is to be asked for its hitsLeft
-					toReturn = eachBlockList.getHitsLeft();
-					// stops looking for if it found it
-					break;
+					return eachBlockList.getHitsLeft();
 				}
 			} else {
 				// went through all entries (after null there will never be another entry due to the way removeBlock works)
@@ -172,14 +165,9 @@ public class LevelHandler {
 				break;
 			}
 		}
-		if (toReturn != -1) {
-			return toReturn;
-		} else {
-			// Test has to get a NullPointerException so I have to create one by referencing the last entry in blockList
-			// since it will always be null
-			return blockList[160].getHitsLeft();
-		}
-
+		// Test has to get a NullPointerException so I have to create one by referencing the last entry in blockList
+		// since it will always be null
+		return blockList[160].getHitsLeft();
 	}
 	public static boolean hasHitsLeft(String block_ID) {
 		return getHitsLeft(block_ID) > 0;

@@ -62,16 +62,7 @@ public class Variables {
 	public static int BUTTON_8_Y = (int) (WINDOW_HEIGHT * 0.84f);
 
 	// GUI
-	//Lives
-	public static int LIVES_POS_X = (int) (10 / BACKGROUND_SCALE);
-	// Blocks
-	public static int ACTIVE_BLOCKS_POS_X = (int) (10 / BACKGROUND_SCALE);
-	public static int DESTROYED_BLOCKS_POS_X = (int) (10 / BACKGROUND_SCALE);
-	// active balls
-	public static int ACTIVE_BALLS_POS_X = (int) (10 / BACKGROUND_SCALE);
-	public static int ACTIVE_DESTROYED_BALLS_POS_X = (int) (10 / BACKGROUND_SCALE);
-	// points
-	public static int POINTS_POS_X = (int) (10 / BACKGROUND_SCALE);
+	public static int LEFT_X = (int) (10 / BACKGROUND_SCALE);
 	// timer
 	public static int TIMER_X = (int) ((WINDOW_WIDTH / 2 - 20) / BACKGROUND_SCALE);
 
@@ -128,16 +119,7 @@ public class Variables {
 		BUTTON_8_Y = (int) (WINDOW_HEIGHT * 0.84f);
 
 		// GUI
-		//Lives
-		LIVES_POS_X = (int) (10 / BACKGROUND_SCALE);
-		// Blocks
-		ACTIVE_BLOCKS_POS_X = (int) (10 / BACKGROUND_SCALE);
-		DESTROYED_BLOCKS_POS_X = (int) (10 / BACKGROUND_SCALE);
-		// active balls
-		ACTIVE_BALLS_POS_X = (int) (10 / BACKGROUND_SCALE);
-		ACTIVE_DESTROYED_BALLS_POS_X = (int) (10 / BACKGROUND_SCALE);
-		// pos
-		POINTS_POS_X = (int) (10 / BACKGROUND_SCALE);
+		LEFT_X = (int) (10 / BACKGROUND_SCALE);
 		// timer
 		TIMER_X = (int) ((WINDOW_WIDTH / 2 - 20) / BACKGROUND_SCALE);
 	}
