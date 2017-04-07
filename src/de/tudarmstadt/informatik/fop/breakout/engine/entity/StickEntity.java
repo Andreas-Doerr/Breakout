@@ -31,7 +31,7 @@ public class StickEntity extends Entity {
 		// starting position
 		setPosition(new Vector2f(pos_x, pos_y));
 
-		LevelHandler.addStick(this);
+		EntityHandler.addStick(this);
 
 		// picture
 		updateImage();
@@ -120,9 +120,9 @@ public class StickEntity extends Entity {
 			boolean bottom = true;
 			BallEntity ball;
 			if (getPosition().y > (Variables.WINDOW_HEIGHT / 2)) {
-				ball = LevelHandler.getLowestDownMovingBall();
+				ball = EntityHandler.getLowestDownMovingBall();
 			} else {
-				ball = LevelHandler.getHighestUpMovingBall();
+				ball = EntityHandler.getHighestUpMovingBall();
 				bottom = false;
 			}
 
@@ -215,7 +215,7 @@ public class StickEntity extends Entity {
 
 				// BOT
 				if (bot) {
-					BlockEntity target = LevelHandler.getMostLeftLowestBlock();
+					BlockEntity target = EntityHandler.getMostLeftLowestBlock();
 					if (target != null) {
 						// calculating the desired offset to hit the targeted block
 						float targetX = target.getPosition().x;
@@ -301,7 +301,7 @@ public class StickEntity extends Entity {
 		StateBasedEntityManager.getInstance().addEntity(Constants.GAMEPLAY_STATE, this);
 
 		// moving the stick above the indicator in the entity-list
-		LevelHandler.readdIndicators();
+		EntityHandler.readdIndicators();
 	}
 
 	private void moveStick(float speed) {
@@ -370,7 +370,7 @@ public class StickEntity extends Entity {
 
 	public void destroyStick() {
 		// remove this stick from the list which is keeping track of every stick
-		LevelHandler.removeStick(this);
+		EntityHandler.removeStick(this);
 		// delete the stick
 		StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, this);
 

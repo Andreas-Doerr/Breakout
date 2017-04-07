@@ -110,7 +110,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 						// play sound
 						SoundHandler.playPickupItem();
 						// do ...
-						LevelHandler.destroyRandomBall();
+						EntityHandler.destroyRandomBall();
 						PlayerHandler.addPoints(-50);
 					}
 				});
@@ -129,7 +129,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 						// play sound
 						SoundHandler.playPickupItem();
 						// do ...
-						LevelHandler.duplicateAllBalls();
+						EntityHandler.duplicateAllBalls();
 						PlayerHandler.addPoints(75);
 					}
 				});
@@ -148,7 +148,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 						// play sound
 						SoundHandler.playPickupItem();
 						// do ...
-						LevelHandler.max_speedAllBalls();
+						EntityHandler.max_speedAllBalls();
 						PlayerHandler.addPoints(10);
 					}
 				});
@@ -167,7 +167,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 						// play sound
 						SoundHandler.playPickupItem();
 						// do ...
-						LevelHandler.min_speedAllBalls();
+						EntityHandler.min_speedAllBalls();
 						PlayerHandler.addPoints(15);
 					}
 				});

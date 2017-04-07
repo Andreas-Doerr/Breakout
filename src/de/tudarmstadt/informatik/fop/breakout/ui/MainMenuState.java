@@ -3,7 +3,6 @@ package de.tudarmstadt.informatik.fop.breakout.ui;
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.ButtonEntity;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
-import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import eea.engine.action.basicactions.ChangeStateAction;
 import eea.engine.event.basicevents.LoopEvent;

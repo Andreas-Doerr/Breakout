@@ -3,10 +3,7 @@ package adapter;
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.BallEntity;
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.BlockEntity;
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.StickEntity;
-import de.tudarmstadt.informatik.fop.breakout.handlers.ControllerHandler;
-import de.tudarmstadt.informatik.fop.breakout.handlers.LevelHandler;
-import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
-import de.tudarmstadt.informatik.fop.breakout.handlers.PlayerHandler;
+import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import org.newdawn.slick.Input;
@@ -136,7 +133,7 @@ public class Adapter implements Constants {
 	 */
 	public Entity createBallInstance(String ballID) {
 		BallEntity ball = null;
-		if (LevelHandler.ballListHasSpace()) {
+		if (EntityHandler.ballListHasSpace()) {
 			ball = new BallEntity(0,0);
 		} else {
 			System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
@@ -345,7 +342,7 @@ public class Adapter implements Constants {
 	 * @return number of hits
 	 */
 	public int getHitsLeft(String blockID) {
-	  return LevelHandler.getHitsLeft(blockID);
+	  return EntityHandler.getHitsLeft(blockID);
 	}
 
 	/**
@@ -356,7 +353,7 @@ public class Adapter implements Constants {
 	 * @return true, if block has hits left, else false
 	 */
 	public boolean hasHitsLeft(String blockID) {
-	  return LevelHandler.hasHitsLeft(blockID);
+	  return EntityHandler.hasHitsLeft(blockID);
 	}
 
 	/* ***************************************************

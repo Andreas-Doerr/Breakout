@@ -1,15 +1,11 @@
 package de.tudarmstadt.informatik.fop.breakout.ui;
 
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
-import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
 import org.newdawn.slick.AppGameContainer;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
-
 import eea.engine.entity.StateBasedEntityManager;
-
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 
 public class Breakout extends StateBasedGame implements Constants {

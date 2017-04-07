@@ -6,7 +6,6 @@ import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.BallEntity;
 import de.tudarmstadt.informatik.fop.breakout.factories.BorderFactory;
-import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import eea.engine.action.basicactions.*;
 import eea.engine.event.basicevents.*;
@@ -211,7 +210,7 @@ public class GameplayState extends BasicGameState {
 			// only a new ball if no other ball is currently existing
 			if (OptionsHandler.getControlMode() == 0 && LevelHandler.getActiveBallCount() <= 0 && LevelHandler.getActiveDestroyedBallCount() <= 0 && PlayerHandler.getLives() > 0 && !gc1.isPaused() && ItemHandler.getItemsActive() == 0) {
 				// activate the ability to resume the Game
-				if (LevelHandler.ballListHasSpace()) {
+				if (EntityHandler.ballListHasSpace()) {
 					SoundHandler.playButtonPress();
 					currentlyRunning = true;
 
@@ -233,7 +232,7 @@ public class GameplayState extends BasicGameState {
 			// only a new ball if no other ball is currently existing
 			if (OptionsHandler.getControlMode() == 1 && LevelHandler.getActiveBallCount() <= 0 && LevelHandler.getActiveDestroyedBallCount() <= 0 && PlayerHandler.getLives() > 0 && !gc.isPaused() && ItemHandler.getItemsActive() == 0) {
 				// activate the ability to resume the Game
-				if (LevelHandler.ballListHasSpace()) {
+				if (EntityHandler.ballListHasSpace()) {
 					SoundHandler.playButtonPress();
 					currentlyRunning = true;
 
@@ -258,7 +257,7 @@ public class GameplayState extends BasicGameState {
 				// only a new ball if no other ball is currently existing
 				if (LevelHandler.getActiveBallCount() <= 0 && LevelHandler.getActiveDestroyedBallCount() <= 0 && PlayerHandler.getLives() > 0 && ItemHandler.getItemsActive() == 0) {
 					// activate the ability to resume the Game
-					if (LevelHandler.ballListHasSpace()) {
+					if (EntityHandler.ballListHasSpace()) {
 						currentlyRunning = true;
 
 						// creating a ball
@@ -279,7 +278,7 @@ public class GameplayState extends BasicGameState {
 		// BotStick creation and its ball
 		b_pressed.addAction((gc1, sb1, delta, event) -> {
 			if (!gc1.isPaused() && OptionsHandler.isCheatModeActive()) {
-					LevelHandler.switchAllBots();
+				EntityHandler.switchAllBots();
 			}
 		});
 		// giving the listener-entity the b_pressed-event
@@ -288,7 +287,7 @@ public class GameplayState extends BasicGameState {
 	// // controller "listener" (Button 1)
 		listenerLoop.addAction((gc1, sb1, delta, event) -> {
 			if (OptionsHandler.isCheatModeActive() && ControllerHandler.isButtonPressed(0) && !gc1.isPaused()) {
-				LevelHandler.switchAllBots();
+				EntityHandler.switchAllBots();
 			}
 		});
 
@@ -297,7 +296,7 @@ public class GameplayState extends BasicGameState {
 		// BotStick removal (all of them)
 		n_pressed.addAction((gc1, sb1, delta, event) -> {
 			if (OptionsHandler.isCheatModeActive() && !gc1.isPaused()) {
-				LevelHandler.destroyBotSticks();
+				EntityHandler.destroyBotSticks();
 			}
 		});
 		// giving the listener-entity the n_pressed-event
@@ -309,7 +308,7 @@ public class GameplayState extends BasicGameState {
 		// set the speed of all balls to max-speed
 		f_pressed.addAction((gc1, sb1, delta, event) -> {
 			if (OptionsHandler.isCheatModeActive()) {
-				LevelHandler.max_speedAllBalls();
+				EntityHandler.max_speedAllBalls();
 			}
 		});
 		// giving the listener-entity the f_pressed-event
@@ -320,7 +319,7 @@ public class GameplayState extends BasicGameState {
 		// set the speed of all balls to min-speed
 		s_pressed.addAction((gc1, sb1, delta, event) -> {
 			if (OptionsHandler.isCheatModeActive()) {
-				LevelHandler.min_speedAllBalls();
+				EntityHandler.min_speedAllBalls();
 			}
 		});
 		// giving the listener-entity the s_pressed-event
@@ -331,7 +330,7 @@ public class GameplayState extends BasicGameState {
 		// duplicate all balls
 		m_pressed.addAction((gc1, sb1, delta, event) -> {
 			if (OptionsHandler.isCheatModeActive()) {
-				LevelHandler.duplicateAllBalls();
+				EntityHandler.duplicateAllBalls();
 			}
 		});
 		// giving the listener-entity the m_pressed-event
@@ -343,7 +342,7 @@ public class GameplayState extends BasicGameState {
 		k_pressed.addAction((gc1, sb1, delta, event) -> {
 			if (OptionsHandler.isCheatModeActive()) {
 				ItemHandler.destroyAllItems();
-				LevelHandler.destroyAllBlocks();
+				EntityHandler.destroyAllBlocks();
 			}
 		});
 		// giving the listener-entity the k_pressed-event
@@ -412,7 +411,7 @@ public class GameplayState extends BasicGameState {
 				HighscoreState.newTime += playtime;
 				HighscoreState.newBlocksDestroyed += LevelHandler.getDestroyedBlocks();
 
-				LevelHandler.allBallsLevelComplete();
+				EntityHandler.allBallsLevelComplete();
 
 				LevelHandler.switchMap();
 

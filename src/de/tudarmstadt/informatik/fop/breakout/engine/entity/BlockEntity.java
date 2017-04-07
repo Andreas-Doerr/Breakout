@@ -1,11 +1,8 @@
 package de.tudarmstadt.informatik.fop.breakout.engine.entity;
 
 
+import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
-import de.tudarmstadt.informatik.fop.breakout.handlers.ItemHandler;
-import de.tudarmstadt.informatik.fop.breakout.handlers.LevelHandler;
-import de.tudarmstadt.informatik.fop.breakout.handlers.PlayerHandler;
-import de.tudarmstadt.informatik.fop.breakout.handlers.ThemeHandler;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
 import eea.engine.component.render.ImageRenderComponent;
@@ -33,7 +30,7 @@ public class BlockEntity extends Entity {
 		// add 1 to the counter of active blocks
 		LevelHandler.addActiveBlocks(1);
 		// add this ball to the list which is keeping track of every ball
-		LevelHandler.addBlock(this);
+		EntityHandler.addBlock(this);
 
 
 		// setting to not be passable
@@ -68,7 +65,7 @@ public class BlockEntity extends Entity {
 			destroyBlock();
 		} else {
 			if (getHitsLeft() == 4) {
-				LevelHandler.blockExplosion(getID());
+				EntityHandler.blockExplosion(getID());
 			}
 			// adding points
 			PlayerHandler.addPoints(1);
@@ -87,7 +84,7 @@ public class BlockEntity extends Entity {
 		// reduce the counter for the amount of blocks in play by one
 		LevelHandler.addActiveBlocks(-1);
 		// remove this block from the list which is keeping track of every block
-		LevelHandler.removeBlock(this);
+		EntityHandler.removeBlock(this);
 		// create an item
 		ItemHandler.createItem(getPosition(), Constants.ITEM_DROPCHANCE);
 	}

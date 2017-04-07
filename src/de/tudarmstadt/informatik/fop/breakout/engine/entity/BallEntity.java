@@ -31,7 +31,7 @@ public class BallEntity extends Entity {
 		// add 1 to the counter of active balls
 		LevelHandler.addActiveBalls(1);
 		// add this ball to the list which is keeping track of every ball
-		LevelHandler.addBall(this);
+		EntityHandler.addBall(this);
 
 		// setting all balls to be passable
 		setPassable(true);
@@ -340,7 +340,7 @@ public class BallEntity extends Entity {
 
 	// item actions
 	public void duplicateBall() {
-		if (LevelHandler.ballListHasSpace()) {
+		if (EntityHandler.ballListHasSpace()) {
 			// creating a new ball
 			BallEntity ball2 = new BallEntity(getPosition().x, getPosition().y);
 			// giving the new ball movement in the opposite direction of the existing ball
@@ -408,7 +408,7 @@ public class BallEntity extends Entity {
 		// reduce the counter for the amount of balls in play by one
 		LevelHandler.addActiveBalls(-1);
 		// remove this ball from the list which is keeping track of every ball
-		LevelHandler.removeBall(this);
+		EntityHandler.removeBall(this);
 	}
 	public void levelComplete() {
 		// remove the ball from the StateBasedEntityManager
@@ -416,7 +416,7 @@ public class BallEntity extends Entity {
 		// reduce the counter for the amount of balls in play by one
 		LevelHandler.addActiveBalls(-1);
 		// remove this ball from the list which is keeping track of every ball
-		LevelHandler.removeBall(this);
+		EntityHandler.removeBall(this);
 	}
 
 	public void updateImage() {
