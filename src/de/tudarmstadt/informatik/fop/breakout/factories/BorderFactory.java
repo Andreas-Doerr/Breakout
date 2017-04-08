@@ -1,5 +1,6 @@
 package de.tudarmstadt.informatik.fop.breakout.factories;
 
+import de.tudarmstadt.informatik.fop.breakout.handlers.EntityHandler;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import eea.engine.entity.StateBasedEntityManager;
@@ -60,6 +61,8 @@ public class BorderFactory implements IEntityFactory, Constants {
 		border.setSize(size);
 		border.setVisible(false);
 		border.setPassable(false);
+
+		EntityHandler.addBorder(border);
 
 		StateBasedEntityManager.getInstance().addEntity(Constants.GAMEPLAY_STATE, border);
 

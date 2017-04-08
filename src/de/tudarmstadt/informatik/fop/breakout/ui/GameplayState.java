@@ -296,7 +296,8 @@ public class GameplayState extends BasicGameState {
 		// BotStick removal (all of them)
 		n_pressed.addAction((gc1, sb1, delta, event) -> {
 			if (OptionsHandler.isCheatModeActive() && !gc1.isPaused()) {
-				EntityHandler.destroyBotSticks();
+				//EntityHandler.destroyBotSticks();
+				new BallEntity(stick.getPosition().x, stick.getPosition().y);
 			}
 		});
 		// giving the listener-entity the n_pressed-event

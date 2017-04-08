@@ -30,6 +30,7 @@ public interface Constants {
 		TOP, LEFT, RIGHT
 	}
 	int BORDER_WIDTH = 10;
+	int MAX_AMOUNT_OF_BORDERS = 3;
 	String TOP_BORDER_ID = "topBorder";
 	String LEFT_BORDER_ID = "leftBorder";
 	String RIGHT_BORDER_ID = "rightBorder";

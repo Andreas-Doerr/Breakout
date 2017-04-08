@@ -4,6 +4,7 @@ import de.tudarmstadt.informatik.fop.breakout.engine.entity.BallEntity;
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.BlockEntity;
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.StickEntity;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
+import eea.engine.entity.Entity;
 
 /**
  * Created by PC - Andreas on 07.04.2017.
@@ -12,10 +13,11 @@ import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
  */
 public class EntityHandler {
 
-	// LISTS
-	private static BlockEntity[] blockList = new BlockEntity[160 + 1];	// meaning max is 160 since the last entry stays null
-	private static BallEntity[] ballList = new BallEntity[Constants.MAX_AMOUNT_OF_BALLS + 1];	// meaning max is 100 since the last entry stays null
-	private static StickEntity[] stickList = new StickEntity[Constants.MAX_AMOUNT_OF_STICKS + 1];	// meaning max is 10 since the last entry stays null
+// LISTS
+	private static BlockEntity[] blockList = new BlockEntity[160];
+	private static BallEntity[] ballList = new BallEntity[Constants.MAX_AMOUNT_OF_BALLS];
+	private static StickEntity[] stickList = new StickEntity[Constants.MAX_AMOUNT_OF_STICKS];
+	private static Entity[] borderList = new Entity[Constants.MAX_AMOUNT_OF_BORDERS];
 
 	// resetter
 	public static void resetEntityLists() {
@@ -25,7 +27,7 @@ public class EntityHandler {
 	}
 
 	// ENTITY LISTS
-// BLOCK
+// BLOCKS
 	public static boolean blockListHasSpace() {
 		return blockList[blockList.length - 1] == null;
 	}
@@ -51,15 +53,14 @@ public class EntityHandler {
 				break;
 			}
 		}
-		if (i < blockList.length - 1) {
-
-			for (; i < blockList.length - 1; i++) {
-				// from the entry which got removed to the second to last one (if you look at i as their index)
-				// all entries below the removed one are moved up one
+		for (; i < blockList.length - 1; i++) {
+			// entries below the removed one are moved up one until reaching a null entry
+			if (blockList[i+1] != null) {
 				blockList[i] = blockList[i + 1];
+			} else {
+				blockList[i] = null;
+				break;
 			}
-			// the last entry is set to null
-			blockList[blockList.length - 1] = null;
 		}
 	}
 	// getter
@@ -144,7 +145,7 @@ public class EntityHandler {
 
 	}
 
-	// BALL
+	// BALLS
 	public static boolean ballListHasSpace() {
 		return ballList[ballList.length - 1] == null;
 	}
@@ -170,15 +171,15 @@ public class EntityHandler {
 				break;
 			}
 		}
-		if (i < ballList.length - 1) {
 
-			for (; i < ballList.length - 1; i++) {
-				// from the entry which got removed to the second to last one (if you look at i as their index)
-				// all entries below the removed one are moved up one
+		for (; i < ballList.length - 1; i++) {
+			// entries below the removed one are moved up one until reaching a null entry
+			if (ballList[i+1] != null) {
 				ballList[i] = ballList[i + 1];
+			} else {
+				ballList[i] = null;
+				break;
 			}
-			// the last entry is set to null
-			ballList[ballList.length - 1] = null;
 		}
 	}
 	// getter
@@ -285,7 +286,7 @@ public class EntityHandler {
 		}
 	}
 
-	// STICK
+	// STICKS
 	public static boolean stickListHasSpace() {
 		return stickList[stickList.length - 1] == null;
 	}
@@ -311,15 +312,14 @@ public class EntityHandler {
 				break;
 			}
 		}
-		if (i < stickList.length - 1) {
-
-			for (; i < stickList.length - 1; i++) {
-				// from the entry which got removed to the second to last one (if you look at i as their index)
-				// all entries below the removed one are moved up one
+		for (; i < stickList.length - 1; i++) {
+			// entries below the removed one are moved up one until reaching a null entry
+			if (stickList[i+1] != null) {
 				stickList[i] = stickList[i + 1];
+			} else {
+				stickList[i] = null;
+				break;
 			}
-			// the last entry is set to null
-			stickList[stickList.length - 1] = null;
 		}
 	}
 	// actions
@@ -378,4 +378,42 @@ public class EntityHandler {
 			}
 		}
 	}
+
+	// BORDERS
+	public static boolean borderListHasSpace() {
+		return borderList[borderList.length - 1] == null;
+	}
+	public static void addBorder(Entity border) {
+		if (stickListHasSpace()) {
+			for (int i = 0; i < borderList.length; i++) {
+				if (borderList[i] == null) {
+					borderList[i] = border;
+					break;
+				}
+			}
+		} else {
+			System.err.println("Tried to add a border to the borderList even though the maximum supported amount of borders active at one time has been surpassed!");
+		}
+	}
+	public static void removeBorder(Entity border) {
+		int i;
+		for (i = 0; i < borderList.length; i++) {
+			if (borderList[i] == border) {
+				// searching for the entry which is to be removed
+				borderList[i] = null;
+				// stops looking for if it found it
+				break;
+			}
+		}
+		for (; i < borderList.length - 1; i++) {
+			// entries below the removed one are moved up one until reaching a null entry
+			if (borderList[i+1] != null) {
+				borderList[i] = borderList[i + 1];
+			} else {
+				borderList[i] = null;
+				break;
+			}
+		}
+	}
+
 }

@@ -20,6 +20,7 @@ import org.newdawn.slick.geom.Vector2f;
  */
 public class StickEntity extends Entity {
 
+	private ImageRenderComponent image;
 	private boolean bot = false;
 	private Entity indicator;
 	private Entity indicatorOut;
@@ -360,7 +361,9 @@ public class StickEntity extends Entity {
 			}
 			// activate the new image
 			try {
-				addComponent(new ImageRenderComponent(new Image(newStickImage)));
+				removeComponent(image);
+				image = new ImageRenderComponent(new Image(newStickImage));
+				addComponent(image);
 			} catch (SlickException e) {
 				System.err.println("ERROR: Could not load image: " + newStickImage);
 				e.printStackTrace();
