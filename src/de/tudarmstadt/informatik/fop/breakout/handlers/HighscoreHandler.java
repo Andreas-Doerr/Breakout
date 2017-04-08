@@ -87,11 +87,7 @@ public class HighscoreHandler {
 				"# highscoreCount:\n" + getHighscoreCount() +
 				"\n#\n### LIST ### \n" + entriesToWrite;
 
-		try {
-			FileHandler.write(highscoreFile, toWrite);
-		} catch (FileNotFoundException e) {
-			System.err.println("Could not find options-file");
-		}
+		FileHandler.write(highscoreFile, toWrite);
 	}
 
 	public static int addHighscore(String newName, int newDesBlocks, long newTime, int newPoints) {

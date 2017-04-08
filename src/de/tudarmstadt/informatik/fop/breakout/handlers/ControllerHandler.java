@@ -105,13 +105,6 @@ public class ControllerHandler {
 		return isPressed;
 	}
 
-	public static float getRightStick_x() {
-		float rightStick_x = 0f;
-		if (!Breakout.getDebug() && Controllers.getControllerCount() > 0) {
-			rightStick_x = controller.getRZAxisValue();
-		}
-		return rightStick_x;
-	}
 	public static float getStick(int axis) {
 		float axisValue = 0f;
 		if (!Breakout.getDebug() && Controllers.getControllerCount() > 0  && controller.getAxisCount() > axis) {

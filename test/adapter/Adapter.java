@@ -387,15 +387,11 @@ public class Adapter implements Constants {
 		for (int i = 0; i < updatetime; i++) {
 			if (input == Input.KEY_LEFT) {
 				System.out.println("left");
-				if (ControllerHandler.getRightStick_x() == 0 && stick.getPosition().x > (getSize().x / 2) && !(app.isPaused())) {
-					stick.setPosition(new Vector2f(stick.getPosition().x - Variables.STICK_SPEED, stick.getPosition().y));
-				}
+				stick.moveStick(-1);
 			}
 			if (input == Input.KEY_RIGHT) {
 				System.out.println("right");
-				if (ControllerHandler.getRightStick_x() == 0 && stick.getPosition().x < (Variables.WINDOW_WIDTH - (getSize().x / 2)) && !(app.isPaused())) {
-					stick.setPosition(new Vector2f(stick.getPosition().x + Variables.STICK_SPEED, stick.getPosition().y));
-				}
+				stick.moveStick(1);
 			}
 			try {
 				app.updateGame(1);

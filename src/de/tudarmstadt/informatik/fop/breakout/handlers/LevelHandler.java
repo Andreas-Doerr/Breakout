@@ -49,7 +49,7 @@ public class LevelHandler {
 	public static void addActiveBalls(int addedBalls) {
 		activeBallCount += addedBalls;
 	}
-	public static void addActiveDestroyedBall(int addedDestroyedBalls) {
+	private static void addActiveDestroyedBall(int addedDestroyedBalls) {
 		activeDestroyedBallCount += addedDestroyedBalls;
 	}
 	public static void addActiveBlocks(int addedBlocks) {

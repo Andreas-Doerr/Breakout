@@ -305,7 +305,7 @@ public class StickEntity extends Entity {
 		EntityHandler.readdIndicators();
 	}
 
-	private void moveStick(float speed) {
+	public void moveStick(float speed) {
 		if (!Breakout.getApp().isPaused() && (speed < -0.001f && (getPosition().x > getSize().x / 2)) || (speed > 0.001f && getPosition().x < (Variables.WINDOW_WIDTH - (getSize().x / 2)))) {
 			setPosition(new Vector2f(getPosition().x + Variables.STICK_SPEED * speed * (float) Constants.FRAME_RATE / (float) Breakout.getApp().getFPS(), getPosition().y));
 		}

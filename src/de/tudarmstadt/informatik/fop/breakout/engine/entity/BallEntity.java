@@ -419,7 +419,7 @@ public class BallEntity extends Entity {
 		EntityHandler.removeBall(this);
 	}
 
-	public void updateImage() {
+	private void updateImage() {
 		String newImage = ThemeHandler.STANDARDBALL;
 		if (getTotalSpeed() < Variables.INITIAL_TOTAL_SPEED * 1.05f) {
 			newImage = ThemeHandler.WATERBALL;

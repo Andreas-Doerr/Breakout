@@ -122,11 +122,7 @@ public class OptionsHandler {
 				"\n# selected Map:\n" + selectedMap +
 				"\n# themeSelector\n" + themeSelector;
 
-		try {
-			FileHandler.write(Constants.OPTIONS_FILE, toWrite);
-		} catch (FileNotFoundException e) {
-			System.err.println("Could not find options-file");
-		}
+		FileHandler.write(Constants.OPTIONS_FILE, toWrite);
 	}
 
 	// getter

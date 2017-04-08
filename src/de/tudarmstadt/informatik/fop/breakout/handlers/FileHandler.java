@@ -44,7 +44,7 @@ public class FileHandler {
 		return content;
 	}
 
-	public static void write(String ref, String toWrite) throws FileNotFoundException {
+	public static void write(String ref, String toWrite) {
 		try {
 			BufferedWriter bwr = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(ref)));
 			bwr.write(toWrite);
