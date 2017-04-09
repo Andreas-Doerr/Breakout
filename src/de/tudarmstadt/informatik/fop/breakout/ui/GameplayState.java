@@ -298,13 +298,6 @@ public class GameplayState extends BasicGameState {
 		n_pressed.addAction((gc1, sb1, delta, event) -> {
 			if (OptionsHandler.isCheatModeActive() && !gc1.isPaused()) {
 				new BallEntity(stick.getPosition().x, stick.getPosition().y - stick.getSize().y);
-				/*
-				System.out.println("\nCollidables:");
-				Entity[] newArray = EntityHandler.getCollidablesArray();
-				for (Entity anArray : newArray) {
-					if (anArray != null) System.out.println(anArray.getID());
-				}
-				*/
 			}
 		});
 		// giving the listener-entity the n_pressed-event

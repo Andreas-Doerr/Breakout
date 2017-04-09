@@ -321,11 +321,7 @@ public class Adapter implements Constants {
 	 * @return true if the player still has at least one live/ball left, else false.
 	 */
 	public boolean hasLivesLeft() {
-		if (PlayerHandler.getLives() > 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return PlayerHandler.getLives() > 0;
 	}
 
 	/* ***************************************************
