@@ -36,6 +36,7 @@ public interface Constants {
 	String RIGHT_BORDER_ID = "rightBorder";
 
 	// Blocks
+	int MAX_AMOUNT_OF_BLOCKS = 160;
 	int BLOCK_IMAGE_X = 200; // error if = 0
 	int BLOCK_IMAGE_Y = 117;
 

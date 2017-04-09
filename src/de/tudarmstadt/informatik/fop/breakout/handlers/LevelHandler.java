@@ -61,7 +61,7 @@ public class LevelHandler {
 		destroyedBlocks = 0;
 		activeBallCount = 0;
 		activeDestroyedBallCount = 0;
-		EntityHandler.resetEntityLists();
+		EntityHandler.resetEntityArrays();
 	}
 
 

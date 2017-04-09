@@ -210,12 +210,12 @@ public class GameplayState extends BasicGameState {
 			// only a new ball if no other ball is currently existing
 			if (OptionsHandler.getControlMode() == 0 && LevelHandler.getActiveBallCount() <= 0 && LevelHandler.getActiveDestroyedBallCount() <= 0 && PlayerHandler.getLives() > 0 && !gc1.isPaused() && ItemHandler.getItemsActive() == 0) {
 				// activate the ability to resume the Game
-				if (EntityHandler.ballListHasSpace()) {
+				if (EntityHandler.ballArrayHasSpace()) {
 					SoundHandler.playButtonPress();
 					currentlyRunning = true;
 
 					// creating a ball
-					new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
+					new BallEntity(stick.getPosition().x, (stick.getPosition().y - stick.getSize().y));
 				} else {
 					SoundHandler.playNotAcceptable();
 					System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
@@ -232,12 +232,12 @@ public class GameplayState extends BasicGameState {
 			// only a new ball if no other ball is currently existing
 			if (OptionsHandler.getControlMode() == 1 && LevelHandler.getActiveBallCount() <= 0 && LevelHandler.getActiveDestroyedBallCount() <= 0 && PlayerHandler.getLives() > 0 && !gc.isPaused() && ItemHandler.getItemsActive() == 0) {
 				// activate the ability to resume the Game
-				if (EntityHandler.ballListHasSpace()) {
+				if (EntityHandler.ballArrayHasSpace()) {
 					SoundHandler.playButtonPress();
 					currentlyRunning = true;
 
 					// creating a ball
-					new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
+					new BallEntity(stick.getPosition().x, (stick.getPosition().y - stick.getSize().y));
 				} else {
 					SoundHandler.playNotAcceptable();
 					System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
@@ -257,11 +257,11 @@ public class GameplayState extends BasicGameState {
 				// only a new ball if no other ball is currently existing
 				if (LevelHandler.getActiveBallCount() <= 0 && LevelHandler.getActiveDestroyedBallCount() <= 0 && PlayerHandler.getLives() > 0 && ItemHandler.getItemsActive() == 0) {
 					// activate the ability to resume the Game
-					if (EntityHandler.ballListHasSpace()) {
+					if (EntityHandler.ballArrayHasSpace()) {
 						currentlyRunning = true;
 
 						// creating a ball
-						new BallEntity(stick.getPosition().x, (stick.getPosition().y - (stick.getSize().y / 2)));
+						new BallEntity(stick.getPosition().x, (stick.getPosition().y - stick.getSize().y));
 					} else {
 						SoundHandler.playNotAcceptable();
 						System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
@@ -284,26 +284,32 @@ public class GameplayState extends BasicGameState {
 		// giving the listener-entity the b_pressed-event
 		listener.addComponent(b_pressed);
 
-	// // controller "listener" (Button 1)
+	// controller "listener" (Button 1)
 		listenerLoop.addAction((gc1, sb1, delta, event) -> {
 			if (OptionsHandler.isCheatModeActive() && ControllerHandler.isButtonPressed(0) && !gc1.isPaused()) {
 				EntityHandler.switchAllBots();
 			}
 		});
 
+// Cheats
 	// n_pressed event
 		KeyPressedEvent n_pressed = new KeyPressedEvent(Input.KEY_N);
-		// BotStick removal (all of them)
+		// new Ball
 		n_pressed.addAction((gc1, sb1, delta, event) -> {
 			if (OptionsHandler.isCheatModeActive() && !gc1.isPaused()) {
-				//EntityHandler.destroyBotSticks();
-				new BallEntity(stick.getPosition().x, stick.getPosition().y);
+				new BallEntity(stick.getPosition().x, stick.getPosition().y - stick.getSize().y);
+				/*
+				System.out.println("\nCollidables:");
+				Entity[] newArray = EntityHandler.getCollidablesArray();
+				for (Entity anArray : newArray) {
+					if (anArray != null) System.out.println(anArray.getID());
+				}
+				*/
 			}
 		});
 		// giving the listener-entity the n_pressed-event
 		listener.addComponent(n_pressed);
 
-// Cheats
 	// f_pressed event
 		KeyPressedEvent f_pressed = new KeyPressedEvent(Input.KEY_F);
 		// set the speed of all balls to max-speed

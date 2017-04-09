@@ -1,5 +1,6 @@
 package de.tudarmstadt.informatik.fop.breakout.engine.entity;
 
+import de.tudarmstadt.informatik.fop.breakout.engine.event.IteratedCollisionEvent;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
@@ -7,7 +8,6 @@ import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
 import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
-import eea.engine.event.basicevents.CollisionEvent;
 import eea.engine.event.basicevents.LeavingScreenEvent;
 import eea.engine.event.basicevents.LoopEvent;
 import org.newdawn.slick.Image;
@@ -39,7 +39,7 @@ public class BallEntity extends Entity {
 		// ball scaling
 		setScale(Variables.BLOCK_SCALE * 4 * 0.7f);
 
-
+		// image
 		updateImage();
 
 		// set position
@@ -55,14 +55,13 @@ public class BallEntity extends Entity {
 		addComponent(ballLoop);
 
 		// when the ball collides with something ...
-		CollisionEvent ce = new CollisionEvent();
-		addComponent(ce);
-
-		// TODO maybe: reflect by relative position (maybe also speed) like the ball-block collision
+		// My collision Event
+		IteratedCollisionEvent ice = new IteratedCollisionEvent();
+		addComponent(ice);
 
 		// ... reflecting if collided with a border, stick, block ...
-		ce.addAction((gc, sb, delta, event) -> {
-			Entity collidedEntity = ce.getCollidedEntity();
+		ice.addAction((gc, sb, delta, event) -> {
+			Entity collidedEntity = ice.getCollidedEntity();
 			if (!collidedEntity.isPassable()) {
 				boolean didCollide = true;
 
@@ -340,7 +339,7 @@ public class BallEntity extends Entity {
 
 	// item actions
 	public void duplicateBall() {
-		if (EntityHandler.ballListHasSpace()) {
+		if (EntityHandler.ballArrayHasSpace()) {
 			// creating a new ball
 			BallEntity ball2 = new BallEntity(getPosition().x, getPosition().y);
 			// giving the new ball movement in the opposite direction of the existing ball

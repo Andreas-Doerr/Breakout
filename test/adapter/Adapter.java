@@ -5,7 +5,6 @@ import de.tudarmstadt.informatik.fop.breakout.engine.entity.BlockEntity;
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.StickEntity;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
-import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
@@ -133,7 +132,7 @@ public class Adapter implements Constants {
 	 */
 	public Entity createBallInstance(String ballID) {
 		BallEntity ball = null;
-		if (EntityHandler.ballListHasSpace()) {
+		if (EntityHandler.ballArrayHasSpace()) {
 			ball = new BallEntity(0,0);
 		} else {
 			System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
