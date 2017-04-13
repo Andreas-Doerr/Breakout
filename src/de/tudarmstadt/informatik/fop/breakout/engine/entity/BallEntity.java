@@ -1,6 +1,6 @@
 package de.tudarmstadt.informatik.fop.breakout.engine.entity;
 
-import de.tudarmstadt.informatik.fop.breakout.engine.event.IteratedCollisionEvent;
+import de.tudarmstadt.informatik.fop.breakout.engine.event.basicevents.BlockCollisionEvent;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
@@ -45,7 +45,7 @@ public class BallEntity extends Entity {
 		// set position
 		setPosition(new Vector2f(pos_x, pos_y + getSize().y / 2));
 
-		// ball movement
+	// MOVEMENT
 		LoopEvent ballLoop = new LoopEvent();
 		ballLoop.addAction((gc, sb, delta, event) -> {
 			if (!gc.isPaused()) {
@@ -54,183 +54,50 @@ public class BallEntity extends Entity {
 		});
 		addComponent(ballLoop);
 
-		// when the ball collides with something ...
-		// My collision Event
-		IteratedCollisionEvent ice = new IteratedCollisionEvent();
-		addComponent(ice);
+	// COLLISION with a Block
+		BlockCollisionEvent blockCE = new BlockCollisionEvent();
+		addComponent(blockCE);
+		blockCE.addAction((gc, sb, delta, event) -> {
+			BlockEntity block = (BlockEntity) blockCE.getCollidedEntity();
+			if (!getLastCollidedWith().equals(block)) {
 
-		// ... reflecting if collided with a border, stick, block ...
-		ice.addAction((gc, sb, delta, event) -> {
-			Entity collidedEntity = ice.getCollidedEntity();
-			if (!collidedEntity.isPassable()) {
+				// BLOCK
+				// if the ball collided with a block (except if the last collision was with exactly this entity)
 				boolean didCollide = true;
 
-				float ball_centerToRight = getSize().x / 2;
-				float ball_centerToTop = getSize().y / 2;
+				// calculating position of the ball relative to the block it collided with
+				Vector2f ballpos = getPosition();
+				Vector2f blockpos = block.getPosition();
+				Vector2f ballpos_rel = new Vector2f(ballpos.x - blockpos.x, blockpos.y - ballpos.y);
 
-				float other_centerToRight = collidedEntity.getSize().x / 2;
-				float other_centerToTop = collidedEntity.getSize().y / 2;
-
-				float x_rel = Math.abs(collidedEntity.getPosition().x - getPosition().x);
-				float y_rel = Math.abs(collidedEntity.getPosition().y - getPosition().y);
-
-				// only corner of balls hitbox collided?
-				if (x_rel > (ball_centerToRight + other_centerToRight)) {
-					System.out.println("Too far apart horizontally");
-					didCollide = false;
-				} else if (y_rel > (ball_centerToTop + other_centerToTop)) {
-					System.out.println("Too far apart vertically");
+				// calculate new speeds for this ball
+				if ((ballpos_rel.y < (-Math.abs(ballpos_rel.x) + 10)) && getSpeedUp() > 0) {
+					// if hit from below
+					setSpeedUp(-getSpeedUp());
+				} else if ((ballpos_rel.y > (Math.abs(ballpos_rel.x) - 10)) && getSpeedUp() < 0) {
+					// if hit from above
+					setSpeedUp(-getSpeedUp());
+				} else if ((ballpos_rel.x < 0) && getSpeedRight() > 0) {
+					// if hit from the left
+					setSpeedRight(-getSpeedRight());
+				} else if ((ballpos_rel.x > 0) && getSpeedRight() < 0) {
+					// if hit from the right
+					setSpeedRight(-getSpeedRight());
+				} else {
+					// did not hit
 					didCollide = false;
 				}
 
-				// if the entity the ball collided with is not passable
-
-				if (collidedEntity.getID().contains("Border")
-						&& !getLastCollidedWith().equals(collidedEntity)) {
-
-					// BORDER
-					// if the ball collided with a border (except if the last collision was with exactly this entity)
-
-					// play the sound
-					SoundHandler.playHitBorder();
-					// set this balls lastCollidedWith to this collidedEntity-entity
-					setLastCollidedWith(collidedEntity);
-					// calculate new speeds for this ball
-					if (collidedEntity.getID().equals(Constants.TOP_BORDER_ID)) {
-						// if it was the top Border
-						setSpeedUp(-getSpeedUp());
-					} else {
-						// if it was any other border (left or right)
-						setSpeedRight(-getSpeedRight());
-					}
-				} else if (((collidedEntity.getID().equals(Constants.PLAYER_STICK_ID) || collidedEntity.getID().equals(Constants.BOT_STICK_ID))
-						&& getPosition().y < Variables.STICK_Y
-						&& getSpeedUp() < 0)
-						|| (collidedEntity.getID().equals(Constants.PLAYER_STICK_ID_TOP)
-						&& getPosition().y > Variables.STICK_Y_TOP
-						&& getSpeedUp() > 0)
-						&& !getLastCollidedWith().equals(collidedEntity)) {
-					// STICK
-					// if the ball collided with the collidedWith (except if the last collision was with exactly this entity, the ball is too low or is not moving downwards)
-
-					// set this balls lastCollidedWith to this collidedWith-entity
-					setLastCollidedWith(collidedEntity);
-					// calculate new speeds for this ball
-					// not intended to support gravity since the ball won't bounce off the collidedWith twice without hitting something else in between
-					// angle_change < 0 -> ball goes further left than normal
-					// angle_change > 0 -> ball goes further right than normal
-					// calculating angle_change
-					float stick_x = collidedEntity.getPosition().x;
-					float stick_side_length = collidedEntity.getSize().x / 2;
-					float ball_x = getPosition().x;
-
-					float offset = ball_x - stick_x;
-					float angle_change = offset / stick_side_length;
-
-					if (getSpeedRight() > 0) {
-						angle_change = -angle_change;
-					}
-
-					// angle_change is to be >= 0, <= 1
-					if (angle_change > 1f) {
-						angle_change = 1f;
-					} else if (angle_change < -1f) {
-						angle_change = -1f;
-					}
-
-					angle_change = (angle_change + 1) / 2;
-
-
-					// calculating reflected speeds
-					float angle = getMovementAngleRAD();
-					float angle_new = angle * (angle_change + 0.5f);
-
-					// calculate current speed (not absolute )
-					float v_ges = getTotalSpeed();
-					// adding speedup to it
-					float v_ges_new = v_ges + Variables.SPEEDUP_VALUE;
-
-					// capping to max_speed
-					if (v_ges_new > Variables.INITIAL_TOTAL_SPEED * Constants.MAX_SPEED_MULTIPLIER) {
-						v_ges_new = Variables.INITIAL_TOTAL_SPEED * Constants.MAX_SPEED_MULTIPLIER;
-					}
-					// calculating new speeds based on old ones the new angle and the new total speed
-					float new_up;
-					float new_right;
-					if (getSpeedUp() > 0) {
-						new_up = - (float) Math.abs(Math.sin(angle_new) * v_ges_new);
-					} else {
-						new_up = (float) Math.abs(Math.sin(angle_new) * v_ges_new);
-					}
-					if (getSpeedRight() > 0) {
-						new_right = (float) (Math.cos(angle_new) * v_ges_new);
-					} else {
-						new_right = -(float) ((Math.cos(angle_new) * v_ges_new));
-					}
-
-					// eliminate problems caused by one speed of the ball being 0 by never allowing it
-					if (new_up == 0f) {
-						setSpeedUp(0.0001f);
-						System.out.println("You are really fine tuned! (Vertical speed of the ball reached 0)");
-					} else {
-						setSpeedUp(new_up);
-					}
-					if (new_right == 0f) {
-						setSpeedRight(0.0001f);
-						System.out.println("You are really fine tuned! (Horizontal speed of the ball reached 0)");
-					} else {
-						setSpeedRight(new_right);
-					}
-
-					updateImage();
-
-					// calculate the pitch for the sound based on the speed of the ball before hitting the stick
-					// approximately: 1f <= pitch >= Constants.MAX_SPEED_MULTIPLIER
-					float pitch = Math.abs(v_ges) / Variables.INITIAL_TOTAL_SPEED;
-					// play the sound
-					SoundHandler.playHitStick(pitch);
-				} else if (collidedEntity.getID().contains("block") && !getLastCollidedWith().equals(collidedEntity)) {
-
-					// BLOCK
-					// if the ball collided with a block (except if the last collision was with exactly this entity)
-
-					BlockEntity block = (BlockEntity) collidedEntity;
-
-					// calculating position of the ball relative to the block it collided with
-					Vector2f ballpos = getPosition();
-					Vector2f blockpos = block.getPosition();
-					Vector2f ballpos_rel = new Vector2f(ballpos.x - blockpos.x, blockpos.y - ballpos.y);
-
-					// calculate new speeds for this ball
-					if ((ballpos_rel.y < (-Math.abs(ballpos_rel.x) + 10)) && getSpeedUp() > 0) {
-						// if hit from below
-						setSpeedUp(-getSpeedUp());
-					} else if ((ballpos_rel.y > (Math.abs(ballpos_rel.x) - 10)) && getSpeedUp() < 0) {
-						// if hit from above
-						setSpeedUp(-getSpeedUp());
-					} else if ((ballpos_rel.x < 0) && getSpeedRight() > 0) {
-						// if hit from the left
-						setSpeedRight(-getSpeedRight());
-					} else if ((ballpos_rel.x > 0) && getSpeedRight() < 0) {
-						// if hit from the right
-						setSpeedRight(-getSpeedRight());
-					} else {
-						// did not hit
-						didCollide = false;
-					}
-
-					if (didCollide) {
-						// play sound
-						SoundHandler.playHitBlock();
-						// set this balls lastCollidedWith to this block entity
-						setLastCollidedWith(block);
-						// destroying / replacing the block
-						block.hit();
-					}
+				if (didCollide) {
+					// play sound
+					SoundHandler.playHitBlock();
+					// set this balls lastCollidedWith to this block entity
+					lastCollidedWith = block;
+					// destroying / replacing the block
+					block.hit();
 				}
 			}
 		});
-
 
 		// always:
 		//	if the ball is too far down: destroy the ball and everything associated with it
@@ -249,7 +116,6 @@ public class BallEntity extends Entity {
 
 		// catching the ball if it sneaks through a border
 		// damn you ball >:(
-		// and setting its rotation to the MovementAngleDEG()
 		lse.addAction((gc, sb, delta, event) -> {
 			if (getPosition().y < 0 && OptionsHandler.getGameMode() != 1) {
 				// went past the top border
@@ -285,10 +151,10 @@ public class BallEntity extends Entity {
 	public float getTotalSpeed() {
 		return (float) Math.sqrt(getSpeedUp() * getSpeedUp() + getSpeedRight() * getSpeedRight());
 	}
-	public float getMovementAngleRAD() {
+	float getMovementAngleRAD() {
 		return (float) Math.atan(getSpeedUp() / getSpeedRight());
 	}
-	public float getMovementAngleDEG() {
+	float getMovementAngleDEG() {
 		return (float) (getMovementAngleRAD() / Math.PI * 180);
 	}
 	public Entity getLastCollidedWith() {
@@ -301,9 +167,6 @@ public class BallEntity extends Entity {
 	}
 	public void setSpeedRight(float newSpeedRight) {
 		this.SpeedRight = newSpeedRight;
-	}
-	public void setLastCollidedWith(Entity newLastCollidedWithStick) {
-		this.lastCollidedWith = newLastCollidedWithStick;
 	}
 	public void setTotalSpeed(float newTotalSpeed) {
 		if (newTotalSpeed != 0f) {
@@ -335,6 +198,9 @@ public class BallEntity extends Entity {
 		} else {
 			System.err.println("ERROR: Not allowed to set a balls total speed to 0");
 		}
+	}
+	public void setLastCollidedWith(Entity newLastCollidedWith) {
+		this.lastCollidedWith = newLastCollidedWith;
 	}
 
 	// item actions
@@ -418,7 +284,7 @@ public class BallEntity extends Entity {
 		EntityHandler.removeBall(this);
 	}
 
-	private void updateImage() {
+	 void updateImage() {
 		String newImage = ThemeHandler.STANDARDBALL;
 		if (getTotalSpeed() < Variables.INITIAL_TOTAL_SPEED * 1.05f) {
 			newImage = ThemeHandler.WATERBALL;
@@ -433,4 +299,5 @@ public class BallEntity extends Entity {
 			}
 		}
 	}
+
 }

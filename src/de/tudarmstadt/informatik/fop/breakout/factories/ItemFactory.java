@@ -1,6 +1,6 @@
 package de.tudarmstadt.informatik.fop.breakout.factories;
 
-import de.tudarmstadt.informatik.fop.breakout.engine.event.IteratedCollisionEvent;
+import de.tudarmstadt.informatik.fop.breakout.engine.event.basicevents.ItemPickupEvent;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.StickEntity;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
@@ -50,7 +50,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 
 
 		// create the collisionEvent for colliding with a stick
-		IteratedCollisionEvent ice = new IteratedCollisionEvent();
+		ItemPickupEvent iPE = new ItemPickupEvent();
 
 		// ID and image for the given type
 		switch (type) {
@@ -60,8 +60,8 @@ public class ItemFactory implements IEntityFactory, Constants {
 				item = new Entity(ITEM_1_ID);
 				image = ThemeHandler.BIGGER;
 				// pickup-action
-				ice.addPickupAction((gameContainer, stateBasedGame, i, component) -> {
-					StickEntity stick = (StickEntity) ice.getCollidedEntity();
+				iPE.addAction((gameContainer, stateBasedGame, i, component) -> {
+					StickEntity stick = (StickEntity) iPE.getCollidedEntity();
 					// do ...
 					stick.wider();
 					PlayerHandler.addPoints(50);
@@ -72,8 +72,8 @@ public class ItemFactory implements IEntityFactory, Constants {
 				item =  new Entity(ITEM_2_ID);
 				image = ThemeHandler.SMALLER;
 				// pickup-action
-				ice.addPickupAction((gc, sb, delta, event) -> {
-					StickEntity stick = (StickEntity) ice.getCollidedEntity();
+				iPE.addAction((gc, sb, delta, event) -> {
+					StickEntity stick = (StickEntity) iPE.getCollidedEntity();
 					// do ...
 					stick.slimmer();
 					PlayerHandler.addPoints(25);
@@ -84,7 +84,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 				item =  new Entity(ITEM_3_ID);
 				image = ThemeHandler.DESTROY_BALL;
 				// pickup-action
-				ice.addPickupAction((gc, sb, delta, event) -> {
+				iPE.addAction((gc, sb, delta, event) -> {
 					// do ...
 					EntityHandler.destroyRandomBall();
 					PlayerHandler.addPoints(-50);
@@ -95,7 +95,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 				item =  new Entity(ITEM_4_ID);
 				image = ThemeHandler.DUP;
 				// pickup-action
-				ice.addPickupAction((gc, sb, delta, event) -> {
+				iPE.addAction((gc, sb, delta, event) -> {
 					// do ...
 					EntityHandler.duplicateAllBalls();
 					PlayerHandler.addPoints(75);
@@ -106,7 +106,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 				item =  new Entity(ITEM_5_ID);
 				image = ThemeHandler.FASTER;
 				// pickup-action
-				ice.addPickupAction((gc, sb, delta, event) -> {
+				iPE.addAction((gc, sb, delta, event) -> {
 					// do ...
 					EntityHandler.max_speedAllBalls();
 					PlayerHandler.addPoints(10);
@@ -117,7 +117,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 				item =  new Entity(ITEM_6_ID);
 				image = ThemeHandler.SLOWER;
 				// pickup-action
-				ice.addPickupAction((gc, sb, delta, event) -> {
+				iPE.addAction((gc, sb, delta, event) -> {
 					// do ...
 					EntityHandler.min_speedAllBalls();
 					PlayerHandler.addPoints(15);
@@ -130,7 +130,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 		}
 
 		// add the collisionEvent for colliding with a stick
-		item.addComponent(ice);
+		item.addComponent(iPE);
 
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode

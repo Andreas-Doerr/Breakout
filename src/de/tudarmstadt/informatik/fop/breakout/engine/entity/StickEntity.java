@@ -1,5 +1,6 @@
 package de.tudarmstadt.informatik.fop.breakout.engine.entity;
 
+import de.tudarmstadt.informatik.fop.breakout.engine.event.basicevents.BallCollisionEvent;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
@@ -295,6 +296,96 @@ public class StickEntity extends Entity {
 			} else if (indicator.isVisible()) {
 				indicator.setVisible(false);
 				indicatorOut.setVisible(false);
+			}
+		});
+
+
+		// Collision with Ball
+		BallCollisionEvent ballCE = new BallCollisionEvent();
+		addComponent(ballCE);
+		ballCE.addAction((gc, sb, delta, event) -> {
+			BallEntity ball = (BallEntity) ballCE.getCollidedEntity();
+			if (((ball.getPosition().y > Variables.WINDOW_HEIGHT / 2 && ball.getPosition().y < Variables.STICK_Y && ball.getPosition().y > Variables.WINDOW_HEIGHT / 2 && ball.getSpeedUp() < 0)
+					|| (ball.getPosition().y < Variables.WINDOW_HEIGHT / 2 && ball.getPosition().y > Variables.STICK_Y_TOP && ball.getSpeedUp() > 0))
+					&& !ball.getLastCollidedWith().equals(this)) {
+				// STICK
+				// if the ball collided with the stick (except if the last collision was with exactly this entity, the ball is too low or is not moving downwards)
+
+				// set this balls lastCollidedWith to this collidedWith-entity
+				ball.setLastCollidedWith(this);
+				// calculate new speeds for this ball
+				// not intended to support gravity since the ball won't bounce off the collidedWith twice without hitting something else in between
+				// angle_change < 0 -> ball goes further left than normal
+				// angle_change > 0 -> ball goes further right than normal
+				// calculating angle_change
+				float stick_x = getPosition().x;
+				float stick_side_length = getSize().x / 2;
+				float ball_x = ball.getPosition().x;
+
+				float offset = ball_x - stick_x;
+				float angle_change = offset / stick_side_length;
+
+				if (ball.getSpeedRight() > 0) {
+					angle_change = -angle_change;
+				}
+
+				// angle_change is to be >= 0, <= 1
+				if (angle_change > 1f) {
+					angle_change = 1f;
+				} else if (angle_change < -1f) {
+					angle_change = -1f;
+				}
+
+				angle_change = (angle_change + 1) / 2;
+
+				// calculating reflected speeds
+				float angle = ball.getMovementAngleRAD();
+				float angle_new = angle * (angle_change + 0.5f);
+
+				// calculate current speed (not absolute )
+				float v_ges = ball.getTotalSpeed();
+				// adding speedup to it
+				float v_ges_new = v_ges + Variables.SPEEDUP_VALUE;
+
+				// capping to max_speed
+				if (v_ges_new > Variables.INITIAL_TOTAL_SPEED * Constants.MAX_SPEED_MULTIPLIER) {
+					v_ges_new = Variables.INITIAL_TOTAL_SPEED * Constants.MAX_SPEED_MULTIPLIER;
+				}
+				// calculating new speeds based on old ones the new angle and the new total speed
+				float new_up;
+				float new_right;
+				if (ball.getSpeedUp() > 0) {
+					new_up = - (float) Math.abs(Math.sin(angle_new) * v_ges_new);
+				} else {
+					new_up = (float) Math.abs(Math.sin(angle_new) * v_ges_new);
+				}
+				if (ball.getSpeedRight() > 0) {
+					new_right = (float) (Math.cos(angle_new) * v_ges_new);
+				} else {
+					new_right = -(float) ((Math.cos(angle_new) * v_ges_new));
+				}
+
+				// eliminate problems caused by one speed of the ball being 0 by never allowing it
+				if (new_up == 0f) {
+					ball.setSpeedUp(0.0001f);
+					System.out.println("You are really fine tuned! (Vertical speed of the ball reached 0)");
+				} else {
+					ball.setSpeedUp(new_up);
+				}
+				if (new_right == 0f) {
+					ball.setSpeedRight(0.0001f);
+					System.out.println("You are really fine tuned! (Horizontal speed of the ball reached 0)");
+				} else {
+					ball.setSpeedRight(new_right);
+				}
+
+				ball.updateImage();
+
+				// calculate the pitch for the sound based on the speed of the ball before hitting the stick
+				// approximately: 1f <= pitch >= Constants.MAX_SPEED_MULTIPLIER
+				float pitch = Math.abs(v_ges) / Variables.INITIAL_TOTAL_SPEED;
+				// play the sound
+				SoundHandler.playHitStick(pitch);
 			}
 		});
 

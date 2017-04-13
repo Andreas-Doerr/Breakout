@@ -14,25 +14,23 @@ import eea.engine.entity.Entity;
 public class EntityHandler {
 
 // Arrays
-	private static BlockEntity[] blockArray = new BlockEntity[Constants.MAX_AMOUNT_OF_BLOCKS];
-	private static BallEntity[] ballArray = new BallEntity[Constants.MAX_AMOUNT_OF_BALLS];
-	private static StickEntity[] stickArray = new StickEntity[Constants.MAX_AMOUNT_OF_STICKS];
-	private static Entity[] borderArray = new Entity[Constants.MAX_AMOUNT_OF_BORDERS];
-	private static Entity[] collidablesArray = new Entity[Constants.MAX_AMOUNT_OF_BLOCKS + Constants.MAX_AMOUNT_OF_STICKS + Constants.MAX_AMOUNT_OF_BORDERS];
+	private static BlockEntity[] blockArray = new BlockEntity[Constants.MAX_AMOUNT_OF_BLOCKS + 1];
+	private static BallEntity[] ballArray = new BallEntity[Constants.MAX_AMOUNT_OF_BALLS + 1];
+	private static StickEntity[] stickArray = new StickEntity[Constants.MAX_AMOUNT_OF_STICKS + 1];
+	private static Entity[] borderArray = new Entity[Constants.MAX_AMOUNT_OF_BORDERS + 1];
 
 	// resetter
 	public static void resetEntityArrays() {
-		blockArray = new BlockEntity[Constants.MAX_AMOUNT_OF_BLOCKS];
-		ballArray = new BallEntity[Constants.MAX_AMOUNT_OF_BALLS];
-		stickArray = new StickEntity[Constants.MAX_AMOUNT_OF_STICKS];
-		borderArray = new Entity[Constants.MAX_AMOUNT_OF_BORDERS];
-		collidablesArray = new Entity[Constants.MAX_AMOUNT_OF_BLOCKS + Constants.MAX_AMOUNT_OF_STICKS + Constants.MAX_AMOUNT_OF_BORDERS];
+		blockArray = new BlockEntity[Constants.MAX_AMOUNT_OF_BLOCKS + 1];
+		ballArray = new BallEntity[Constants.MAX_AMOUNT_OF_BALLS + 1];
+		stickArray = new StickEntity[Constants.MAX_AMOUNT_OF_STICKS + 1];
+		borderArray = new Entity[Constants.MAX_AMOUNT_OF_BORDERS + 1];
 	}
 
 // ENTITY Arrays
 // BLOCKS
 	public static boolean blockArrayHasSpace() {
-		return blockArray[blockArray.length - 1] == null;
+		return blockArray[blockArray.length - 2] == null;
 	}
 	public static void addBlock(BlockEntity block) {
 		if (blockArrayHasSpace()) {
@@ -42,7 +40,6 @@ public class EntityHandler {
 					break;
 				}
 			}
-			addCollidable(block);
 		} else {
 			System.err.println("Tried to add a block to the blockArray even though the maximum supported amount of blocks active at one time has been surpassed!");
 		}
@@ -66,7 +63,6 @@ public class EntityHandler {
 				break;
 			}
 		}
-		removeCollidable(block);
 	}
 	// getter
 	public static BlockEntity[] getBlockArray() {
@@ -155,7 +151,7 @@ public class EntityHandler {
 
 	// BALLS
 	public static boolean ballArrayHasSpace() {
-		return ballArray[ballArray.length - 1] == null;
+		return ballArray[ballArray.length - 2] == null;
 	}
 	public static void addBall(BallEntity ball) {
 		if (ballArrayHasSpace()) {
@@ -191,6 +187,9 @@ public class EntityHandler {
 		}
 	}
 	// getter
+	public static BallEntity[] getBallArray() {
+		return ballArray;
+	}
 	public static boolean isBallArrayEmpty() {
 		return ballArray[0] == null;
 	}
@@ -293,7 +292,7 @@ public class EntityHandler {
 
 	// STICKS
 	public static boolean stickArrayHasSpace() {
-		return stickArray[stickArray.length - 1] == null;
+		return stickArray[stickArray.length - 2] == null;
 	}
 	public static void addStick(StickEntity stick) {
 		if (stickArrayHasSpace()) {
@@ -303,7 +302,6 @@ public class EntityHandler {
 					break;
 				}
 			}
-			addCollidable(stick);
 		} else {
 			System.err.println("Tried to add a stick to the stickArray even though the maximum supported amount of sticks active at one time has been surpassed!");
 		}
@@ -327,7 +325,6 @@ public class EntityHandler {
 				break;
 			}
 		}
-		removeCollidable(stick);
 	}
 	// getter
 	public static StickEntity[] getStickArray() {
@@ -392,17 +389,16 @@ public class EntityHandler {
 
 	// BORDERS
 	public static boolean borderArrayHasSpace() {
-		return borderArray[borderArray.length - 1] == null;
+		return borderArray[borderArray.length - 2] == null;
 	}
 	public static void addBorder(Entity border) {
-		if (stickArrayHasSpace()) {
+		if (borderArrayHasSpace()) {
 			for (int i = 0; i < borderArray.length; i++) {
 				if (borderArray[i] == null) {
 					borderArray[i] = border;
 					break;
 				}
 			}
-			addCollidable(border);
 		} else {
 			System.err.println("Tried to add a border to the borderArray even though the maximum supported amount of borders active at one time has been surpassed!");
 		}
@@ -426,49 +422,17 @@ public class EntityHandler {
 				break;
 			}
 		}
-		removeCollidable(border);
 	}
 	// getter
 	public static Entity[] getBorderArray() {
 		return borderArray;
 	}
 
-	// COLLIDABLES
-	public static void addCollidable(Entity collidable) {
-		if (stickArrayHasSpace()) {
-			for (int i = 0; i < collidablesArray.length; i++) {
-				if (collidablesArray[i] == null) {
-					collidablesArray[i] = collidable;
-					break;
-				}
-			}
-		} else {
-			System.err.println("Tried to add a collidable to the collidablesArray even though the maximum supported amount of collidables active at one time has been surpassed!");
+	// DEBUG
+	private static void printArray(Object[] array) {
+		for (int i = 0; i< array.length;i++) {
+			System.out.println(i + ".: " + array[i]);
 		}
-	}
-	public static void removeCollidable(Entity collidable) {
-		int i;
-		for (i = 0; i < collidablesArray.length; i++) {
-			if (collidablesArray[i] == collidable) {
-				// searching for the entry which is to be removed
-				collidablesArray[i] = null;
-				// stops looking for if it found it
-				break;
-			}
-		}
-		for (; i < collidablesArray.length - 1; i++) {
-			// entries below the removed one are moved up one until reaching a null entry
-			if (collidablesArray[i+1] != null) {
-				collidablesArray[i] = collidablesArray[i + 1];
-			} else {
-				collidablesArray[i] = null;
-				break;
-			}
-		}
-	}
-	// getter
-	public static Entity[] getCollidablesArray() {
-		return collidablesArray;
 	}
 
 }

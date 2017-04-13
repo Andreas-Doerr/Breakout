@@ -69,7 +69,6 @@ public interface Constants {
 	// Stick
 	String PLAYER_STICK_ID = "playerStick";
 	String PLAYER_STICK_ID_TOP = "playerStickTop";
-	String BOT_STICK_ID = "botStick";
 	enum StickShape {
 		SLIM, NORMAL, WIDE
 	}
