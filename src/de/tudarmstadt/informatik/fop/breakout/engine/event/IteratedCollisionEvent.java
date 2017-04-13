@@ -37,8 +37,6 @@ public abstract class IteratedCollisionEvent extends Component {
 		this.actions.remove(index);
 	}
 
-	//TODO skip passable entities
-
 	public void update(GameContainer gc, StateBasedGame sb, int delta) {
 		int startAt = this.checkCollisionFor(0) + 1;
 		while (startAt >= 0) {
