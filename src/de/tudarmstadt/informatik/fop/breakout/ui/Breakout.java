@@ -107,4 +107,20 @@ public class Breakout extends StateBasedGame implements Constants {
 		StateBasedEntityManager.getInstance().addState(ABOUT_STATE);
 
 	}
+
+	public static void reinitStates(GameContainer gc, StateBasedGame sb, int stateID) {
+		// forcing init for all states
+		StateBasedEntityManager.getInstance().clearEntitiesFromState(stateID);
+		try {
+			gc.getInput().clearKeyPressedRecord();
+			gc.getInput().clearControlPressedRecord();
+			gc.getInput().clearMousePressedRecord();
+			sb.init(gc);
+		} catch (SlickException var6) {
+			var6.printStackTrace();
+		}
+		if(gc.isPaused()) {
+			gc.resume();
+		}
+	}
 }

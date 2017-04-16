@@ -3,7 +3,6 @@ package de.tudarmstadt.informatik.fop.breakout.handlers;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
-import eea.engine.entity.StateBasedEntityManager;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
@@ -249,32 +248,14 @@ public class OptionsHandler {
 	}
 	public static void updateWindow(GameContainer gc, StateBasedGame sb, int stateID) {
 		if (OptionsHandler.setWindowSize(gc.getWidth(), gc.getHeight())) {
-			// init states (like changeStateInitAction just without changing states)
-			StateBasedEntityManager.getInstance().clearEntitiesFromState(stateID);
-
-			try {
-				gc.getInput().clearKeyPressedRecord();
-				gc.getInput().clearControlPressedRecord();
-				gc.getInput().clearMousePressedRecord();
-				sb.init(gc);
-			} catch (SlickException var6) {
-				var6.printStackTrace();
-			}
+			// forcing init for all states
+			Breakout.reinitStates(gc, sb, stateID);
 		}
 	}
 	public static void updateWindow(GameContainer gc, StateBasedGame sb, int stateID, int newX, int newY) {
 		if (OptionsHandler.setWindowSize(newX, newY)) {
-			// init states (like changeStateInitAction just without changing states)
-			StateBasedEntityManager.getInstance().clearEntitiesFromState(stateID);
-
-			try {
-				gc.getInput().clearKeyPressedRecord();
-				gc.getInput().clearControlPressedRecord();
-				gc.getInput().clearMousePressedRecord();
-				sb.init(gc);
-			} catch (SlickException var6) {
-				var6.printStackTrace();
-			}
+			// forcing init for all states
+			Breakout.reinitStates(gc, sb, stateID);
 		}
 	}
 }

@@ -83,18 +83,7 @@ public class MainMenuState extends BasicGameState {
 				sb1.enterState(Constants.GAMEPLAY_STATE);
 
 				// forcing init for all states
-				StateBasedEntityManager.getInstance().clearEntitiesFromState(Constants.GAMEPLAY_STATE);
-				try {
-					gc1.getInput().clearKeyPressedRecord();
-					gc1.getInput().clearControlPressedRecord();
-					gc1.getInput().clearMousePressedRecord();
-					sb1.init(gc1);
-				} catch (SlickException var6) {
-					var6.printStackTrace();
-				}
-				if(gc1.isPaused()) {
-					gc1.resume();
-				}
+				Breakout.reinitStates(gc1, sb1, Constants.GAMEPLAY_STATE);
 			}
 		});
 
