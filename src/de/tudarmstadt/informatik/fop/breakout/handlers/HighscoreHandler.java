@@ -13,43 +13,33 @@ import java.io.IOException;
 public class HighscoreHandler {
 
 	public static int maxHighscoreCount = Constants.MAX_HIGHSCORES;
+	private static int[] highscoreCount = new int[Constants.AMOUNT_OF_GAMEMODES];
+	private static String[][] names =  new String[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
+	private static int[][] desBlocks =  new int[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
+	private static Long[][] time =  new Long[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
+	private static int[][] points = new int[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
 
-	private static int highscoreCount0 = 0;
-	private static int highscoreCount1 = 0;
-	private static String[][] names =  new String[2][maxHighscoreCount];
-	private static int[][] desBlocks =  new int[2][maxHighscoreCount];
-	private static Long[][] time =  new Long[2][maxHighscoreCount];
-	private static int[][] points = new int[2][maxHighscoreCount];
-
-	public static int getHighscoreCount() {
-		if (OptionsHandler.getGameMode() == 0) {
-			return highscoreCount0;
-		} else if (OptionsHandler.getGameMode() == 1) {
-			return highscoreCount1;
-		}
-		return 0;
+	public static int getHighscoreCount(int gameMode) {
+		return highscoreCount[gameMode];
 	}
 
 	public static void reset() {
-		highscoreCount0 = 0;
-		highscoreCount1 = 0;
-		names =  new String[2][maxHighscoreCount];
-		desBlocks =  new int[2][maxHighscoreCount];
-		time =  new Long[2][maxHighscoreCount];
-		points = new int[2][maxHighscoreCount];
+		highscoreCount = new int[Constants.AMOUNT_OF_GAMEMODES];
+		names =  new String[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
+		desBlocks =  new int[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
+		time =  new Long[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
+		points = new int[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
 	}
 
-	public static void readHighscore() {
-		String[] highscoreContent = new String[2];
-		for (int gm = 0; gm < 2; gm++) {
+	public static void readHighscores() {
+		String[] highscoreContent = new String[Constants.AMOUNT_OF_GAMEMODES];
+		for (int gm = 0; gm < Constants.AMOUNT_OF_GAMEMODES; gm++) {
 			int i = 0;
 			try {
 				highscoreContent = FileHandler.read(Constants.HIGHSCORE_FOLDER + Constants.HIGHSCORE_FILE + gm + Constants.HIGHSCORE_FILE_ENDING, maxHighscoreCount);
-				if (gm == 0) {
-					highscoreCount0 = Integer.valueOf(highscoreContent[0]);
-				} else if (gm == 1) {
-					highscoreCount1 = Integer.valueOf(highscoreContent[0]);
-				}
+
+				highscoreCount[gm] = Integer.valueOf(highscoreContent[0]);
+
 				i++;
 				for (; i < maxHighscoreCount && highscoreContent[i] != null; i++) {
 					String[] entryContent = highscoreContent[i].split(",");
@@ -61,7 +51,7 @@ public class HighscoreHandler {
 			} catch (FileNotFoundException fnfE) {
 				System.err.println("ERROR: Could not find highscore-file at: " + Constants.HIGHSCORE_FOLDER + Constants.HIGHSCORE_FILE + gm + Constants.HIGHSCORE_FILE_ENDING);
 				System.out.println("INFO: Saving empty highscore.hsc-file to: " + Constants.HIGHSCORE_FOLDER + Constants.HIGHSCORE_FILE + gm + Constants.HIGHSCORE_FILE_ENDING);
-				saveHighscore();
+				saveHighscore(gm);
 			} catch (IOException ioE) {
 				System.err.println("ERROR: Could not read highscore file.");
 				ioE.printStackTrace();
@@ -71,20 +61,20 @@ public class HighscoreHandler {
 		}
 	}
 
-	public static void saveHighscore() {
+	private static void saveHighscore(int gameMode) {
 		String entriesToWrite = "";
 
-		int gameMode = OptionsHandler.getGameMode();
+		String highscoreFile = Constants.HIGHSCORE_FOLDER + Constants.HIGHSCORE_FILE + gameMode + Constants.HIGHSCORE_FILE_ENDING;
 
-		String highscoreFile = Constants.HIGHSCORE_FOLDER + Constants.HIGHSCORE_FILE + OptionsHandler.getGameMode() + Constants.HIGHSCORE_FILE_ENDING;
+		System.out.println("saving highscores to file: " + highscoreFile);
 
-		for (int i = 0; i < getHighscoreCount(); i++) {
+		for (int i = 0; i < getHighscoreCount(gameMode); i++) {
 			entriesToWrite += "# ENTRY " + i + "\n" +
 					names[gameMode][i] + "," + desBlocks[gameMode][i] + "," + time[gameMode][i] + "," + points[gameMode][i] + "\n";
 		}
 		String toWrite = "### This is the highscore List ###\n#" +
 				"\n## all the highscores are saved here ##\n#" +
-				"# highscoreCount:\n" + getHighscoreCount() +
+				"# highscoreCount:\n" + getHighscoreCount(gameMode) +
 				"\n#\n### LIST ### \n" + entriesToWrite;
 
 		FileHandler.write(highscoreFile, toWrite);
@@ -93,10 +83,10 @@ public class HighscoreHandler {
 	public static int addHighscore(String newName, int newDesBlocks, long newTime, int newPoints) {
 		int gameMode = OptionsHandler.getGameMode();
 		int iteration = 0;
-		while (iteration <= getHighscoreCount() && newPoints < points[gameMode][iteration]) {
+		while (iteration <= getHighscoreCount(gameMode) && newPoints < points[gameMode][iteration]) {
 			iteration++;
 		}
-		while (iteration <= getHighscoreCount() && newPoints == points[gameMode][iteration] && newDesBlocks < desBlocks[gameMode][iteration]) {
+		while (iteration <= getHighscoreCount(gameMode) && newPoints == points[gameMode][iteration] && newDesBlocks < desBlocks[gameMode][iteration]) {
 			iteration++;
 		}
 		while (newPoints == points[gameMode][iteration] && newDesBlocks == desBlocks[gameMode][iteration] && time[gameMode][iteration] != null && newTime > time[gameMode][iteration]) {
@@ -110,15 +100,11 @@ public class HighscoreHandler {
 		time[gameMode][iteration] = newTime;
 		points[gameMode][iteration] = newPoints;
 
-		if (getHighscoreCount() < maxHighscoreCount) {
-			if (OptionsHandler.getGameMode() == 0) {
-				highscoreCount0++;
-			} else if (OptionsHandler.getGameMode() == 1) {
-				highscoreCount1++;
-			}
+		if (getHighscoreCount(gameMode) < maxHighscoreCount) {
+			highscoreCount[gameMode]++;
 		}
 
-		saveHighscore();
+		saveHighscore(gameMode);
 
 		return iteration;
 	}
@@ -138,28 +124,28 @@ public class HighscoreHandler {
 	}
 
 	public static String getNameAtHighscorePosition(int pos) {
-		if (pos >= 0 && pos < getHighscoreCount()) {
+		if (pos >= 0 && pos < getHighscoreCount(OptionsHandler.getGameMode())) {
 			return names[OptionsHandler.getGameMode()][pos];
 		} else {
 			return null;
 		}
 	}
 	public static int getDesBlocksAtHighscorePosition(int pos) {
-		if (pos >= 0 && pos < getHighscoreCount()) {
+		if (pos >= 0 && pos < getHighscoreCount(OptionsHandler.getGameMode())) {
 			return desBlocks[OptionsHandler.getGameMode()][pos];
 		} else {
 			return -1;
 		}
 	}
 	public static long getTimeElapsedAtHighscorePosition(int pos) {
-		if (pos >= 0 && pos < getHighscoreCount()) {
+		if (pos >= 0 && pos < getHighscoreCount(OptionsHandler.getGameMode())) {
 			return time[OptionsHandler.getGameMode()][pos];
 		} else {
 			return -1;
 		}
 	}
 	public static int getPointsAtHighscorePosition(int pos) {
-		if (pos >= 0 && pos < getHighscoreCount()) {
+		if (pos >= 0 && pos < getHighscoreCount(OptionsHandler.getGameMode())) {
 			return points[OptionsHandler.getGameMode()][pos];
 		} else {
 			return -1;

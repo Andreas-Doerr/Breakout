@@ -101,6 +101,7 @@ public class StickEntity extends Entity {
 			}
 		}
 		indicator.setVisible(false);
+		indicator.setScale(Variables.BLOCK_SCALE * 3);
 		StateBasedEntityManager.getInstance().addEntity(Breakout.GAMEPLAY_STATE, indicator);
 
 		indicatorOut = new Entity("indicatorOut");
@@ -115,6 +116,7 @@ public class StickEntity extends Entity {
 			}
 		}
 		indicatorOut.setVisible(false);
+		indicatorOut.setScale(Variables.BLOCK_SCALE * 3);
 		StateBasedEntityManager.getInstance().addEntity(Breakout.GAMEPLAY_STATE, indicatorOut);
 
 		// indicator positioning
@@ -391,9 +393,6 @@ public class StickEntity extends Entity {
 
 		// adding the Stick to the StateBasedEntityManager
 		StateBasedEntityManager.getInstance().addEntity(Constants.GAMEPLAY_STATE, this);
-
-		// moving the stick above the indicator in the entity-list
-		EntityHandler.readdIndicators();
 	}
 
 	public void moveStick(float speed) {
@@ -468,16 +467,5 @@ public class StickEntity extends Entity {
 		// delete the stick
 		StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, this);
 
-	}
-
-	public void readdIndicators() {
-		if (indicator != null) {
-			StateBasedEntityManager.getInstance().removeEntity(Breakout.GAMEPLAY_STATE, indicator);
-			StateBasedEntityManager.getInstance().addEntity(Breakout.GAMEPLAY_STATE, indicator);
-		}
-		if (indicatorOut != null) {
-			StateBasedEntityManager.getInstance().removeEntity(Breakout.GAMEPLAY_STATE, indicatorOut);
-			StateBasedEntityManager.getInstance().addEntity(Breakout.GAMEPLAY_STATE, indicatorOut);
-		}
 	}
 }

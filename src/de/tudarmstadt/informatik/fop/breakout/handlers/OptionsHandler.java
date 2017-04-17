@@ -20,13 +20,14 @@ public class OptionsHandler {
 	private static int window_y = 1200 / 4 * 3;
 	private static boolean fullscreen = false;
 	private static boolean showFPS = false;
-	private static String[] availableLanguages = new String[Constants.MAX_LANGUAGES];
+	private static String[] availableLanguages = "en,de,".split(",");
 	private static int langSelector = 0;
 	private static int controlMode = 0; // 0=keyboard, 1=mouse, 2=controller
 	private static int selectedController = 0;
 	private static int gameMode = 0;
 	private static boolean cheatMode = false;
-	private static String[] availableMaps = new String[Constants.MAX_MAPS];
+	private static String[] availableMaps = "Blume,FOP-Logo,Herz,Parallelen,Pyramide,Rennauto,Schildkroete,level_a,level_b,level_c,level_d,level_e,Explosions".split(",");
+	private static int amountOfMaps = availableMaps.length;
 	private static int selectedMap = 0;
 	private static int themeSelector = 0;
 
@@ -47,6 +48,7 @@ public class OptionsHandler {
 				gameMode = Integer.valueOf(optionsContent[7]);
 				cheatMode = Boolean.valueOf(optionsContent[8]);
 				availableMaps = optionsContent[9].split(",");
+				amountOfMaps = availableMaps.length;
 				selectedMap = Integer.valueOf(optionsContent[10]);
 				themeSelector = Integer.valueOf(optionsContent[11]);
 
@@ -70,14 +72,6 @@ public class OptionsHandler {
 			for (String thisAvailableLanguage : availableLanguages) {
 				availableLanguagesAsString += thisAvailableLanguage + ",";
 			}
-		} else {
-			availableLanguagesAsString = "en,de,";
-			int i = 2;
-			while (i < Constants.MAX_LANGUAGES && availableLanguages[i] == null) {
-				availableLanguagesAsString += "placeholder,";
-				i++;
-			}
-			availableLanguages = availableLanguagesAsString.split(",");
 		}
 
 		String availableMapsAsString = "";
@@ -85,14 +79,6 @@ public class OptionsHandler {
 			for (String thisAvailableMap : availableMaps) {
 				availableMapsAsString += thisAvailableMap + ",";
 			}
-		} else {
-			availableMapsAsString = "Blume,FOP-Logo,Herz,Parallelen,Pyramide,Rennauto,Schildkroete,level_a,level_b,level_c,level_d,level_e,Explosions,";
-			int i = 12;
-			while (i < Constants.MAX_MAPS && availableMaps[i] == null) {
-				availableMapsAsString += "placeholder,";
-				i++;
-			}
-			availableMaps = availableMapsAsString.split(",");
 		}
 
 		String toWrite = "### Options for Breakout ###\n#" +
@@ -109,12 +95,12 @@ public class OptionsHandler {
 				"\n# Show FPS:\n" + showFPS +
 				"\n###### Controls ######\n#" +
 				"\n### General" +
-				"\n# controlMode (0=keyboard, 1=mouse, 2=controller\n" + controlMode +
+				"\n# controlMode (0=keyboard, 1=mouse, 2=controller)\n" + controlMode +
 				"\n### Controller" +
 				"\n# selected controller\n" + selectedController +
 				"\n###### Game Mode ######\n#" +
-				"\n# GameMode =0 means standard, =1means coop-mode\n" + gameMode +
-				"\n# cheatMode =0 nocheats allowed\n" + cheatMode +
+				"\n# GameMode =0 means standard, =1 means coop-mode\n" + gameMode +
+				"\n# cheatMode =0 means no cheats allowed\n" + cheatMode +
 				"\n###### Level ######\n#" +
 				"\n### Maps" +
 				"\n# available Maps separated by \",\"\n" + availableMapsAsString +
@@ -168,6 +154,9 @@ public class OptionsHandler {
 			controlModeName = "controller";
 		}
 		return controlModeName;
+	}
+	public static int getAmountOfMaps() {
+		return amountOfMaps;
 	}
 	public static int getSelectedMap() {
 		return selectedMap;
@@ -258,4 +247,5 @@ public class OptionsHandler {
 			Breakout.reinitStates(gc, sb, stateID);
 		}
 	}
+
 }

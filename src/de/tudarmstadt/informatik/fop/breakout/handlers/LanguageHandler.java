@@ -6,7 +6,6 @@ import java.io.IOException;
 /**
  * @author Andreas Dörr
  */	//TODO commenting
-	// save them in an array String[2 + amount of initial placeholders][3(No.; Name; file-path)]
 public class LanguageHandler {
 
 	public static String BUTTON_NEW_GAME;
@@ -49,56 +48,52 @@ public class LanguageHandler {
 
 		String selectedLang = OptionsHandler.getAvailableLanguage(OptionsHandler.getLangSelector());
 
-		if (selectedLang.equals("placeholder")) {
+		try {
+			String[] langContent = FileHandler.read("lang/" + selectedLang + ".lang", 35);
+
+			BUTTON_NEW_GAME = langContent[0];
+			BUTTON_RESUME_GAME = langContent[1];
+			BUTTON_INACTIVE_RESUME_GAME = langContent[2];
+			BUTTON_HIGHSCORE = langContent[3];
+			BUTTON_OPTIONS = langContent[4];
+			BUTTON_QUIT = langContent[5];
+			BUTTON_ABOUT = langContent[6];
+			BUTTON_BACK = langContent[7];
+			BUTTON_SWITCH_LANGUAGE = langContent[8];
+			BUTTON_SWITCH_RESOLUTION = langContent[9];
+			BUTTON_SWITCH_CONTROLLER = langContent[10];
+			BUTTON_SHOW_FPS = langContent[11];
+			LIVES_LEFT = langContent[12];
+			ACTIVE_BLOCKS = langContent[13];
+			DESTROYED_BLOCKS = langContent[14];
+			BALLS_ACTIVE = langContent[15];
+			DESTROYED_BALLS_ACTIVE = langContent[16];
+			TIMER = langContent[17];
+			REQUIRES_RESTART = langContent[18];
+			YES = langContent[19];
+			NO = langContent[20];
+			NO_AXIS = langContent[21];
+			NO_BUTTON = langContent[22];
+			POINTS = langContent[23];
+			VICTORY = langContent[24];
+			GAME_OVER = langContent[25];
+			IT_TOOK_YOU = langContent[26];
+			YOU_DESTROYED = langContent[27];
+			YOU_SCORED = langContent[28];
+			X_SECONDS = langContent[29];
+			X_BLOCKS = langContent[30];
+			X_POINTS = langContent[31];
+			CONTROLLER_OK = langContent[32];
+			NAMES = langContent[33];
+			SELECTED_MAP = langContent[34];
+		} catch (FileNotFoundException e) {
+			System.out.println("WARNING: Skipping language \"" + selectedLang + "\" since it's .lang file can not be found.");
 			switchLang();
-		} else {
-
-			try {
-				String[] langContent = FileHandler.read("lang/" + selectedLang + ".lang", 35);
-
-				BUTTON_NEW_GAME = langContent[0];
-				BUTTON_RESUME_GAME = langContent[1];
-				BUTTON_INACTIVE_RESUME_GAME = langContent[2];
-				BUTTON_HIGHSCORE = langContent[3];
-				BUTTON_OPTIONS = langContent[4];
-				BUTTON_QUIT = langContent[5];
-				BUTTON_ABOUT = langContent[6];
-				BUTTON_BACK = langContent[7];
-				BUTTON_SWITCH_LANGUAGE = langContent[8];
-				BUTTON_SWITCH_RESOLUTION = langContent[9];
-				BUTTON_SWITCH_CONTROLLER = langContent[10];
-				BUTTON_SHOW_FPS = langContent[11];
-				LIVES_LEFT = langContent[12];
-				ACTIVE_BLOCKS = langContent[13];
-				DESTROYED_BLOCKS = langContent[14];
-				BALLS_ACTIVE = langContent[15];
-				DESTROYED_BALLS_ACTIVE = langContent[16];
-				TIMER = langContent[17];
-				REQUIRES_RESTART = langContent[18];
-				YES = langContent[19];
-				NO = langContent[20];
-				NO_AXIS = langContent[21];
-				NO_BUTTON = langContent[22];
-				POINTS = langContent[23];
-				VICTORY = langContent[24];
-				GAME_OVER = langContent[25];
-				IT_TOOK_YOU = langContent[26];
-				YOU_DESTROYED = langContent[27];
-				YOU_SCORED = langContent[28];
-				X_SECONDS = langContent[29];
-				X_BLOCKS = langContent[30];
-				X_POINTS = langContent[31];
-				CONTROLLER_OK = langContent[32];
-				NAMES = langContent[33];
-				SELECTED_MAP = langContent[34];
-			} catch (FileNotFoundException e) {
-				System.out.println("WARNING: Skipping language \"" + selectedLang + "\" since it's .lang file can not be found.");
-				switchLang();
-			} catch (IOException ioE) {
-				System.err.println("ERROR: Could not read lang file.");
-				ioE.printStackTrace();
-			}
+		} catch (IOException ioE) {
+			System.err.println("ERROR: Could not read lang file.");
+			ioE.printStackTrace();
 		}
+
 	}
 
 	public static void switchLang() {

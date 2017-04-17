@@ -15,6 +15,9 @@ public interface Constants {
 	// Options
 	String OPTIONS_FILE = "options.config";
 
+	// Gamemodes
+	int AMOUNT_OF_GAMEMODES = 2;
+
 	// Player
 	// Lives
 	int INITIAL_LIVES = 3;
@@ -51,10 +54,6 @@ public interface Constants {
 
 	// Maps
 	String TEMPLATE_LEVEL = "maps/level1.map";
-	int MAX_MAPS = 20;
-
-	// Language
-	int MAX_LANGUAGES = 10;
 
 	// speeds
 	int SPEED_MULTIPLIER = 3;

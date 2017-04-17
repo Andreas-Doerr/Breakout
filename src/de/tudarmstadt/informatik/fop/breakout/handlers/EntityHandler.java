@@ -20,7 +20,7 @@ public class EntityHandler {
 	private static Entity[] borderArray = new Entity[Constants.MAX_AMOUNT_OF_BORDERS + 1];
 
 	// resetter
-	public static void resetEntityArrays() {
+	static void resetEntityArrays() {
 		blockArray = new BlockEntity[Constants.MAX_AMOUNT_OF_BLOCKS + 1];
 		ballArray = new BallEntity[Constants.MAX_AMOUNT_OF_BALLS + 1];
 		stickArray = new StickEntity[Constants.MAX_AMOUNT_OF_STICKS + 1];
@@ -336,29 +336,6 @@ public class EntityHandler {
 			stickArray[0].destroyStick();
 		}
 	}
-	public static void destroyBotSticks() {
-		for (int i = 0; i < stickArray.length; i++) {
-			if (stickArray[i] != null) {
-				if (stickArray[i].getID().equals("botStick")) {
-					// searching for a botStick
-					stickArray[i].destroyStick();
-					// destroying a stick removes it from the Array too. therefore check the same Index again
-					i--;
-				}
-			} else {
-				break;
-			}
-		}
-	}
-	public static void readdIndicators() {
-		for (StickEntity eachStickArray : stickArray) {
-			if (eachStickArray != null) {
-				eachStickArray.readdIndicators();
-			} else {
-				break;
-			}
-		}
-	}
 	public static void activateAllBots() {
 		for (StickEntity eachStickArray : stickArray) {
 			if (eachStickArray != null) {
@@ -429,7 +406,7 @@ public class EntityHandler {
 	}
 
 	// DEBUG
-	private static void printArray(Object[] array) {
+	public static void printArray(Object[] array) {
 		for (int i = 0; i< array.length;i++) {
 			System.out.println(i + ".: " + array[i]);
 		}

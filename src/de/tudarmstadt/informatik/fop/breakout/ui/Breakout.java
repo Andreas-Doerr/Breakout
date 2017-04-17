@@ -57,7 +57,7 @@ public class Breakout extends StateBasedGame implements Constants {
 		OptionsHandler.readOptions();
 
 		// reading highscore file
-		HighscoreHandler.readHighscore();
+		HighscoreHandler.readHighscores();
 
 		SoundHandler.init();
 

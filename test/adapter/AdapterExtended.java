@@ -1,6 +1,7 @@
 package adapter;
 
 import de.tudarmstadt.informatik.fop.breakout.handlers.HighscoreHandler;
+import de.tudarmstadt.informatik.fop.breakout.handlers.OptionsHandler;
 
 public class AdapterExtended extends Adapter {
 
@@ -39,7 +40,7 @@ public class AdapterExtended extends Adapter {
 	 * @return returns the number of highscore entries - between 0 and 10
 	 */
 	public int getHighscoreCount() {
-	  return HighscoreHandler.getHighscoreCount();
+	  return HighscoreHandler.getHighscoreCount(OptionsHandler.getGameMode());
 	}
 	
 	/**

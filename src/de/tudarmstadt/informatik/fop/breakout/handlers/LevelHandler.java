@@ -56,7 +56,7 @@ public class LevelHandler {
 		activeBlocks += addedBlocks;
 	}
 	// resetter
-	public static void resetCounter() {
+	static void resetCounter() {
 		activeBlocks = 0;
 		destroyedBlocks = 0;
 		activeBallCount = 0;
@@ -120,16 +120,13 @@ public class LevelHandler {
 
 // MAP
 	public static void switchMap() {
-		if (OptionsHandler.getSelectedMap() < Constants.MAX_MAPS - 1) {
+		if (OptionsHandler.getSelectedMap() < OptionsHandler.getAmountOfMaps() - 1) {
 			OptionsHandler.setSelectedMap(OptionsHandler.getSelectedMap() + 1);
-			if (OptionsHandler.getSelectedMapName().equals("placeholder")) {
-				switchMap();
-			}
 		} else {
 			OptionsHandler.setSelectedMap(0);
 		}
 	}
-	public static String[][] readMap(String ref) {
+	private static String[][] readMap(String ref) {
 		// returns a 2D Array with the content of the referenced map (map[y][x])
 		String[][] map = new String[16][10];
 		try {
@@ -142,7 +139,7 @@ public class LevelHandler {
 			return map;
 		} catch (FileNotFoundException fnfE) {
 			System.err.println("ERROR: Could not find map-file: " + ref);
-			nextMap();
+			initNextMap();
 			return null;
 		} catch (IOException ioE) {
 			System.err.println("ERROR: Could not read options file.");
@@ -151,35 +148,31 @@ public class LevelHandler {
 		}
 	}
 	public static void initMapLevel() {
-		if (!OptionsHandler.getSelectedMapName().equals("placeholder")) {
-			String[][] map = readMap("maps/" + OptionsHandler.getSelectedMapName() + ".map");
-			if (map != null) {
-				// setting map the middle of the screen for coop-mode
-				float y_offset = Constants.BLOCK_IMAGE_Y / 2;
-				if (OptionsHandler.getGameMode() == 1) {
-					y_offset = (Variables.WINDOW_HEIGHT / 2) + Constants.BLOCK_IMAGE_Y * 2;
-				}
+		String[][] map = readMap("maps/" + OptionsHandler.getSelectedMapName() + ".map");
+		if (map != null) {
+			// setting map the middle of the screen for coop-mode
+			float y_offset = Constants.BLOCK_IMAGE_Y / 2;
+			if (OptionsHandler.getGameMode() == 1) {
+				y_offset = (Variables.WINDOW_HEIGHT / 2) + Constants.BLOCK_IMAGE_Y * 2;
+			}
 
-				for (int y = 0; y < 10; y++) {
-					for (int x = 0; x < 16; x++) {
-						// now x and y are the coordinates of the block
-						// and parts[x] is the value in the map
-						int hitsLeft = Integer.valueOf(map[y][x]);
-						if (hitsLeft > 0) {
-							String ID = "block" + x + "_" + y;
-							float pos_x = (((x + 1) * Constants.BLOCK_IMAGE_X + Constants.BLOCK_IMAGE_X / 2) * Variables.BLOCK_SCALE);
-							float pos_y = (((y + 1) * Constants.BLOCK_IMAGE_Y + y_offset) * Variables.BLOCK_SCALE);
+			for (int y = 0; y < 10; y++) {
+				for (int x = 0; x < 16; x++) {
+					// now x and y are the coordinates of the block
+					// and parts[x] is the value in the map
+					int hitsLeft = Integer.valueOf(map[y][x]);
+					if (hitsLeft > 0) {
+						String ID = "block" + x + "_" + y;
+						float pos_x = (((x + 1) * Constants.BLOCK_IMAGE_X + Constants.BLOCK_IMAGE_X / 2) * Variables.BLOCK_SCALE);
+						float pos_y = (((y + 1) * Constants.BLOCK_IMAGE_Y + y_offset) * Variables.BLOCK_SCALE);
 
-							new BlockEntity(ID, hitsLeft, pos_x, pos_y);
-						}
+						new BlockEntity(ID, hitsLeft, pos_x, pos_y);
 					}
 				}
 			}
-		} else {
-			switchMap();
 		}
 	}
-	public static void nextMap() {
+	private static void initNextMap() {
 		switchMap();
 		initMapLevel();
 	}
