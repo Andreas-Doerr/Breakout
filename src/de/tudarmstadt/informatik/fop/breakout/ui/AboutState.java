@@ -123,7 +123,7 @@ public class AboutState extends BasicGameState {
 				"  Tested by David Volz\n\n" +
 				"Current development:\n" +
 				"  Time: since 22.02.2017\n" +
-				"  Lines: 5499";
+				"  Lines: 5413";
 		g.drawString(aboutDoc2, (Variables.WINDOW_WIDTH * 0.56f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.4f) / Variables.BACKGROUND_SCALE);
 
 		g.drawString("Problems or suggestions ?\nmail us at: breakout.darujean@gmail.com", (Variables.WINDOW_WIDTH * 0.26f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.6f) / Variables.BACKGROUND_SCALE);
