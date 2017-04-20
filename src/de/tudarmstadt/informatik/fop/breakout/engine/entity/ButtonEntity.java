@@ -56,15 +56,15 @@ public class ButtonEntity extends Entity {
 		loop.addAction((gc, sb, delta, event) -> {
 			Vector2f mousePosition = new Vector2f((float)gc.getInput().getMouseX(), (float)gc.getInput().getMouseY());
 			if (getShape().contains(mousePosition.x, mousePosition.y)) {
-				//if (!isSelected) {
+				if (!isSelected) {
 					isSelected = true;
 					updateImage();
-				//}
+				}
 			} else {
-				//if (isSelected) {
+				if (isSelected) {
 					isSelected = false;
 					updateImage();
-				//}
+				}
 			}
 		});
 
