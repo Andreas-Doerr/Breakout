@@ -24,10 +24,10 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class AboutState extends BasicGameState {
 
-	private int stateID; 							// identifier of this BasicGameState
-	private StateBasedEntityManager entityManager; 	// related entityManager
+	private int stateID;                            // identifier of this BasicGameState
+	private StateBasedEntityManager entityManager;    // related entityManager
 
-	AboutState( int sid ) {
+	AboutState(int sid) {
 		stateID = sid;
 		entityManager = StateBasedEntityManager.getInstance();
 	}
@@ -40,7 +40,7 @@ public class AboutState extends BasicGameState {
 		// background
 		// creating background-entity
 		Entity background = new Entity(Constants.MENU_ID);
-		background.setPosition(new Vector2f((Variables.WINDOW_WIDTH / 2),(Variables.WINDOW_HEIGHT / 2)));
+		background.setPosition(new Vector2f((Variables.WINDOW_WIDTH / 2), (Variables.WINDOW_HEIGHT / 2)));
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			background.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BLANK_BACKGROUND)));
@@ -55,7 +55,7 @@ public class AboutState extends BasicGameState {
 		back.addAction((gc, sb, delta, event) -> SoundHandler.playButtonPress());
 
 
-	// listener entity
+		// listener entity
 		Entity listener = new Entity("listener");
 		entityManager.addEntity(stateID, listener);
 		// Loop event for various uses (controller input)
@@ -69,7 +69,7 @@ public class AboutState extends BasicGameState {
 
 				// going to MainMenuState
 				sb.enterState(Breakout.MAINMENU_STATE);
-				if(gc.isPaused()) {
+				if (gc.isPaused()) {
 					gc.resume();
 				}
 			}
@@ -88,7 +88,8 @@ public class AboutState extends BasicGameState {
 		OptionsHandler.updateWindow(gc, sb, stateID);
 	}
 
-	/**#####
+	/**
+	 * #####
 	 * Wird mit dem Frame ausgefuehrt
 	 */
 	@Override

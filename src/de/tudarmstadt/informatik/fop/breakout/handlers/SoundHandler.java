@@ -41,7 +41,7 @@ public class SoundHandler {
 			createItem = new Sound(Constants.SOUND_CREATE_ITEM);
 			pickupItem = new Sound(Constants.SOUND_PICKUP_ITEM);
 			victory = new Sound(Constants.SOUND_VICTORY);
-			gameover =	new Sound(Constants.SOUND_GAMEOVER);
+			gameover = new Sound(Constants.SOUND_GAMEOVER);
 			buttonPush = new Sound(Constants.SOUND_BUTTON_PRESS);
 			notAcceptable = new Sound(Constants.SOUND_NOT_ACCEPTABLE);  // was BUTTON_PRESS
 
@@ -58,6 +58,7 @@ public class SoundHandler {
 	public static float getMainVolume() {
 		return mainVolume;
 	}
+
 	public static void setMainVolume(float new_main_volume) {
 		mainVolume = new_main_volume;
 	}
@@ -65,69 +66,78 @@ public class SoundHandler {
 	// play sounds
 	public static void playHitStick(float pitch) {
 		try {
-			hitStick.play(pitch,mainVolume * 0.3f);
+			hitStick.play(pitch, mainVolume * 0.3f);
 		} catch (NullPointerException e) {
 			System.err.println("The sound hitStick is not initialized!");
 		}
 	}
+
 	public static void playHitBorder() {
 		try {
-			hitBorder.play(1f,mainVolume * 0.3f);
+			hitBorder.play(1f, mainVolume * 0.3f);
 		} catch (NullPointerException e) {
 			System.err.println("The sound hitBorder is not initialized!");
 		}
 	}
+
 	public static void playHitBlock() {
 		try {
-			hitBlock.play(1f,mainVolume * 0.3f);
+			hitBlock.play(1f, mainVolume * 0.3f);
 		} catch (NullPointerException e) {
 			System.err.println("The sound hitBlock is not initialized!");
 		}
 	}
+
 	public static void playDestroyBall() {
 		try {
-			destroyBall.play(1f,mainVolume * 0.4f);
+			destroyBall.play(1f, mainVolume * 0.4f);
 		} catch (NullPointerException e) {
 			System.err.println("The sound destroyBall is not initialized!");
 		}
 	}
+
 	public static void playCreateItem() {
 		try {
-			createItem.play(1f,mainVolume * 0.4f);
+			createItem.play(1f, mainVolume * 0.4f);
 		} catch (NullPointerException e) {
 			System.err.println("The sound createItem is not initialized!");
 		}
 	}
+
 	public static void playPickupItem() {
 		try {
-			pickupItem.play(1f,mainVolume * 0.4f);
+			pickupItem.play(1f, mainVolume * 0.4f);
 		} catch (NullPointerException e) {
 			System.err.println("The sound pickupItem is not initialized!");
 		}
 	}
+
 	public static void playVictory() {
 		try {
 			stopMusic();
-			victory.play(1f,mainVolume * 0.3f);
+			victory.play(1f, mainVolume * 0.3f);
 		} catch (NullPointerException e) {
 			System.err.println("The sound victory is not initialized!");
 		}
 	}
+
 	public static void playGameover() {
 		try {
 			stopMusic();
-			gameover.play(1f,mainVolume * 0.3f);
+			gameover.play(1f, mainVolume * 0.3f);
 		} catch (NullPointerException e) {
 			System.err.println("The sound gameover is not initialized!");
 		}
 	}
+
 	public static void playButtonPress() {
 		try {
-			buttonPush.play(1f,mainVolume * 0.5f);
+			buttonPush.play(1f, mainVolume * 0.5f);
 		} catch (NullPointerException e) {
 			System.err.println("The sound buttonPush is not initialized!");
 		}
 	}
+
 	public static void playNotAcceptable() {
 		try {
 			buttonPush.stop();
@@ -136,6 +146,7 @@ public class SoundHandler {
 			System.err.println("The sound notAcceptable is not initialized!");
 		}
 	}
+
 	// is specific sound playing
 	public static boolean isVictoryPlaying() {
 		try {
@@ -145,6 +156,7 @@ public class SoundHandler {
 			return false;
 		}
 	}
+
 	public static boolean isGameoverPlaying() {
 		try {
 			return gameover.playing();
@@ -153,6 +165,7 @@ public class SoundHandler {
 			return false;
 		}
 	}
+
 	// stop sounds
 	public static void stopVictoryAndGameover() {
 		try {
@@ -167,30 +180,32 @@ public class SoundHandler {
 	public static void startMenuMusic() {
 		try {
 			stopMusic();
-			menuMusic.loop(1f,mainVolume * 0.5f);
+			menuMusic.loop(1f, mainVolume * 0.5f);
 		} catch (NullPointerException e) {
 			System.err.println("The sound menuMusic is not initialized!");
 		}
 	}
+
 	public static void startGameplayMusic() {
 		try {
 			stopMusic();
-			gameplayMusic.loop(1f,mainVolume * 0.75f);
+			gameplayMusic.loop(1f, mainVolume * 0.75f);
 		} catch (NullPointerException e) {
 			System.err.println("The sound gameplayMusic is not initialized!");
 		}
 	}
+
 	public static void startHighscoreMusic() {
 		try {
 			stopMusic();
-			highscoreMusic.loop(1f,mainVolume * 0.5f);
+			highscoreMusic.loop(1f, mainVolume * 0.5f);
 		} catch (NullPointerException e) {
 			System.err.println("The sound highscoreMusic is not initialized!");
 		}
 	}
 
 	// stop music
-	public static void stopMusic()  {
+	public static void stopMusic() {
 		try {
 			menuMusic.stop();
 			gameplayMusic.stop();
@@ -199,6 +214,7 @@ public class SoundHandler {
 			System.err.println("The sound menuMusic or gameplayMusic is not initialized!");
 		}
 	}
+
 	// is specific music playing
 	public static boolean isMenuMusicPlaying() {
 		try {
@@ -208,6 +224,7 @@ public class SoundHandler {
 			return false;
 		}
 	}
+
 	public static boolean isGameplayMusicPlaying() {
 		try {
 			return gameplayMusic.playing();
@@ -216,6 +233,7 @@ public class SoundHandler {
 			return false;
 		}
 	}
+
 	public static boolean isHighscoreMusicPlaying() {
 		try {
 			return highscoreMusic.playing();

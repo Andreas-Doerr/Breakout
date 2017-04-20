@@ -28,18 +28,23 @@ public class ItemHandler {
 	public static int getItemsActive() {
 		return itemsActive;
 	}
+
 	public static void resetItemsActive() {
 		itemsActive = 0;
 	}
+
 	public static void addItemsActive(int toAdd) {
 		itemsActive += toAdd;
 	}
+
 	public static int getItemsToBeDestroyed() {
 		return itemsToBeDestroyed;
 	}
+
 	public static void destroyAllItems() {
 		itemsToBeDestroyed = itemsActive;
 	}
+
 	public static void oneItemLessToDestroy() {
 		itemsToBeDestroyed--;
 	}

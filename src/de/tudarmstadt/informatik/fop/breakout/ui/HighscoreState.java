@@ -1,8 +1,8 @@
 package de.tudarmstadt.informatik.fop.breakout.ui;
 
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.ButtonEntity;
-import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import eea.engine.action.basicactions.ChangeStateAction;
 import eea.engine.component.render.ImageRenderComponent;
@@ -16,12 +16,13 @@ import org.newdawn.slick.state.StateBasedGame;
 
 /**
  * Created by Andreas on 06.03.2017.
+ *
  * @author Andreas Dörr
  */
 public class HighscoreState extends BasicGameState {
 
-	private int stateID; 							// identifier of this BasicGameState
-	private StateBasedEntityManager entityManager; 	// related entityManager
+	private int stateID;                            // identifier of this BasicGameState
+	private StateBasedEntityManager entityManager;    // related entityManager
 
 	static boolean newEntry = false;
 	static boolean askName = false;
@@ -35,7 +36,7 @@ public class HighscoreState extends BasicGameState {
 	// getName
 	private int[] keysListenedFor = new int[36];
 
-	HighscoreState( int sid ) {
+	HighscoreState(int sid) {
 		stateID = sid;
 		entityManager = StateBasedEntityManager.getInstance();
 	}
@@ -88,7 +89,7 @@ public class HighscoreState extends BasicGameState {
 		// background
 		// creating background-entity
 		Entity background = new Entity(Constants.MENU_ID);
-		background.setPosition(new Vector2f((Variables.WINDOW_WIDTH / 2),(Variables.WINDOW_HEIGHT / 2)));
+		background.setPosition(new Vector2f((Variables.WINDOW_WIDTH / 2), (Variables.WINDOW_HEIGHT / 2)));
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			background.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BLANK_BACKGROUND)));
@@ -97,7 +98,7 @@ public class HighscoreState extends BasicGameState {
 		// giving StateBasedEntityManager the background-entity
 		entityManager.addEntity(stateID, background);
 
-	// listener entity
+		// listener entity
 		Entity listener = new Entity("listener");
 		entityManager.addEntity(stateID, listener);
 		// Loop event for various uses (controller input)
@@ -126,7 +127,7 @@ public class HighscoreState extends BasicGameState {
 
 				// going to MainMenuState
 				sb.enterState(Breakout.MAINMENU_STATE);
-				if(gc.isPaused()) {
+				if (gc.isPaused()) {
 					gc.resume();
 				}
 			}
@@ -170,7 +171,7 @@ public class HighscoreState extends BasicGameState {
 			// remove the last char in the String
 			if (gc.getInput().isKeyPressed(Input.KEY_BACK)) {
 				if (newName.length() > 0) {
-					newName = newName.substring(0, newName.length()-1);
+					newName = newName.substring(0, newName.length() - 1);
 				}
 			}
 
@@ -211,7 +212,7 @@ public class HighscoreState extends BasicGameState {
 			if (isSaved) {
 				g.setColor(Color.green);
 			}
-			g.drawString(LanguageHandler.NAMES.substring(0, LanguageHandler.NAMES.length()-1) + ": " + newName, (Variables.WINDOW_WIDTH * 0.45f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.43f) / Variables.BACKGROUND_SCALE);
+			g.drawString(LanguageHandler.NAMES.substring(0, LanguageHandler.NAMES.length() - 1) + ": " + newName, (Variables.WINDOW_WIDTH * 0.45f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.43f) / Variables.BACKGROUND_SCALE);
 			g.setColor(Color.white);
 		}
 
@@ -224,7 +225,7 @@ public class HighscoreState extends BasicGameState {
 		float highscoreList_y = (Variables.WINDOW_HEIGHT * 0.6f) / Variables.BACKGROUND_SCALE;
 
 
-		g.drawString(LanguageHandler.NAMES.toUpperCase(),(Variables.WINDOW_WIDTH * 0.248f) / Variables.BACKGROUND_SCALE, highscoreList_y - 35);
+		g.drawString(LanguageHandler.NAMES.toUpperCase(), (Variables.WINDOW_WIDTH * 0.248f) / Variables.BACKGROUND_SCALE, highscoreList_y - 35);
 		g.drawString(LanguageHandler.DESTROYED_BLOCKS.toUpperCase(), (Variables.WINDOW_WIDTH * 0.46f) / Variables.BACKGROUND_SCALE, highscoreList_y - 35);
 		g.drawString(LanguageHandler.TIMER.toUpperCase(), (Variables.WINDOW_WIDTH * 0.6f) / Variables.BACKGROUND_SCALE, highscoreList_y - 35);
 		g.drawString(LanguageHandler.POINTS.toUpperCase(), (Variables.WINDOW_WIDTH * 0.687f) / Variables.BACKGROUND_SCALE, highscoreList_y - 35);
@@ -243,7 +244,7 @@ public class HighscoreState extends BasicGameState {
 			}
 		}
 		if (thisHighscore >= 9) {
-			g.drawString(thisHighscore + 1 + ".: " + HighscoreHandler.getNameAtHighscorePosition(thisHighscore),highscoreList_x_number, highscoreList_y + 25 * 9);
+			g.drawString(thisHighscore + 1 + ".: " + HighscoreHandler.getNameAtHighscorePosition(thisHighscore), highscoreList_x_number, highscoreList_y + 25 * 9);
 			g.drawString(String.valueOf(HighscoreHandler.getDesBlocksAtHighscorePosition(thisHighscore)), highscoreList_x_desBlocks, highscoreList_y + 25 * 9);
 			g.drawString(String.valueOf(HighscoreHandler.getTimeElapsedAtHighscorePosition(thisHighscore)), highscoreList_x_time, highscoreList_y + 25 * 9);
 			g.drawString(String.valueOf(HighscoreHandler.getPointsAtHighscorePosition(thisHighscore)), highscoreList_x_points, highscoreList_y + 25 * 9);

@@ -263,12 +263,12 @@ public class StickEntity extends Entity {
 							if (neededAngle < 0) {
 								if (neededAngle < newDirection) {
 									desiredOffset = Math.abs(desiredOffset);
-								} else desiredOffset = - Math.abs(desiredOffset);
+								} else desiredOffset = -Math.abs(desiredOffset);
 								if (newDirection < 0) desiredOffset = -desiredOffset;
 							} else {
 								if (neededAngle < newDirection) {
 									desiredOffset = Math.abs(desiredOffset);
-								} else desiredOffset = - Math.abs(desiredOffset);
+								} else desiredOffset = -Math.abs(desiredOffset);
 								if (newDirection > 0) desiredOffset = -desiredOffset;
 							}
 						}
@@ -357,7 +357,7 @@ public class StickEntity extends Entity {
 				float new_up;
 				float new_right;
 				if (ball.getSpeedUp() > 0) {
-					new_up = - (float) Math.abs(Math.sin(angle_new) * v_ges_new);
+					new_up = -(float) Math.abs(Math.sin(angle_new) * v_ges_new);
 				} else {
 					new_up = (float) Math.abs(Math.sin(angle_new) * v_ges_new);
 				}
@@ -404,9 +404,11 @@ public class StickEntity extends Entity {
 	public void activateBot() {
 		bot = true;
 	}
+
 	public void deactivateBot() {
 		bot = false;
 	}
+
 	public void switchBot() {
 		bot = !bot;
 	}
@@ -423,6 +425,7 @@ public class StickEntity extends Entity {
 			updateImage();
 		}
 	}
+
 	public void wider() {
 		// increase this sticks width
 		if (widthModifier == Constants.StickShape.SLIM) {
@@ -435,6 +438,7 @@ public class StickEntity extends Entity {
 			updateImage();
 		}
 	}
+
 	private void updateImage() {
 		if (!Breakout.getDebug()) {
 			String newStickImage = null;

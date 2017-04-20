@@ -24,8 +24,8 @@ public class ItemPickupEvent extends IteratedCollisionEvent {
 		int startAt = this.checkCollisionFor(0) + 1;
 		while (startAt >= 0) {
 			Iterator var5 = this.actions.iterator();
-			while(var5.hasNext()) {
-				Action action = (Action)var5.next();
+			while (var5.hasNext()) {
+				Action action = (Action) var5.next();
 
 				// set the counter down one
 				ItemHandler.addItemsActive(-1);
@@ -35,7 +35,7 @@ public class ItemPickupEvent extends IteratedCollisionEvent {
 				SoundHandler.playPickupItem();
 
 				// perform the actions which have been added to this event
-				action.update(gc, sb, delta,this);
+				action.update(gc, sb, delta, this);
 			}
 
 			startAt = this.checkCollisionFor(startAt) + 1;

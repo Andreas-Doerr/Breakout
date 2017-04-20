@@ -7,13 +7,14 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Created by PC - Andreas on 08.03.2017.
  *
  * @author Andreas Dörr
- */	//TODO commenting
+ */    //TODO commenting
 public class OptionsHandler {
 
 	private static int window_x = 1200;
@@ -114,36 +115,51 @@ public class OptionsHandler {
 	public static int getWindow_x() {
 		return window_x;
 	}
+
 	public static int getWindow_y() {
 		return window_y;
 	}
+
 	public static boolean isFullscreen() {
-		return fullscreen;}
+		return fullscreen;
+	}
+
 	public static boolean isShowingFPS() {
 		return showFPS;
 	}
+
 	public static String getAvailableLanguage(int index) {
 		return availableLanguages[index];
 	}
+
 	public static int getMaxLanguages() {
 		return availableLanguages.length;
 	}
+
 	public static int getLangSelector() {
 		return langSelector;
 	}
+
 	public static String getSelectedLangName() {
 		return availableLanguages[langSelector];
 	}
+
 	public static int getSelectedController() {
 		return selectedController;
 	}
+
 	public static int getGameMode() {
 		return gameMode;
 	}
-	public static boolean isCheatModeActive() {return cheatMode;}
+
+	public static boolean isCheatModeActive() {
+		return cheatMode;
+	}
+
 	public static int getControlMode() {
 		return controlMode;
 	}
+
 	public static String getControlModeName() {
 		String controlModeName = "ERROR";
 		if (controlMode == 0) {
@@ -155,12 +171,15 @@ public class OptionsHandler {
 		}
 		return controlModeName;
 	}
+
 	public static int getAmountOfMaps() {
 		return amountOfMaps;
 	}
+
 	public static int getSelectedMap() {
 		return selectedMap;
 	}
+
 	public static String getSelectedMapName() {
 		try {
 			return availableMaps[selectedMap];
@@ -170,6 +189,7 @@ public class OptionsHandler {
 			return null;
 		}
 	}
+
 	public static int getThemeSelector() {
 		return themeSelector;
 	}
@@ -179,27 +199,35 @@ public class OptionsHandler {
 		fullscreen = newFullcreen;
 		resetWindow();
 	}
+
 	public static void setShowFPS(boolean newShowFPS) {
 		showFPS = newShowFPS;
 	}
+
 	public static void setLangSelector(int newLang) {
 		langSelector = newLang;
 	}
+
 	public static void setSelectedController(int newSelectedController) {
 		selectedController = newSelectedController;
 	}
+
 	public static void setCheatMode(boolean new_cheatMode) {
 		cheatMode = new_cheatMode;
 	}
+
 	public static void setGameMode(int new_gameMode) {
 		gameMode = new_gameMode;
 	}
+
 	public static void setControlMode(int new_controlMode) {
 		controlMode = new_controlMode;
 	}
+
 	public static void setSelectedMap(int new_selectedMap) {
 		selectedMap = new_selectedMap;
 	}
+
 	public static void setThemeSelector(int new_themeSelector) {
 		themeSelector = new_themeSelector;
 	}
@@ -215,7 +243,7 @@ public class OptionsHandler {
 					window_x = new_window_y / 3 * 4;
 					window_y = new_window_y;
 				}
-			} else if (new_window_y != Breakout.getApp().getScreenHeight()){
+			} else if (new_window_y != Breakout.getApp().getScreenHeight()) {
 				window_y = Breakout.getApp().getScreenHeight() - 25;
 				window_x = window_y / 3 * 4;
 			}
@@ -226,21 +254,24 @@ public class OptionsHandler {
 		}
 		return false;
 	}
+
 	public static void resetWindow() {
 		try {
-			Breakout.getApp().setDisplayMode(window_x,window_y, fullscreen);
+			Breakout.getApp().setDisplayMode(window_x, window_y, fullscreen);
 			Breakout.getApp().setResizable(false);
 			Breakout.getApp().setResizable(true);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
+
 	public static void updateWindow(GameContainer gc, StateBasedGame sb, int stateID) {
 		if (OptionsHandler.setWindowSize(gc.getWidth(), gc.getHeight())) {
 			// forcing init for all states
 			Breakout.reinitStates(gc, sb, stateID);
 		}
 	}
+
 	public static void updateWindow(GameContainer gc, StateBasedGame sb, int stateID, int newX, int newY) {
 		if (OptionsHandler.setWindowSize(newX, newY)) {
 			// forcing init for all states

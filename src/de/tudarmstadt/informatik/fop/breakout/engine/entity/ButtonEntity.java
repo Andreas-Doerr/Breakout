@@ -54,7 +54,7 @@ public class ButtonEntity extends Entity {
 		LoopEvent loop = new LoopEvent();
 		addComponent(loop);
 		loop.addAction((gc, sb, delta, event) -> {
-			Vector2f mousePosition = new Vector2f((float)gc.getInput().getMouseX(), (float)gc.getInput().getMouseY());
+			Vector2f mousePosition = new Vector2f((float) gc.getInput().getMouseX(), (float) gc.getInput().getMouseY());
 			if (getShape().contains(mousePosition.x, mousePosition.y)) {
 				if (!isSelected) {
 					isSelected = true;
@@ -113,9 +113,6 @@ public class ButtonEntity extends Entity {
 		// adding an action to the buttonEvents
 		buttonEvents.addAction(action);
 	}
-
-
-
 
 
 }

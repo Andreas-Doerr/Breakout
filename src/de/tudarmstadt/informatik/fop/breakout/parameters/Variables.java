@@ -16,7 +16,7 @@ public class Variables {
 	public static int WINDOW_HEIGHT = OptionsHandler.getWindow_y();
 	// image
 	public static int BACKGROUND_WIDTH = 1640; // the image width; error if = 0
-	public static float BACKGROUND_SCALE = (float) WINDOW_WIDTH  / (BACKGROUND_WIDTH - 40);
+	public static float BACKGROUND_SCALE = (float) WINDOW_WIDTH / (BACKGROUND_WIDTH - 40);
 
 	// Block
 	public static float BLOCK_SCALE = (float) ((WINDOW_WIDTH) / 18.0 / Constants.BLOCK_IMAGE_X);
@@ -28,8 +28,8 @@ public class Variables {
 	public static float SPEEDUP_VALUE = (INITIAL_TOTAL_SPEED * (MAX_SPEED_MULTIPLIER - 1f)) / HITS_TO_MAX_SPEED;
 
 	// Stick
-	public static int STICK_Y = (int)(WINDOW_HEIGHT * 0.9f);
-	public static int STICK_Y_TOP = (int)(WINDOW_HEIGHT * 0.1f);
+	public static int STICK_Y = (int) (WINDOW_HEIGHT * 0.9f);
+	public static int STICK_Y_TOP = (int) (WINDOW_HEIGHT * 0.1f);
 	public static float STICK_SPEED = 0.5f * BACKGROUND_SCALE * SPEED_MULTIPLIER;
 	public static float COLLISION_DISTANCE = (25 / (float) 2 * BLOCK_SCALE * 4 * 0.7f) + (25 / (float) 2 * BLOCK_SCALE * 4);
 
@@ -74,7 +74,7 @@ public class Variables {
 		WINDOW_HEIGHT = OptionsHandler.getWindow_y();
 		// image
 		BACKGROUND_WIDTH = 1640; // the image width; error if = 0
-		BACKGROUND_SCALE = (float) WINDOW_WIDTH  / (BACKGROUND_WIDTH - 40);
+		BACKGROUND_SCALE = (float) WINDOW_WIDTH / (BACKGROUND_WIDTH - 40);
 
 		// Block
 		BLOCK_SCALE = (float) ((WINDOW_WIDTH) / 18.0 / Constants.BLOCK_IMAGE_X);
@@ -86,8 +86,8 @@ public class Variables {
 		SPEEDUP_VALUE = (INITIAL_TOTAL_SPEED * (MAX_SPEED_MULTIPLIER - 1f)) / HITS_TO_MAX_SPEED;
 
 		// Stick
-		STICK_Y = (int)(WINDOW_HEIGHT * 0.9f);
-		STICK_Y_TOP = (int)(WINDOW_HEIGHT * 0.1f);
+		STICK_Y = (int) (WINDOW_HEIGHT * 0.9f);
+		STICK_Y_TOP = (int) (WINDOW_HEIGHT * 0.1f);
 		STICK_SPEED = 0.5f * BACKGROUND_SCALE * SPEED_MULTIPLIER;
 
 		// Buttons

@@ -32,6 +32,7 @@ public interface Constants {
 	enum BorderType {
 		TOP, LEFT, RIGHT
 	}
+
 	int BORDER_WIDTH = 10;
 	int MAX_AMOUNT_OF_BORDERS = 3;
 	String TOP_BORDER_ID = "topBorder";
@@ -68,15 +69,18 @@ public interface Constants {
 	// Stick
 	String PLAYER_STICK_ID = "playerStick";
 	String PLAYER_STICK_ID_TOP = "playerStickTop";
+
 	enum StickShape {
 		SLIM, NORMAL, WIDE
 	}
+
 	int MAX_AMOUNT_OF_STICKS = 10;
 
 	// Buttons
 	enum ButtonType {
 		NORMAL, WIDE, MAINMENU
 	}
+
 	int TEXT_OFFSET_X = -60;
 	int TEXT_OFFSET_X_WIDE = -120;
 	int TEXT_OFFSET_Y = -9;
@@ -119,48 +123,48 @@ public interface Constants {
 	String THEME_1_FOLDER = "theme1/";
 
 	// Images (all are: imageFolder + themeFolder + "NAME" + IMAGE_ENDING)
-		String IMAGES_FOLDER = "images/";
-		String IMAGE_ENDING = ".png";
+	String IMAGES_FOLDER = "images/";
+	String IMAGE_ENDING = ".png";
 
-		// backgrounds
-		String MENU_BACKGROUND = "menuBackground";
-		String MENU_BLANK_BACKGROUND = "menuBlank";
-		String GAME_BACKGROUND = "background";
+	// backgrounds
+	String MENU_BACKGROUND = "menuBackground";
+	String MENU_BLANK_BACKGROUND = "menuBlank";
+	String GAME_BACKGROUND = "background";
 
-		// blocks
-		String BLOCK_1 = "block_1";
-		String BLOCK_2 = "block_2";
-		String BLOCK_3 = "block_3";
-		String BLOCK_4 = "block_4";
-		String BLOCK_5 = "block_5";
+	// blocks
+	String BLOCK_1 = "block_1";
+	String BLOCK_2 = "block_2";
+	String BLOCK_3 = "block_3";
+	String BLOCK_4 = "block_4";
+	String BLOCK_5 = "block_5";
 
-		// balls
-		String STANDARDBALL = "standardball";
-		String WATERBALL = "waterball";
-		String FIREBALL = "fireball";
-		String DESTROYED_BALL = "destroyedBall";
+	// balls
+	String STANDARDBALL = "standardball";
+	String WATERBALL = "waterball";
+	String FIREBALL = "fireball";
+	String DESTROYED_BALL = "destroyedBall";
 
-		// sticks
-		String STICK = "stick";
-		String STICK_SLIM = "stick_slim";
-		String STICK_WIDE = "stick_wide";
+	// sticks
+	String STICK = "stick";
+	String STICK_SLIM = "stick_slim";
+	String STICK_WIDE = "stick_wide";
 
-		// items
-		String SMALLER = "smaller";
-		String BIGGER = "bigger";
-		String SLOWER = "slower";
-		String FASTER = "faster";
-		String DUP = "dup";
-		String DESTROY_BALL = "destroyedBall";
+	// items
+	String SMALLER = "smaller";
+	String BIGGER = "bigger";
+	String SLOWER = "slower";
+	String FASTER = "faster";
+	String DUP = "dup";
+	String DESTROY_BALL = "destroyedBall";
 
-		// buttons
-		String BUTTON = "button";
-		String SELECTED_BUTTON = "selectedButton";
-		String BUTTON_WIDE = "buttonWide";
-		String SELECTED_BUTTON_WIDE = "selectedButtonWide";
-		String MENU_BUTTON = "menuButton";
-		String SELECTED_MENU_BUTTON = "selectedMenuButton";
+	// buttons
+	String BUTTON = "button";
+	String SELECTED_BUTTON = "selectedButton";
+	String BUTTON_WIDE = "buttonWide";
+	String SELECTED_BUTTON_WIDE = "selectedButtonWide";
+	String MENU_BUTTON = "menuButton";
+	String SELECTED_MENU_BUTTON = "selectedMenuButton";
 
-		// miscelanious
-		String PAUSE = "pause";
+	// miscelanious
+	String PAUSE = "pause";
 }

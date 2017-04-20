@@ -1,9 +1,9 @@
 package de.tudarmstadt.informatik.fop.breakout.factories;
 
-import de.tudarmstadt.informatik.fop.breakout.engine.event.basicevents.ItemPickupEvent;
-import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.StickEntity;
+import de.tudarmstadt.informatik.fop.breakout.engine.event.basicevents.ItemPickupEvent;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
 import eea.engine.action.basicactions.MoveDownAction;
@@ -31,8 +31,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 	/**
 	 * Factory Constructor
 	 *
-	 * @param type
-	 * determines the type of Item to create
+	 * @param type determines the type of Item to create
 	 */
 	public ItemFactory(int type, Vector2f position) {
 		// given the type of item and the position where it should spawn
@@ -69,7 +68,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 				break;
 			case 2:
 				// type: 2 (stick slimmer)
-				item =  new Entity(ITEM_2_ID);
+				item = new Entity(ITEM_2_ID);
 				image = ThemeHandler.SMALLER;
 				// pickup-action
 				iPE.addAction((gc, sb, delta, event) -> {
@@ -81,7 +80,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 				break;
 			case 3:
 				// type: 3 (loose ball)
-				item =  new Entity(ITEM_3_ID);
+				item = new Entity(ITEM_3_ID);
 				image = ThemeHandler.DESTROY_BALL;
 				// pickup-action
 				iPE.addAction((gc, sb, delta, event) -> {
@@ -92,7 +91,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 				break;
 			case 4:
 				// type: 4 (duplicate ball)
-				item =  new Entity(ITEM_4_ID);
+				item = new Entity(ITEM_4_ID);
 				image = ThemeHandler.DUP;
 				// pickup-action
 				iPE.addAction((gc, sb, delta, event) -> {
@@ -103,7 +102,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 				break;
 			case 5:
 				// type: 5 (max speed for all balls)
-				item =  new Entity(ITEM_5_ID);
+				item = new Entity(ITEM_5_ID);
 				image = ThemeHandler.FASTER;
 				// pickup-action
 				iPE.addAction((gc, sb, delta, event) -> {
@@ -114,7 +113,7 @@ public class ItemFactory implements IEntityFactory, Constants {
 				break;
 			case 6:
 				// type: 6 (min speed for all balls)
-				item =  new Entity(ITEM_6_ID);
+				item = new Entity(ITEM_6_ID);
 				image = ThemeHandler.SLOWER;
 				// pickup-action
 				iPE.addAction((gc, sb, delta, event) -> {

@@ -27,12 +27,15 @@ public abstract class IteratedCollisionEvent extends Component {
 	public void addAction(Action action) {
 		this.actions.add(action);
 	}
+
 	public void clearActions() {
 		this.actions.clear();
 	}
+
 	public void removeAction(Action action) {
 		this.actions.remove(action);
 	}
+
 	public void removeAction(int index) {
 		this.actions.remove(index);
 	}
@@ -41,10 +44,10 @@ public abstract class IteratedCollisionEvent extends Component {
 		int startAt = this.checkCollisionFor(0) + 1;
 		while (startAt >= 0) {
 			Iterator var5 = this.actions.iterator();
-			while(var5.hasNext()) {
-				Action action = (Action)var5.next();
+			while (var5.hasNext()) {
+				Action action = (Action) var5.next();
 				// perform the actions which have been added to this event
-				action.update(gc, sb, delta,this);
+				action.update(gc, sb, delta, this);
 			}
 			startAt = this.checkCollisionFor(startAt) + 1;
 		}
@@ -55,9 +58,9 @@ public abstract class IteratedCollisionEvent extends Component {
 
 	protected int checkCollision(Entity[] candidates, int startAt) {
 		Entity ownerEntity = this.owner;
-		if(candidates[0] != null && ownerEntity != null) {
+		if (candidates[0] != null && ownerEntity != null) {
 			for (; startAt < candidates.length; startAt++) {
-				if(ownerEntity.collides(candidates[startAt])) {
+				if (ownerEntity.collides(candidates[startAt])) {
 					collidedEntity = candidates[startAt];
 					return startAt;
 				}

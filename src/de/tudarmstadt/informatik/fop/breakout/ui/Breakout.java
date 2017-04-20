@@ -1,12 +1,12 @@
 package de.tudarmstadt.informatik.fop.breakout.ui;
 
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
+import eea.engine.entity.StateBasedEntityManager;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
-import eea.engine.entity.StateBasedEntityManager;
-import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 
 public class Breakout extends StateBasedGame implements Constants {
 
@@ -17,7 +17,7 @@ public class Breakout extends StateBasedGame implements Constants {
 
 	/**
 	 * Creates a new Breakout instance
-	 * 
+	 *
 	 * @param debug if true, runs in debug mode
 	 */
 	public Breakout(boolean debug) {
@@ -28,10 +28,12 @@ public class Breakout extends StateBasedGame implements Constants {
 	public static AppGameContainer getApp() {
 		return app;
 	}
+
 	@Deprecated
 	public static void setApp(AppGameContainer newApp) {
 		app = newApp;
 	}
+
 	public static boolean getDebug() {
 		return debug;
 	}
@@ -91,7 +93,7 @@ public class Breakout extends StateBasedGame implements Constants {
 	public void initStatesList(GameContainer arg0) throws SlickException {
 
 		// Add the game states (the first added state will be started initially)
-	  // This may look as follows, assuming you use the associated class names and parameters:
+		// This may look as follows, assuming you use the associated class names and parameters:
 
 		addState(new MainMenuState(MAINMENU_STATE));
 		addState(new GameplayState(GAMEPLAY_STATE));
@@ -119,7 +121,7 @@ public class Breakout extends StateBasedGame implements Constants {
 		} catch (SlickException var6) {
 			var6.printStackTrace();
 		}
-		if(gc.isPaused()) {
+		if (gc.isPaused()) {
 			gc.resume();
 		}
 	}

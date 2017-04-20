@@ -13,7 +13,7 @@ import eea.engine.entity.Entity;
  */
 public class EntityHandler {
 
-// Arrays
+	// Arrays
 	private static BlockEntity[] blockArray = new BlockEntity[Constants.MAX_AMOUNT_OF_BLOCKS + 1];
 	private static BallEntity[] ballArray = new BallEntity[Constants.MAX_AMOUNT_OF_BALLS + 1];
 	private static StickEntity[] stickArray = new StickEntity[Constants.MAX_AMOUNT_OF_STICKS + 1];
@@ -27,11 +27,12 @@ public class EntityHandler {
 		borderArray = new Entity[Constants.MAX_AMOUNT_OF_BORDERS + 1];
 	}
 
-// ENTITY Arrays
+	// ENTITY Arrays
 // BLOCKS
 	public static boolean blockArrayHasSpace() {
 		return blockArray[blockArray.length - 2] == null;
 	}
+
 	public static void addBlock(BlockEntity block) {
 		if (blockArrayHasSpace()) {
 			for (int i = 0; i < blockArray.length; i++) {
@@ -44,6 +45,7 @@ public class EntityHandler {
 			System.err.println("Tried to add a block to the blockArray even though the maximum supported amount of blocks active at one time has been surpassed!");
 		}
 	}
+
 	public static void removeBlock(BlockEntity block) {
 		int i;
 		for (i = 0; i < blockArray.length; i++) {
@@ -56,7 +58,7 @@ public class EntityHandler {
 		}
 		for (; i < blockArray.length - 1; i++) {
 			// entries below the removed one are moved up one until reaching a null entry
-			if (blockArray[i+1] != null) {
+			if (blockArray[i + 1] != null) {
 				blockArray[i] = blockArray[i + 1];
 			} else {
 				blockArray[i] = null;
@@ -64,10 +66,12 @@ public class EntityHandler {
 			}
 		}
 	}
+
 	// getter
 	public static BlockEntity[] getBlockArray() {
 		return blockArray;
 	}
+
 	public static BlockEntity getMostLeftLowestBlock() {
 		BlockEntity toReturn = null;
 		if (blockArray[0] != null) {
@@ -84,6 +88,7 @@ public class EntityHandler {
 		}
 		return toReturn;
 	}
+
 	// actions
 	public static void destroyRandomBlock() {
 		int amountOfBlocks = 0;
@@ -99,11 +104,13 @@ public class EntityHandler {
 			blockArray[blockToDestroy].destroyBlock();
 		}
 	}
+
 	public static void destroyAllBlocks() {
 		while (blockArray[0] != null) {
 			blockArray[0].destroyBlock();
 		}
 	}
+
 	public static int getHitsLeft(String block_ID) throws NullPointerException {
 		for (BlockEntity eachBlockArray : blockArray) {
 			if (eachBlockArray != null) {
@@ -121,9 +128,11 @@ public class EntityHandler {
 		// since it will always be null
 		return blockArray[160].getHitsLeft();
 	}
+
 	public static boolean hasHitsLeft(String block_ID) {
 		return getHitsLeft(block_ID) > 0;
 	}
+
 	public static void blockExplosion(String block_ID) {
 		String[] x_y = block_ID.split("block");
 		String[] coordinates = x_y[1].split("_");
@@ -131,7 +140,7 @@ public class EntityHandler {
 		int y = Integer.valueOf(coordinates[1]);
 		String[] blockToHit = new String[4];
 		blockToHit[0] = "block" + x + "_" + (y + 1);
-		blockToHit[1] = "block" + (x - 1)  + "_" + y;
+		blockToHit[1] = "block" + (x - 1) + "_" + y;
 		blockToHit[2] = "block" + (x + 1) + "_" + y;
 		blockToHit[3] = "block" + x + "_" + (y - 1);
 
@@ -153,6 +162,7 @@ public class EntityHandler {
 	public static boolean ballArrayHasSpace() {
 		return ballArray[ballArray.length - 2] == null;
 	}
+
 	public static void addBall(BallEntity ball) {
 		if (ballArrayHasSpace()) {
 			for (int i = 0; i < ballArray.length; i++) {
@@ -165,6 +175,7 @@ public class EntityHandler {
 			System.err.println("Tried to add a ball to the ballArray even though the maximum supported amount of balls active at one time has been surpassed!");
 		}
 	}
+
 	public static void removeBall(BallEntity ball) {
 		int i;
 		for (i = 0; i < ballArray.length; i++) {
@@ -178,7 +189,7 @@ public class EntityHandler {
 
 		for (; i < ballArray.length - 1; i++) {
 			// entries below the removed one are moved up one until reaching a null entry
-			if (ballArray[i+1] != null) {
+			if (ballArray[i + 1] != null) {
 				ballArray[i] = ballArray[i + 1];
 			} else {
 				ballArray[i] = null;
@@ -186,13 +197,16 @@ public class EntityHandler {
 			}
 		}
 	}
+
 	// getter
 	public static BallEntity[] getBallArray() {
 		return ballArray;
 	}
+
 	public static boolean isBallArrayEmpty() {
 		return ballArray[0] == null;
 	}
+
 	public static BallEntity getLowestDownMovingBall() {
 		BallEntity toReturn = null;
 		for (BallEntity eachBallArray : ballArray) {
@@ -206,6 +220,7 @@ public class EntityHandler {
 		}
 		return toReturn;
 	}
+
 	public static BallEntity getHighestUpMovingBall() {
 		BallEntity toReturn = null;
 		for (BallEntity eachBallArray : ballArray) {
@@ -220,22 +235,26 @@ public class EntityHandler {
 
 		return toReturn;
 	}
+
 	// actions
 	public static void allBallsLevelComplete() {
 		while (ballArray[0] != null) {
 			ballArray[0].levelComplete();
 		}
 	}
+
 	public static void destroyAllBalls() {
 		while (ballArray[0] != null) {
 			ballArray[0].destroyBall();
 		}
 	}
+
 	public static void destroyFirstBall() {
 		if (ballArray[0] != null) {
 			ballArray[0].destroyBall();
 		}
 	}
+
 	public static void destroyRandomBall() {
 		int amountOfBalls = 0;
 		for (BallEntity eachBallArray : ballArray) {
@@ -250,6 +269,7 @@ public class EntityHandler {
 			ballArray[ballToDestroy].destroyBall();
 		}
 	}
+
 	public static void duplicateAllBalls() {
 		int amountOfBalls = 0;
 		for (BallEntity eachBallArray : ballArray) {
@@ -263,6 +283,7 @@ public class EntityHandler {
 			ballArray[i].duplicateBall();
 		}
 	}
+
 	public static void max_speedAllBalls() {
 		int amountOfBalls = 0;
 		for (BallEntity eachBallArray : ballArray) {
@@ -276,6 +297,7 @@ public class EntityHandler {
 			ballArray[i].max_speedBall();
 		}
 	}
+
 	public static void min_speedAllBalls() {
 		int amountOfBalls = 0;
 		for (BallEntity eachBallArray : ballArray) {
@@ -294,6 +316,7 @@ public class EntityHandler {
 	public static boolean stickArrayHasSpace() {
 		return stickArray[stickArray.length - 2] == null;
 	}
+
 	public static void addStick(StickEntity stick) {
 		if (stickArrayHasSpace()) {
 			for (int i = 0; i < stickArray.length; i++) {
@@ -306,6 +329,7 @@ public class EntityHandler {
 			System.err.println("Tried to add a stick to the stickArray even though the maximum supported amount of sticks active at one time has been surpassed!");
 		}
 	}
+
 	public static void removeStick(StickEntity stick) {
 		int i;
 		for (i = 0; i < stickArray.length; i++) {
@@ -318,7 +342,7 @@ public class EntityHandler {
 		}
 		for (; i < stickArray.length - 1; i++) {
 			// entries below the removed one are moved up one until reaching a null entry
-			if (stickArray[i+1] != null) {
+			if (stickArray[i + 1] != null) {
 				stickArray[i] = stickArray[i + 1];
 			} else {
 				stickArray[i] = null;
@@ -326,16 +350,19 @@ public class EntityHandler {
 			}
 		}
 	}
+
 	// getter
 	public static StickEntity[] getStickArray() {
 		return stickArray;
 	}
+
 	// actions
 	public static void destroyAllSticks() {
 		while (stickArray[0] != null) {
 			stickArray[0].destroyStick();
 		}
 	}
+
 	public static void activateAllBots() {
 		for (StickEntity eachStickArray : stickArray) {
 			if (eachStickArray != null) {
@@ -345,6 +372,7 @@ public class EntityHandler {
 			}
 		}
 	}
+
 	public static void deactivateAllBots() {
 		for (StickEntity eachStickArray : stickArray) {
 			if (eachStickArray != null) {
@@ -354,6 +382,7 @@ public class EntityHandler {
 			}
 		}
 	}
+
 	public static void switchAllBots() {
 		for (StickEntity eachStickArray : stickArray) {
 			if (eachStickArray != null) {
@@ -368,6 +397,7 @@ public class EntityHandler {
 	public static boolean borderArrayHasSpace() {
 		return borderArray[borderArray.length - 2] == null;
 	}
+
 	public static void addBorder(Entity border) {
 		if (borderArrayHasSpace()) {
 			for (int i = 0; i < borderArray.length; i++) {
@@ -380,6 +410,7 @@ public class EntityHandler {
 			System.err.println("Tried to add a border to the borderArray even though the maximum supported amount of borders active at one time has been surpassed!");
 		}
 	}
+
 	public static void removeBorder(Entity border) {
 		int i;
 		for (i = 0; i < borderArray.length; i++) {
@@ -392,7 +423,7 @@ public class EntityHandler {
 		}
 		for (; i < borderArray.length - 1; i++) {
 			// entries below the removed one are moved up one until reaching a null entry
-			if (borderArray[i+1] != null) {
+			if (borderArray[i + 1] != null) {
 				borderArray[i] = borderArray[i + 1];
 			} else {
 				borderArray[i] = null;
@@ -400,6 +431,7 @@ public class EntityHandler {
 			}
 		}
 	}
+
 	// getter
 	public static Entity[] getBorderArray() {
 		return borderArray;
@@ -407,7 +439,7 @@ public class EntityHandler {
 
 	// DEBUG
 	public static void printArray(Object[] array) {
-		for (int i = 0; i< array.length;i++) {
+		for (int i = 0; i < array.length; i++) {
 			System.out.println(i + ".: " + array[i]);
 		}
 	}

@@ -14,9 +14,9 @@ public class HighscoreHandler {
 
 	public static int maxHighscoreCount = Constants.MAX_HIGHSCORES;
 	private static int[] highscoreCount = new int[Constants.AMOUNT_OF_GAMEMODES];
-	private static String[][] names =  new String[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
-	private static int[][] desBlocks =  new int[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
-	private static Long[][] time =  new Long[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
+	private static String[][] names = new String[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
+	private static int[][] desBlocks = new int[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
+	private static Long[][] time = new Long[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
 	private static int[][] points = new int[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
 
 	public static int getHighscoreCount(int gameMode) {
@@ -25,9 +25,9 @@ public class HighscoreHandler {
 
 	public static void reset() {
 		highscoreCount = new int[Constants.AMOUNT_OF_GAMEMODES];
-		names =  new String[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
-		desBlocks =  new int[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
-		time =  new Long[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
+		names = new String[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
+		desBlocks = new int[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
+		time = new Long[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
 		points = new int[Constants.AMOUNT_OF_GAMEMODES][maxHighscoreCount];
 	}
 
@@ -130,6 +130,7 @@ public class HighscoreHandler {
 			return null;
 		}
 	}
+
 	public static int getDesBlocksAtHighscorePosition(int pos) {
 		if (pos >= 0 && pos < getHighscoreCount(OptionsHandler.getGameMode())) {
 			return desBlocks[OptionsHandler.getGameMode()][pos];
@@ -137,6 +138,7 @@ public class HighscoreHandler {
 			return -1;
 		}
 	}
+
 	public static long getTimeElapsedAtHighscorePosition(int pos) {
 		if (pos >= 0 && pos < getHighscoreCount(OptionsHandler.getGameMode())) {
 			return time[OptionsHandler.getGameMode()][pos];
@@ -144,6 +146,7 @@ public class HighscoreHandler {
 			return -1;
 		}
 	}
+
 	public static int getPointsAtHighscorePosition(int pos) {
 		if (pos >= 0 && pos < getHighscoreCount(OptionsHandler.getGameMode())) {
 			return points[OptionsHandler.getGameMode()][pos];

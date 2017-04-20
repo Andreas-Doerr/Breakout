@@ -1,8 +1,8 @@
 package de.tudarmstadt.informatik.fop.breakout.ui;
 
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.ButtonEntity;
-import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import eea.engine.action.basicactions.ChangeStateAction;
 import eea.engine.component.render.ImageRenderComponent;
@@ -15,14 +15,15 @@ import org.newdawn.slick.state.StateBasedGame;
 
 /**
  * Created by Andreas on 06.03.2017.
+ *
  * @author Andreas Dörr
  */
 public class OptionsState extends BasicGameState {
 
-	private int stateID; 							// identifier of this BasicGameState
-	private StateBasedEntityManager entityManager; 	// related entityManager
+	private int stateID;                            // identifier of this BasicGameState
+	private StateBasedEntityManager entityManager;    // related entityManager
 
-	OptionsState( int sid ) {
+	OptionsState(int sid) {
 		stateID = sid;
 		entityManager = StateBasedEntityManager.getInstance();
 	}
@@ -35,7 +36,7 @@ public class OptionsState extends BasicGameState {
 		// background
 		// creating background-entity
 		Entity background = new Entity(Constants.MENU_ID);
-		background.setPosition(new Vector2f((Variables.WINDOW_WIDTH / 2),(Variables.WINDOW_HEIGHT / 2)));
+		background.setPosition(new Vector2f((Variables.WINDOW_WIDTH / 2), (Variables.WINDOW_HEIGHT / 2)));
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			background.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BLANK_BACKGROUND)));
@@ -44,14 +45,14 @@ public class OptionsState extends BasicGameState {
 		// giving StateBasedEntityManager the background-entity
 		entityManager.addEntity(stateID, background);
 
-	// langSelect-entity
+		// langSelect-entity
 		ButtonEntity langSelect = new ButtonEntity("langSelect", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_1_Y);
 		langSelect.addAction((gc, sb, delta, event) -> {
 			SoundHandler.playButtonPress();
 			LanguageHandler.switchLang();
 		});
 
-	// resolution-entity
+		// resolution-entity
 		ButtonEntity resolutionSelect = new ButtonEntity("resolutionSelect", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_2_X, Variables.BUTTON_1_Y);
 		resolutionSelect.addAction((gc, sb, delta, event) -> {
 			SoundHandler.playButtonPress();
@@ -59,20 +60,20 @@ public class OptionsState extends BasicGameState {
 				OptionsHandler.updateWindow(gc, sb, stateID, 1200, 900);
 			} else if (OptionsHandler.getWindow_x() == 1200) {
 				OptionsHandler.updateWindow(gc, sb, stateID, 1600, 1200);
-			}else {
+			} else {
 				OptionsHandler.updateWindow(gc, sb, stateID, 800, 600);
 			}
 			OptionsHandler.saveOptions();
 		});
 
-	// controllerSelect-entity
+		// controllerSelect-entity
 		ButtonEntity controllerSelect = new ButtonEntity("controllerSelect", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_3_X, Variables.BUTTON_1_Y);
 		controllerSelect.addAction((gc, sb, delta, event) -> {
 			SoundHandler.playButtonPress();
 			ControllerHandler.switchController();
 		});
 
-	// show_fps-entity
+		// show_fps-entity
 		ButtonEntity showFps = new ButtonEntity("showFps", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_2_Y);
 		showFps.addAction((gc, sb, delta, event) -> {
 			SoundHandler.playButtonPress();
@@ -87,7 +88,7 @@ public class OptionsState extends BasicGameState {
 		});
 
 
-	// controlModeSelector_Entity
+		// controlModeSelector_Entity
 		ButtonEntity controlModeSelector = new ButtonEntity("controlModeSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_3_Y);
 		controlModeSelector.addAction((gc, sb, delta, event) -> {
 			SoundHandler.playButtonPress();
@@ -101,7 +102,7 @@ public class OptionsState extends BasicGameState {
 			OptionsHandler.saveOptions();
 		});
 
-	// fullscreenModeSelector_Entity
+		// fullscreenModeSelector_Entity
 		ButtonEntity fullscreenSelector = new ButtonEntity("fullscreenSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_2_X, Variables.BUTTON_2_Y);
 		fullscreenSelector.addAction((gc, sb, delta, event) -> {
 			SoundHandler.playButtonPress();
@@ -113,7 +114,7 @@ public class OptionsState extends BasicGameState {
 			OptionsHandler.saveOptions();
 		});
 
-	// gameModeSelector_Entity
+		// gameModeSelector_Entity
 		ButtonEntity gameModeSelector = new ButtonEntity("gameModeSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_4_Y);
 		gameModeSelector.addAction((gc, sb, delta, event) -> {
 			SoundHandler.playButtonPress();
@@ -125,7 +126,7 @@ public class OptionsState extends BasicGameState {
 			OptionsHandler.saveOptions();
 		});
 
-	// cheatModeSelector_Entity
+		// cheatModeSelector_Entity
 		ButtonEntity cheatModeSelector = new ButtonEntity("cheatModeSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_5_Y);
 		cheatModeSelector.addAction((gc, sb, delta, event) -> {
 			SoundHandler.playButtonPress();
@@ -137,14 +138,14 @@ public class OptionsState extends BasicGameState {
 			OptionsHandler.saveOptions();
 		});
 
-	// mapSelector_Entity
+		// mapSelector_Entity
 		ButtonEntity mapSelector = new ButtonEntity("mapSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_6_Y);
 		mapSelector.addAction((gc, sb, delta, event) -> {
 			SoundHandler.playButtonPress();
 			LevelHandler.switchMap();
 		});
 
-	// themeSelector_Entity
+		// themeSelector_Entity
 		ButtonEntity themeSelector = new ButtonEntity("themeSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_7_Y);
 		themeSelector.addAction((gc, sb, delta, event) -> {
 			if (!GameplayState.currentlyRunning) {
@@ -169,7 +170,7 @@ public class OptionsState extends BasicGameState {
 			}
 		});
 
-	// back-entity
+		// back-entity
 		ButtonEntity back = new ButtonEntity("back", stateID, Constants.ButtonType.NORMAL, Variables.BUTTON_1_X, Variables.BUTTON_8_Y);
 		back.addAction(new ChangeStateAction(Breakout.MAINMENU_STATE));
 		back.addAction((gc, sb, delta, event) -> SoundHandler.playButtonPress());
@@ -205,7 +206,7 @@ public class OptionsState extends BasicGameState {
 		g.drawString(LanguageHandler.BUTTON_SWITCH_LANGUAGE + ": " + OptionsHandler.getSelectedLangName(), (Variables.BUTTON_1_X_WIDE / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X_WIDE), (Variables.BUTTON_1_Y / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_Y));
 		// switch resolution
 		g.drawString(LanguageHandler.BUTTON_SWITCH_RESOLUTION + ": " + OptionsHandler.getWindow_x() + "x" + OptionsHandler.getWindow_y(), (Variables.BUTTON_2_X / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X_WIDE), (Variables.BUTTON_1_Y / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_Y));
-		if (OptionsHandler.getWindow_x() != Variables.WINDOW_WIDTH){
+		if (OptionsHandler.getWindow_x() != Variables.WINDOW_WIDTH) {
 			g.setColor(Color.red);
 			g.drawString(LanguageHandler.REQUIRES_RESTART, (Variables.BUTTON_2_X / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X_WIDE), (Variables.BUTTON_1_Y / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_Y + 15));
 			g.setColor(Color.white);
@@ -268,7 +269,7 @@ public class OptionsState extends BasicGameState {
 				"In Highscore:\n" +
 				"  Button 2: Back";
 		// 4.5 0.
-		g.drawString(controllerInfo, (Variables.WINDOW_WIDTH * 0.64f) / Variables.BACKGROUND_SCALE,(Variables.WINDOW_HEIGHT * 0.6f) / Variables.BACKGROUND_SCALE);
+		g.drawString(controllerInfo, (Variables.WINDOW_WIDTH * 0.64f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.6f) / Variables.BACKGROUND_SCALE);
 	}
 
 	@Override

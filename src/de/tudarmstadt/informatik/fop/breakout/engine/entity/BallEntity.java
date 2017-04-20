@@ -1,8 +1,8 @@
 package de.tudarmstadt.informatik.fop.breakout.engine.entity;
 
 import de.tudarmstadt.informatik.fop.breakout.engine.event.basicevents.BlockCollisionEvent;
-import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
 import eea.engine.component.render.ImageRenderComponent;
@@ -22,7 +22,7 @@ public class BallEntity extends Entity {
 	private float SpeedRight;
 	private Entity lastCollidedWith;
 
-	public BallEntity(float pos_x , float pos_y) {
+	public BallEntity(float pos_x, float pos_y) {
 		super(Constants.BALL_ID);
 		this.SpeedUp = Variables.INITIAL_BALL_SPEED_UP;
 		this.SpeedRight = Variables.INITIAL_BALL_SPEED_RIGHT;
@@ -45,16 +45,16 @@ public class BallEntity extends Entity {
 		// set position
 		setPosition(new Vector2f(pos_x, pos_y + getSize().y / 2));
 
-	// MOVEMENT
+		// MOVEMENT
 		LoopEvent ballLoop = new LoopEvent();
 		ballLoop.addAction((gc, sb, delta, event) -> {
 			if (!gc.isPaused()) {
-				setPosition(new Vector2f(getPosition().x + getSpeedRight() * Constants.FRAME_RATE / (float) gc.getFPS(), getPosition().y -  getSpeedUp() * Constants.FRAME_RATE / (float) gc.getFPS()));
+				setPosition(new Vector2f(getPosition().x + getSpeedRight() * Constants.FRAME_RATE / (float) gc.getFPS(), getPosition().y - getSpeedUp() * Constants.FRAME_RATE / (float) gc.getFPS()));
 			}
 		});
 		addComponent(ballLoop);
 
-	// COLLISION with a Block
+		// COLLISION with a Block
 		BlockCollisionEvent blockCE = new BlockCollisionEvent();
 		addComponent(blockCE);
 		blockCE.addAction((gc, sb, delta, event) -> {
@@ -111,7 +111,7 @@ public class BallEntity extends Entity {
 			}
 		});
 
-		LeavingScreenEvent lse =  new LeavingScreenEvent();
+		LeavingScreenEvent lse = new LeavingScreenEvent();
 		addComponent(lse);
 
 		// catching the ball if it sneaks through a border
@@ -120,7 +120,7 @@ public class BallEntity extends Entity {
 			if (getPosition().y < 0 && OptionsHandler.getGameMode() != 1) {
 				// went past the top border
 				System.err.println("The ball sneaked through the top border (trying to bring it back)");
-				setSpeedUp( - Math.abs(getSpeedUp()));
+				setSpeedUp(-Math.abs(getSpeedUp()));
 			}
 			if (getPosition().x < 0) {
 				// went past the left border
@@ -130,7 +130,7 @@ public class BallEntity extends Entity {
 			if (getPosition().x > Variables.WINDOW_WIDTH) {
 				// went past the right border
 				System.err.println("The ball sneaked through the right border (trying to bring it back)");
-				setSpeedRight( - Math.abs(getSpeedRight()));
+				setSpeedRight(-Math.abs(getSpeedRight()));
 			}
 		});
 
@@ -140,23 +140,27 @@ public class BallEntity extends Entity {
 	}
 
 
-
 	// getter
 	public float getSpeedUp() {
 		return this.SpeedUp;
 	}
+
 	public float getSpeedRight() {
 		return this.SpeedRight;
 	}
+
 	public float getTotalSpeed() {
 		return (float) Math.sqrt(getSpeedUp() * getSpeedUp() + getSpeedRight() * getSpeedRight());
 	}
+
 	float getMovementAngleRAD() {
 		return (float) Math.atan(getSpeedUp() / getSpeedRight());
 	}
+
 	float getMovementAngleDEG() {
 		return (float) (getMovementAngleRAD() / Math.PI * 180);
 	}
+
 	public Entity getLastCollidedWith() {
 		return lastCollidedWith;
 	}
@@ -165,9 +169,11 @@ public class BallEntity extends Entity {
 	public void setSpeedUp(float newSpeedUp) {
 		this.SpeedUp = newSpeedUp;
 	}
+
 	public void setSpeedRight(float newSpeedRight) {
 		this.SpeedRight = newSpeedRight;
 	}
+
 	public void setTotalSpeed(float newTotalSpeed) {
 		if (newTotalSpeed != 0f) {
 			// get current speed (to get the direction)
@@ -199,6 +205,7 @@ public class BallEntity extends Entity {
 			System.err.println("ERROR: Not allowed to set a balls total speed to 0");
 		}
 	}
+
 	public void setLastCollidedWith(Entity newLastCollidedWith) {
 		this.lastCollidedWith = newLastCollidedWith;
 	}
@@ -211,7 +218,7 @@ public class BallEntity extends Entity {
 			// giving the new ball movement in the opposite direction of the existing ball
 
 			// calculating the angle this ball is moving in ad its speed
-			float angle = (float )Math.atan(getSpeedUp() / getSpeedRight());
+			float angle = (float) Math.atan(getSpeedUp() / getSpeedRight());
 			float v_ges = (float) ((getSpeedUp() / Math.sin(angle)));
 
 			// define the new angles for the two balls (this one and the one newly created)
@@ -221,10 +228,10 @@ public class BallEntity extends Entity {
 			// calculating new speeds for:
 			// the newly created ball
 			float this_new_up = (float) (Math.sin(angle_this_new) * v_ges);
-			float this_new_right = (float)(Math.cos(angle_this_new) * v_ges);
+			float this_new_right = (float) (Math.cos(angle_this_new) * v_ges);
 			// ball2
 			float dup_new_up = (float) (Math.sin(angle_dup_new) * v_ges);
-			float dup_new_right = (float)(Math.cos(angle_dup_new) * v_ges);
+			float dup_new_right = (float) (Math.cos(angle_dup_new) * v_ges);
 
 			// not allowing speeds to be set to 0 to eliminate problems
 			// for this ball
@@ -255,12 +262,15 @@ public class BallEntity extends Entity {
 			System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
 		}
 	}
+
 	public void max_speedBall() {
 		setTotalSpeed(Variables.INITIAL_TOTAL_SPEED * Constants.MAX_SPEED_MULTIPLIER);
 	}
+
 	public void min_speedBall() {
 		setTotalSpeed(Variables.INITIAL_TOTAL_SPEED);
 	}
+
 	public void destroyBall() {
 		if (LevelHandler.getActiveBallCount() <= 1) {
 			// if this wa the last ball: subtract a life
@@ -275,6 +285,7 @@ public class BallEntity extends Entity {
 		// remove this ball from the list which is keeping track of every ball
 		EntityHandler.removeBall(this);
 	}
+
 	public void levelComplete() {
 		// remove the ball from the StateBasedEntityManager
 		StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, this);
@@ -284,7 +295,7 @@ public class BallEntity extends Entity {
 		EntityHandler.removeBall(this);
 	}
 
-	 void updateImage() {
+	void updateImage() {
 		String newImage = ThemeHandler.STANDARDBALL;
 		if (getTotalSpeed() < Variables.INITIAL_TOTAL_SPEED * 1.05f) {
 			newImage = ThemeHandler.WATERBALL;

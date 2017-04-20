@@ -1,36 +1,36 @@
 package de.tudarmstadt.informatik.fop.breakout.ui;
 
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.ButtonEntity;
-import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import eea.engine.action.basicactions.ChangeStateAction;
+import eea.engine.action.basicactions.ChangeStateInitAction;
+import eea.engine.action.basicactions.QuitAction;
+import eea.engine.component.render.ImageRenderComponent;
+import eea.engine.entity.Entity;
+import eea.engine.entity.StateBasedEntityManager;
 import eea.engine.event.basicevents.LoopEvent;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import eea.engine.action.basicactions.ChangeStateInitAction;
-import eea.engine.action.basicactions.QuitAction;
-import eea.engine.component.render.ImageRenderComponent;
-import eea.engine.entity.Entity;
-import eea.engine.entity.StateBasedEntityManager;
-
 /**
  * @author Timo Bähr
- *
- * Diese Klasse repraesentiert das Menuefenster, indem ein neues
- * Spiel gestartet werden kann und das gesamte Spiel beendet 
- * werden kann.
+ *         <p>
+ *         Diese Klasse repraesentiert das Menuefenster, indem ein neues
+ *         Spiel gestartet werden kann und das gesamte Spiel beendet
+ *         werden kann.
  */
 public class MainMenuState extends BasicGameState {
 
-	private int stateID; 							// identifier of this BasicGameState
-	private StateBasedEntityManager entityManager; 	// related entityManager
-	MainMenuState( int sid ) {
-	   stateID = sid;
-	   entityManager = StateBasedEntityManager.getInstance();
+	private int stateID;                            // identifier of this BasicGameState
+	private StateBasedEntityManager entityManager;    // related entityManager
+
+	MainMenuState(int sid) {
+		stateID = sid;
+		entityManager = StateBasedEntityManager.getInstance();
 	}
 
 	/**
@@ -38,10 +38,10 @@ public class MainMenuState extends BasicGameState {
 	 */
 	@Override
 	public void init(GameContainer gc, StateBasedGame sb) throws SlickException {
-	// background
+		// background
 		// creating background-entity
 		Entity background = new Entity(Constants.MENU_ID);
-		background.setPosition(new Vector2f((OptionsHandler.getWindow_x() / 2),(OptionsHandler.getWindow_y() / 2)));
+		background.setPosition(new Vector2f((OptionsHandler.getWindow_x() / 2), (OptionsHandler.getWindow_y() / 2)));
 		if (!Breakout.getDebug()) {
 			// only if not in debug-mode
 			background.addComponent(new ImageRenderComponent(new Image(ThemeHandler.MENU_BACKGROUND)));
@@ -50,14 +50,14 @@ public class MainMenuState extends BasicGameState {
 		// giving StateBasedEntityManager the background-entity
 		entityManager.addEntity(stateID, background);
 
-	// listener entity
+		// listener entity
 		Entity listener = new Entity("listener");
 		entityManager.addEntity(stateID, listener);
 		// Loop event for various uses (controller input)
 		LoopEvent listenerLoop = new LoopEvent();
 		listener.addComponent(listenerLoop);
 
-	// new_Game-entity
+		// new_Game-entity
 
 		ButtonEntity newGame = new ButtonEntity("newGame", stateID, Constants.ButtonType.MAINMENU, Variables.MAIN_MENU_BUTTON_1_X, Variables.MAIN_MENU_BUTTON_1_Y);
 		newGame.addAction((gc1, sb1, delta, event) -> {
@@ -87,7 +87,7 @@ public class MainMenuState extends BasicGameState {
 			}
 		});
 
-	// resume_Game-entity
+		// resume_Game-entity
 		ButtonEntity resumeGame = new ButtonEntity("resumeGame", stateID, Constants.ButtonType.MAINMENU, Variables.MAIN_MENU_BUTTON_2_X, Variables.MAIN_MENU_BUTTON_1_Y);
 		resumeGame.addAction((gc1, sb1, delta, event) -> {
 			if (GameplayState.currentlyRunning) {
@@ -98,7 +98,7 @@ public class MainMenuState extends BasicGameState {
 				// keep track of the time (pause time ended now)
 				GameplayState.pauseTime += gc1.getTime() - GameplayState.startPauseTime;
 				sb1.enterState(Breakout.GAMEPLAY_STATE);
-				if(gc1.isPaused()) {
+				if (gc1.isPaused()) {
 					gc1.resume();
 				}
 			} else {
@@ -106,7 +106,7 @@ public class MainMenuState extends BasicGameState {
 			}
 		});
 
-	// controller "listener" (Button 3)
+		// controller "listener" (Button 3)
 		listenerLoop.addAction((gc1, sb1, delta, event) -> {
 			if (ControllerHandler.isButtonPressed(2)) {
 				// if the button 3 was not pressed before but is pressed now
@@ -116,7 +116,7 @@ public class MainMenuState extends BasicGameState {
 					// grab the mouse
 					gc1.setMouseGrabbed(true);
 					sb1.enterState(Breakout.GAMEPLAY_STATE);
-					if(gc1.isPaused()) {
+					if (gc1.isPaused()) {
 						gc1.resume();
 					}
 				} else {
@@ -125,18 +125,18 @@ public class MainMenuState extends BasicGameState {
 			}
 		});
 
-	// options-entity
+		// options-entity
 		ButtonEntity options = new ButtonEntity("options", stateID, Constants.ButtonType.MAINMENU, Variables.MAIN_MENU_BUTTON_1_X, Variables.MAIN_MENU_BUTTON_2_Y);
 		options.addAction(new ChangeStateAction(Breakout.OPTIONS_STATE));
 		options.addAction((gc1, sb1, delta, event) -> SoundHandler.playButtonPress());
 
-	// highscore-entity
+		// highscore-entity
 		ButtonEntity highscore = new ButtonEntity("highscore", stateID, Constants.ButtonType.MAINMENU, Variables.MAIN_MENU_BUTTON_2_X, Variables.MAIN_MENU_BUTTON_2_Y);
 		highscore.addAction(new ChangeStateAction(Breakout.HIGHSCORE_STATE));
 		highscore.addAction((gc1, sb1, delta, event) -> SoundHandler.playButtonPress());
 
 
-	// quit-entity
+		// quit-entity
 		ButtonEntity quit = new ButtonEntity("quit", stateID, Constants.ButtonType.MAINMENU, Variables.MAIN_MENU_BUTTON_1_X, Variables.MAIN_MENU_BUTTON_3_Y);
 		quit.addAction(new QuitAction());
 
@@ -149,7 +149,7 @@ public class MainMenuState extends BasicGameState {
 			}
 		});
 
-	// about-entity
+		// about-entity
 		ButtonEntity about = new ButtonEntity("about", stateID, Constants.ButtonType.MAINMENU, Variables.MAIN_MENU_BUTTON_2_X, Variables.MAIN_MENU_BUTTON_3_Y);
 		about.addAction(new ChangeStateAction(Breakout.ABOUT_STATE));
 		about.addAction((gc1, sb1, delta, event) -> SoundHandler.playButtonPress());
@@ -184,8 +184,8 @@ public class MainMenuState extends BasicGameState {
 	 * Wird mit dem Frame ausgefuehrt
 	 */
 	@Override
-	public void render(GameContainer container, StateBasedGame game, 
-												Graphics g) throws SlickException {
+	public void render(GameContainer container, StateBasedGame game,
+					   Graphics g) throws SlickException {
 		entityManager.renderEntities(container, game, g);
 
 		// scaling texts
@@ -204,9 +204,9 @@ public class MainMenuState extends BasicGameState {
 		// Highscore
 		g.drawString(LanguageHandler.BUTTON_HIGHSCORE, (Variables.MAIN_MENU_BUTTON_2_X / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X), (Variables.MAIN_MENU_BUTTON_2_Y / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_Y));
 		// Options
-		g.drawString(LanguageHandler.BUTTON_OPTIONS, (Variables.MAIN_MENU_BUTTON_1_X / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X), (Variables.MAIN_MENU_BUTTON_2_Y  / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_Y));
+		g.drawString(LanguageHandler.BUTTON_OPTIONS, (Variables.MAIN_MENU_BUTTON_1_X / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X), (Variables.MAIN_MENU_BUTTON_2_Y / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_Y));
 		// Quit
-		g.drawString(LanguageHandler.BUTTON_QUIT, (Variables.MAIN_MENU_BUTTON_1_X / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X), (Variables.MAIN_MENU_BUTTON_3_Y / Variables.BACKGROUND_SCALE+ Constants.TEXT_OFFSET_Y));
+		g.drawString(LanguageHandler.BUTTON_QUIT, (Variables.MAIN_MENU_BUTTON_1_X / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X), (Variables.MAIN_MENU_BUTTON_3_Y / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_Y));
 		// About
 		g.drawString(LanguageHandler.BUTTON_ABOUT, (Variables.MAIN_MENU_BUTTON_2_X / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_X), (Variables.MAIN_MENU_BUTTON_3_Y / Variables.BACKGROUND_SCALE + Constants.TEXT_OFFSET_Y));
 
@@ -216,5 +216,5 @@ public class MainMenuState extends BasicGameState {
 	public int getID() {
 		return stateID;
 	}
-	
+
 }

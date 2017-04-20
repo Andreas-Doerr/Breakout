@@ -49,12 +49,15 @@ public class BlockEntity extends Entity {
 	public int getHitsLeft() {
 		return hitsLeft;
 	}
+
 	public void addHitsLeft(int toAdd) {
 		hitsLeft += toAdd;
 	}
+
 	public void setHitsLeft(int newHitsLeft) {
 		hitsLeft = newHitsLeft;
 	}
+
 	public boolean hasHitsLeft() {
 		return hitsLeft > 0;
 	}
@@ -99,7 +102,7 @@ public class BlockEntity extends Entity {
 			} else if (getHitsLeft() == 4) {
 				imageRef = ThemeHandler.BLOCK_4;
 			} else if (getHitsLeft() == 5) {
-				imageRef =ThemeHandler.BLOCK_5;
+				imageRef = ThemeHandler.BLOCK_5;
 			}
 			try {
 				// loading and assigning picture

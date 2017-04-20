@@ -1,7 +1,7 @@
 package de.tudarmstadt.informatik.fop.breakout.handlers;
 
+import de.tudarmstadt.informatik.fop.breakout.engine.entity.BlockEntity;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
-import de.tudarmstadt.informatik.fop.breakout.engine.entity.*;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
 import eea.engine.action.basicactions.MoveDownAction;
@@ -15,15 +15,16 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Vector2f;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Created by PC - Andreas on 03.03.2017.
  *
  * @author Andreas Dörr
- */	//TODO commenting
+ */    //TODO commenting
 public class LevelHandler {
-// COUNTER
+	// COUNTER
 	private static int activeBlocks = 0;
 	private static int destroyedBlocks = 0;
 	private static int activeBallCount = 0;
@@ -33,28 +34,36 @@ public class LevelHandler {
 	public static int getActiveBlocks() {
 		return activeBlocks;
 	}
+
 	public static int getDestroyedBlocks() {
 		return destroyedBlocks;
 	}
+
 	public static int getActiveBallCount() {
 		return activeBallCount;
 	}
+
 	public static int getActiveDestroyedBallCount() {
 		return activeDestroyedBallCount;
 	}
+
 	// adding / subtracting
 	public static void addOneDestroyedBlock() {
 		destroyedBlocks++;
 	}
+
 	public static void addActiveBalls(int addedBalls) {
 		activeBallCount += addedBalls;
 	}
+
 	private static void addActiveDestroyedBall(int addedDestroyedBalls) {
 		activeDestroyedBallCount += addedDestroyedBalls;
 	}
+
 	public static void addActiveBlocks(int addedBlocks) {
 		activeBlocks += addedBlocks;
 	}
+
 	// resetter
 	static void resetCounter() {
 		activeBlocks = 0;
@@ -108,9 +117,9 @@ public class LevelHandler {
 		// remove the destroyedBall after it left the screen and reduce the counter for destroyedBalls in play
 		destroyedLoop.addAction((gc, sb, delta, event) -> {
 			if (destroyedBall.getPosition().y > Variables.WINDOW_HEIGHT + destroyedBall.getSize().y
-					|| destroyedBall.getPosition().y < (- destroyedBall.getSize().y)
+					|| destroyedBall.getPosition().y < (-destroyedBall.getSize().y)
 					|| destroyedBall.getPosition().x > (Variables.WINDOW_WIDTH + destroyedBall.getSize().x)
-					|| destroyedBall.getPosition().x < (- destroyedBall.getSize().x)) {
+					|| destroyedBall.getPosition().x < (-destroyedBall.getSize().x)) {
 				StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, destroyedBall);
 				LevelHandler.addActiveDestroyedBall(-1);
 			}
@@ -118,7 +127,7 @@ public class LevelHandler {
 		destroyedBall.addComponent(destroyedLoop);
 	}
 
-// MAP
+	// MAP
 	public static void switchMap() {
 		if (OptionsHandler.getSelectedMap() < OptionsHandler.getAmountOfMaps() - 1) {
 			OptionsHandler.setSelectedMap(OptionsHandler.getSelectedMap() + 1);
@@ -126,6 +135,7 @@ public class LevelHandler {
 			OptionsHandler.setSelectedMap(0);
 		}
 	}
+
 	private static String[][] readMap(String ref) {
 		// returns a 2D Array with the content of the referenced map (map[y][x])
 		String[][] map = new String[16][10];
@@ -147,6 +157,7 @@ public class LevelHandler {
 			return null;
 		}
 	}
+
 	public static void initMapLevel() {
 		String[][] map = readMap("maps/" + OptionsHandler.getSelectedMapName() + ".map");
 		if (map != null) {
@@ -172,10 +183,12 @@ public class LevelHandler {
 			}
 		}
 	}
+
 	private static void initNextMap() {
 		switchMap();
 		initMapLevel();
 	}
+
 	public static void initTemplateLevel() {
 		String[][] map = readMap(Constants.TEMPLATE_LEVEL);
 		if (map != null) {
@@ -187,7 +200,7 @@ public class LevelHandler {
 					int hitsLeft = Integer.valueOf(map[y][x]);
 					if (hitsLeft > 0) {
 						String ID = "block" + x + "_" + y;
-						float pos_x = (((x + 1)  * Constants.BLOCK_IMAGE_X + Constants.BLOCK_IMAGE_X / 2) * Variables.BLOCK_SCALE);
+						float pos_x = (((x + 1) * Constants.BLOCK_IMAGE_X + Constants.BLOCK_IMAGE_X / 2) * Variables.BLOCK_SCALE);
 						float pos_y = (((y + 1) * Constants.BLOCK_IMAGE_Y + Constants.BLOCK_IMAGE_Y / 2) * Variables.BLOCK_SCALE);
 
 						new BlockEntity(ID, hitsLeft, pos_x, pos_y);

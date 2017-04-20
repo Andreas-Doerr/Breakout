@@ -7,7 +7,7 @@ import de.tudarmstadt.informatik.fop.breakout.ui.GameplayState;
  * Created by PC - Andreas on 14.03.2017.
  *
  * @author Andreas Dörr
- */	//TODO commenting
+ */    //TODO commenting
 public class PlayerHandler {
 	// parameter init
 	private static int lives = Constants.INITIAL_LIVES;
@@ -17,6 +17,7 @@ public class PlayerHandler {
 	public static int getLives() {
 		return lives;
 	}
+
 	public static int getPoints() {
 		return points;
 	}
@@ -30,12 +31,15 @@ public class PlayerHandler {
 	public static void addLives(int value) {
 		lives += value;
 	}
+
 	public static void subtractOneLife() {
 		lives--;
 	}
+
 	public static void addPoints(int added) {
 		points += added;
 	}
+
 	// resetter
 	public static void reset() {
 		lives = Constants.INITIAL_LIVES;

@@ -28,7 +28,7 @@ public class ControllerHandler {
 		}
 		Controllers.poll();
 
-		for (int i=0;i<Controllers.getControllerCount();i++) {
+		for (int i = 0; i < Controllers.getControllerCount(); i++) {
 			controller = Controllers.getController(i);
 			System.out.println(i + ": " + controller.getName());
 		}
@@ -73,6 +73,7 @@ public class ControllerHandler {
 			SoundHandler.playNotAcceptable();
 		}
 	}
+
 	public static String getControllerName() {
 		if (Controllers.getControllerCount() > 0) {
 			return controller.getName();
@@ -92,6 +93,7 @@ public class ControllerHandler {
 		// return true if button exists and game is not in debug mode and button is pressed
 		return doesButtonExist(button) && !Breakout.getDebug() && controller.isButtonPressed(button);
 	}
+
 	public static boolean isButtonPressed(int button) {
 		boolean isDown = isButtonDown(button);
 		boolean isPressed = false;
@@ -107,7 +109,7 @@ public class ControllerHandler {
 
 	public static float getStick(int axis) {
 		float axisValue = 0f;
-		if (!Breakout.getDebug() && Controllers.getControllerCount() > 0  && controller.getAxisCount() > axis) {
+		if (!Breakout.getDebug() && Controllers.getControllerCount() > 0 && controller.getAxisCount() > axis) {
 			axisValue = controller.getAxisValue(axis);
 		}
 		return axisValue;
@@ -115,8 +117,8 @@ public class ControllerHandler {
 
 	public static String missingForAcceptableController() {
 		// returns a String containing:
-			// if controller is acceptable: ""
-			// if not: which axis and buttons are missing (in Text form intended for output)
+		// if controller is acceptable: ""
+		// if not: which axis and buttons are missing (in Text form intended for output)
 		String missing = "";
 		if (!hasAxis) {
 			missing += LanguageHandler.NO_AXIS + "\n";
