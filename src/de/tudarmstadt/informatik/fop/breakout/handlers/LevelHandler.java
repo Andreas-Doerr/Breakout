@@ -140,7 +140,7 @@ public class LevelHandler {
 		// returns a 2D Array with the content of the referenced map (map[y][x])
 		String[][] map = new String[16][10];
 		try {
-			String[] lines = FileHandler.read(ref, 10);
+			String[] lines = FileHandler.read(ref);
 
 			for (int y = 0; y < 10; y++) {
 				map[y] = lines[y].split(",");
@@ -150,12 +150,14 @@ public class LevelHandler {
 		} catch (FileNotFoundException fnfE) {
 			System.err.println("ERROR: Could not find map-file: " + ref);
 			initNextMap();
-			return null;
+		} catch (ArrayIndexOutOfBoundsException aioobE) {
+			System.err.println("ERROR: Corrupted map-file: " + ref + " Wrong amount of lines ");
+			aioobE.printStackTrace();
 		} catch (IOException ioE) {
 			System.err.println("ERROR: Could not read options file.");
 			ioE.printStackTrace();
-			return null;
 		}
+		return null;
 	}
 
 	public static void initMapLevel() {

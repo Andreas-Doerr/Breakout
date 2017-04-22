@@ -35,7 +35,7 @@ public class OptionsHandler {
 	// read / write Options
 	public static void readOptions() {
 		try {
-			String[] optionsContent = FileHandler.read(Constants.OPTIONS_FILE, 12);
+			String[] optionsContent = FileHandler.read(Constants.OPTIONS_FILE);
 
 			try {
 				window_x = Integer.valueOf(optionsContent[0]);
@@ -53,12 +53,15 @@ public class OptionsHandler {
 				selectedMap = Integer.valueOf(optionsContent[10]);
 				themeSelector = Integer.valueOf(optionsContent[11]);
 
+			} catch (ArrayIndexOutOfBoundsException aioobE) {
+				System.err.println("ERROR: Corrupted options-file! Wrong amount of lines ");
+				aioobE.printStackTrace();
 			} catch (NumberFormatException nfE) {
 				String[] test = nfE.getLocalizedMessage().split(": ");
 				System.err.println("ERROR: Corrupted options-file! The entry: " + test[1] + " is not a number, but should be one!");
 			}
 		} catch (FileNotFoundException fnfE) {
-			System.err.println("Could not find options-file at: " + Constants.OPTIONS_FILE);
+			System.err.println("ERROR: Could not find options-file at: " + Constants.OPTIONS_FILE);
 			System.out.println("INFO: Creating new options.config-file based on default parameters.");
 			saveOptions();
 		} catch (IOException ioE) {
@@ -108,7 +111,7 @@ public class OptionsHandler {
 				"\n# selected Map:\n" + selectedMap +
 				"\n# themeSelector\n" + themeSelector;
 
-		FileHandler.write(Constants.OPTIONS_FILE, toWrite);
+		FileHandler.write("", Constants.OPTIONS_FILE, toWrite);
 	}
 
 	// getter

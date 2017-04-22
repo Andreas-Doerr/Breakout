@@ -1,6 +1,8 @@
 package de.tudarmstadt.informatik.fop.breakout.handlers;
 
 import java.io.*;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by PC - Andreas on 21.03.2017.
@@ -11,12 +13,11 @@ public class FileHandler {
 
 	//TODO create folders (highscore) if they do not exist on startup
 
-	public static String[] read(String ref, int noOfEntries) throws IOException {
+	public static String[] read(String ref) throws IOException {
 
-		String[] content = new String[noOfEntries];
+		List<String> contentList = new LinkedList<>();
 
 		BufferedReader br = new BufferedReader(new FileReader(new File(ref)));
-		int i = 0;
 		while (br.ready()) {
 			// ignores lines starting with "#"(35)
 			int firstChar = br.read();
@@ -28,28 +29,36 @@ public class FileHandler {
 				} else {
 					line = (char) firstChar + "";
 				}
-				try {
-					content[i] = line;
-				} catch (ArrayIndexOutOfBoundsException e) {
-					System.err.println("ERROR: FileHandler was told the file should be smaller!");
-				}
-
-				i++;
+				contentList.add(line);
 			} else {
 				br.readLine();
 			}
 		}
 		br.close();
 
+		// put the contentList into s String Array
+		String[] content = new String[contentList.size()];
+		int i = 0;
+		for (String line : contentList) {
+			content[i] = line;
+			i++;
+		}
+
 		return content;
 	}
 
-	public static void write(String ref, String toWrite) {
+	public static void write(String folder, String file, String toWrite) {
 		try {
-			BufferedWriter bwr = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(ref)));
-			bwr.write(toWrite);
-			bwr.flush();
-			bwr.close();
+			// create Folder
+			File folderPath = new File(folder);
+			if (!folderPath.exists() && !folder.equals("")) {
+				folderPath.mkdir();
+			}
+
+			// write file
+			Writer wr = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folder + file)));
+			wr.write(toWrite);
+			wr.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

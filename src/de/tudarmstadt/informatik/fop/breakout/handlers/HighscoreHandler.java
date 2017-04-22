@@ -36,12 +36,12 @@ public class HighscoreHandler {
 		for (int gm = 0; gm < Constants.AMOUNT_OF_GAMEMODES; gm++) {
 			int i = 0;
 			try {
-				highscoreContent = FileHandler.read(Constants.HIGHSCORE_FOLDER + Constants.HIGHSCORE_FILE + gm + Constants.HIGHSCORE_FILE_ENDING, maxHighscoreCount);
+				highscoreContent = FileHandler.read(Constants.HIGHSCORE_FOLDER + Constants.HIGHSCORE_FILE + gm + Constants.HIGHSCORE_FILE_ENDING);
 
 				highscoreCount[gm] = Integer.valueOf(highscoreContent[0]);
 
 				i++;
-				for (; i < maxHighscoreCount && highscoreContent[i] != null; i++) {
+				for (; i <= highscoreCount[gm] && highscoreContent[i] != null; i++) {
 					String[] entryContent = highscoreContent[i].split(",");
 					names[gm][i - 1] = entryContent[0];
 					desBlocks[gm][i - 1] = Integer.valueOf(entryContent[1]);
@@ -52,6 +52,9 @@ public class HighscoreHandler {
 				System.err.println("ERROR: Could not find highscore-file at: " + Constants.HIGHSCORE_FOLDER + Constants.HIGHSCORE_FILE + gm + Constants.HIGHSCORE_FILE_ENDING);
 				System.out.println("INFO: Saving empty highscore.hsc-file to: " + Constants.HIGHSCORE_FOLDER + Constants.HIGHSCORE_FILE + gm + Constants.HIGHSCORE_FILE_ENDING);
 				saveHighscore(gm);
+			} catch (ArrayIndexOutOfBoundsException aioobE) {
+				System.err.println("ERROR: Corrupted highscore-file: " + Constants.HIGHSCORE_FOLDER + Constants.HIGHSCORE_FILE + gm + Constants.HIGHSCORE_FILE_ENDING + " Wrong amount of lines ");
+				aioobE.printStackTrace();
 			} catch (IOException ioE) {
 				System.err.println("ERROR: Could not read highscore file.");
 				ioE.printStackTrace();
@@ -64,9 +67,9 @@ public class HighscoreHandler {
 	private static void saveHighscore(int gameMode) {
 		String entriesToWrite = "";
 
-		String highscoreFile = Constants.HIGHSCORE_FOLDER + Constants.HIGHSCORE_FILE + gameMode + Constants.HIGHSCORE_FILE_ENDING;
+		String highscoreFile = Constants.HIGHSCORE_FILE + gameMode + Constants.HIGHSCORE_FILE_ENDING;
 
-		System.out.println("saving highscores to file: " + highscoreFile);
+		System.out.println("saving highscores to file: " + Constants.HIGHSCORE_FOLDER + highscoreFile);
 
 		for (int i = 0; i < getHighscoreCount(gameMode); i++) {
 			entriesToWrite += "# ENTRY " + i + "\n" +
@@ -77,7 +80,7 @@ public class HighscoreHandler {
 				"# highscoreCount:\n" + getHighscoreCount(gameMode) +
 				"\n#\n### LIST ### \n" + entriesToWrite;
 
-		FileHandler.write(highscoreFile, toWrite);
+		FileHandler.write(Constants.HIGHSCORE_FOLDER, highscoreFile, toWrite);
 	}
 
 	public static int addHighscore(String newName, int newDesBlocks, long newTime, int newPoints) {

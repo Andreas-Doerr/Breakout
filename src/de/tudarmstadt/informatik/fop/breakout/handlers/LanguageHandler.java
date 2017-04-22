@@ -49,7 +49,7 @@ public class LanguageHandler {
 		String selectedLang = OptionsHandler.getAvailableLanguage(OptionsHandler.getLangSelector());
 
 		try {
-			String[] langContent = FileHandler.read("lang/" + selectedLang + ".lang", 35);
+			String[] langContent = FileHandler.read("lang/" + selectedLang + ".lang");
 
 			BUTTON_NEW_GAME = langContent[0];
 			BUTTON_RESUME_GAME = langContent[1];
@@ -89,6 +89,9 @@ public class LanguageHandler {
 		} catch (FileNotFoundException e) {
 			System.out.println("WARNING: Skipping language \"" + selectedLang + "\" since it's .lang file can not be found.");
 			switchLang();
+		} catch (ArrayIndexOutOfBoundsException aioobE) {
+			System.err.println("ERROR: Corrupted lang-file: " + "lang/" + selectedLang + ".lang" + " Wrong amount of lines ");
+			aioobE.printStackTrace();
 		} catch (IOException ioE) {
 			System.err.println("ERROR: Could not read lang file.");
 			ioE.printStackTrace();
