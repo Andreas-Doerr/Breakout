@@ -2,7 +2,7 @@ package de.tudarmstadt.informatik.fop.breakout.parameters;
 
 
 public interface Constants {
-	int FRAME_RATE = 50000;
+	int FRAME_RATE = 500;
 	String WINDOW_ICON = "/images/icon.png";
 
 	// Game States

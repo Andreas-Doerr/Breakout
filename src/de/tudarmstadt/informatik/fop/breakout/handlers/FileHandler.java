@@ -53,6 +53,7 @@ public class FileHandler {
 			File folderPath = new File(folder);
 			if (!folderPath.exists() && !folder.equals("")) {
 				folderPath.mkdir();
+				System.out.println("INFO: created folder:" + folder);
 			}
 
 			// write file
@@ -60,6 +61,7 @@ public class FileHandler {
 			wr.write(toWrite);
 			wr.close();
 		} catch (IOException e) {
+			System.err.println("ERROR: could not save file: " + folder + file);
 			e.printStackTrace();
 		}
 	}
