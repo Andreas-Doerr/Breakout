@@ -1,6 +1,7 @@
 # mine :
 *.config
 *.hsc
+/images/unused/
 
 
 
