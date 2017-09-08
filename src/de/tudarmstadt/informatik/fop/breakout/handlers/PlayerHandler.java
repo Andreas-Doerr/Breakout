@@ -7,7 +7,7 @@ import de.tudarmstadt.informatik.fop.breakout.ui.GameplayState;
  * Created by PC - Andreas on 14.03.2017.
  *
  * @author Andreas Dörr
- */    //TODO commenting
+ */
 public class PlayerHandler {
 	// parameter init
 	private static int lives = Constants.INITIAL_LIVES;

@@ -211,17 +211,7 @@ public class GameplayState extends BasicGameState {
 		space_pressed.addAction((gc1, sb1, delta, event) -> {
 			// only a new ball if no other ball is currently existing
 			if (OptionsHandler.getControlMode() == 0 && LevelHandler.getActiveBallCount() <= 0 && LevelHandler.getActiveDestroyedBallCount() <= 0 && PlayerHandler.getLives() > 0 && !gc1.isPaused() && ItemHandler.getItemsActive() == 0) {
-				// activate the ability to resume the Game
-				if (EntityHandler.ballArrayHasSpace()) {
-					SoundHandler.playButtonPress();
-					currentlyRunning = true;
-
-					// creating a ball
-					new BallEntity(stick.getPosition().x, (stick.getPosition().y - stick.getSize().y));
-				} else {
-					SoundHandler.playNotAcceptable();
-					System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
-				}
+				newBallAtStickPos(stick);
 			} else {
 				SoundHandler.playNotAcceptable();
 			}
@@ -233,17 +223,7 @@ public class GameplayState extends BasicGameState {
 		mouse_clicked.addAction((gc1, sb1, delta, event) -> {
 			// only a new ball if no other ball is currently existing
 			if (OptionsHandler.getControlMode() == 1 && LevelHandler.getActiveBallCount() <= 0 && LevelHandler.getActiveDestroyedBallCount() <= 0 && PlayerHandler.getLives() > 0 && !gc.isPaused() && ItemHandler.getItemsActive() == 0) {
-				// activate the ability to resume the Game
-				if (EntityHandler.ballArrayHasSpace()) {
-					SoundHandler.playButtonPress();
-					currentlyRunning = true;
-
-					// creating a ball
-					new BallEntity(stick.getPosition().x, (stick.getPosition().y - stick.getSize().y));
-				} else {
-					SoundHandler.playNotAcceptable();
-					System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
-				}
+				newBallAtStickPos(stick);
 			} else {
 				SoundHandler.playNotAcceptable();
 			}
@@ -487,5 +467,19 @@ public class GameplayState extends BasicGameState {
 	@Override
 	public int getID() {
 		return stateID;
+	}
+
+	private void newBallAtStickPos(StickEntity stick) {
+		// activate the ability to resume the Game
+		if (EntityHandler.ballArrayHasSpace()) {
+			SoundHandler.playButtonPress();
+			currentlyRunning = true;
+
+			// creating a ball
+			new BallEntity(stick.getPosition().x, (stick.getPosition().y - stick.getSize().y));
+		} else {
+			SoundHandler.playNotAcceptable();
+			System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
+		}
 	}
 }

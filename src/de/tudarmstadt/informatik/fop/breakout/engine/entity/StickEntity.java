@@ -123,8 +123,12 @@ public class StickEntity extends Entity {
 		stickLoop.addAction((gc, sb, delta, event) -> {
 			boolean bottom = true;
 			BallEntity ball;
+			BallEntity secondaryBall = null;
 			if (getPosition().y > (Variables.WINDOW_HEIGHT / 2)) {
 				ball = EntityHandler.getLowestDownMovingBall();
+				if (ball == null) {
+					secondaryBall = EntityHandler.getLowestUpMovingBall();
+				}
 			} else {
 				ball = EntityHandler.getHighestUpMovingBall();
 				bottom = false;
@@ -173,9 +177,10 @@ public class StickEntity extends Entity {
 				float offsetX = newX - getPosition().x;
 
 				float newDirection = 0f;
+				float angle_change = 0f;
 				if (offsetX < (getSize().x * 0.6f) && offsetX > -(getSize().x * 0.6f)) {
 
-					float angle_change = offsetX / (getSize().x / 2);
+					angle_change = offsetX / (getSize().x / 2);
 
 					if (ball.getSpeedRight() > 0) {
 						angle_change = -angle_change;
@@ -221,6 +226,7 @@ public class StickEntity extends Entity {
 				if (bot) {
 					BlockEntity target = EntityHandler.getMostLeftLowestBlock();
 					if (target != null) {
+						target.markAsTarget();
 						// calculating the desired offset to hit the targeted block
 						float targetX = target.getPosition().x;
 						float targetY = target.getPosition().y;
@@ -295,6 +301,17 @@ public class StickEntity extends Entity {
 					moveStick(speed);
 				}
 
+			} else if (bot && secondaryBall != null) {
+				// making the stick move to its destination (faster the further it is away from it)
+				float speed = (secondaryBall.getPosition().x - getPosition().x) / 25;
+				// capping the speed to 1 / -1
+				if (speed < -1f) {
+					speed = -1f;
+				} else if (speed > 1f) {
+					speed = 1f;
+				}
+
+				moveStick(speed);
 			} else if (indicator.isVisible()) {
 				indicator.setVisible(false);
 				indicatorOut.setVisible(false);

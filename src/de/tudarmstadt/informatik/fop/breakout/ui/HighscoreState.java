@@ -235,8 +235,8 @@ public class HighscoreState extends BasicGameState {
 			if (HighscoreHandler.getNameAtHighscorePosition(i) != null) {
 				g.drawString((i + 1) + ".:  " + HighscoreHandler.getNameAtHighscorePosition(i), highscoreList_x_number, highscoreList_y + 25 * i);
 				g.drawString(String.valueOf(HighscoreHandler.getDesBlocksAtHighscorePosition(i)), highscoreList_x_desBlocks, highscoreList_y + 25 * i);
-				g.drawString(String.valueOf(HighscoreHandler.getTimeElapsedAtHighscorePosition(i)), highscoreList_x_time, highscoreList_y + 25 * i);
-				g.drawString(String.valueOf(HighscoreHandler.getPointsAtHighscorePosition(i)), highscoreList_x_points, highscoreList_y + 25 * i);
+                g.drawString(String.valueOf(HighscoreHandler.getTimeElapsedAtHighscorePosition(i) / 1000f), highscoreList_x_time, highscoreList_y + 25 * i);
+                g.drawString(String.valueOf(HighscoreHandler.getPointsAtHighscorePosition(i)), highscoreList_x_points, highscoreList_y + 25 * i);
 			} else {
 				g.drawString("No more entries", highscoreList_x_name, highscoreList_y + 25 * i);
 				noMore = true;
@@ -246,15 +246,15 @@ public class HighscoreState extends BasicGameState {
 		if (thisHighscore >= 9) {
 			g.drawString(thisHighscore + 1 + ".: " + HighscoreHandler.getNameAtHighscorePosition(thisHighscore), highscoreList_x_number, highscoreList_y + 25 * 9);
 			g.drawString(String.valueOf(HighscoreHandler.getDesBlocksAtHighscorePosition(thisHighscore)), highscoreList_x_desBlocks, highscoreList_y + 25 * 9);
-			g.drawString(String.valueOf(HighscoreHandler.getTimeElapsedAtHighscorePosition(thisHighscore)), highscoreList_x_time, highscoreList_y + 25 * 9);
-			g.drawString(String.valueOf(HighscoreHandler.getPointsAtHighscorePosition(thisHighscore)), highscoreList_x_points, highscoreList_y + 25 * 9);
+            g.drawString(String.valueOf(HighscoreHandler.getTimeElapsedAtHighscorePosition(thisHighscore) / 1000f), highscoreList_x_time, highscoreList_y + 25 * 9);
+            g.drawString(String.valueOf(HighscoreHandler.getPointsAtHighscorePosition(thisHighscore)), highscoreList_x_points, highscoreList_y + 25 * 9);
 		} else {
 			if (!noMore) {
 				if (HighscoreHandler.getNameAtHighscorePosition(9) != null) {
 					g.drawString("10.: " + HighscoreHandler.getNameAtHighscorePosition(9), highscoreList_x_number, highscoreList_y + 25 * 9);
 					g.drawString(String.valueOf(HighscoreHandler.getDesBlocksAtHighscorePosition(9)), highscoreList_x_desBlocks, highscoreList_y + 25 * 9);
-					g.drawString(String.valueOf(HighscoreHandler.getTimeElapsedAtHighscorePosition(9)), highscoreList_x_time, highscoreList_y + 25 * 9);
-					g.drawString(String.valueOf(HighscoreHandler.getPointsAtHighscorePosition(9)), highscoreList_x_points, highscoreList_y + 25 * 9);
+                    g.drawString(String.valueOf(HighscoreHandler.getTimeElapsedAtHighscorePosition(9) / 1000f), highscoreList_x_time, highscoreList_y + 25 * 9);
+                    g.drawString(String.valueOf(HighscoreHandler.getPointsAtHighscorePosition(9)), highscoreList_x_points, highscoreList_y + 25 * 9);
 				} else {
 					g.drawString("No more entries", highscoreList_x_name, highscoreList_y + 25 * 9);
 				}

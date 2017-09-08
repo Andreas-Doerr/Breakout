@@ -28,8 +28,8 @@ public class EntityHandler {
 	}
 
 	// ENTITY Arrays
-// BLOCKS
-	public static boolean blockArrayHasSpace() {
+    // BLOCKS
+    public static boolean blockArrayHasSpace() {
 		return blockArray[blockArray.length - 2] == null;
 	}
 
@@ -82,9 +82,9 @@ public class EntityHandler {
 						toReturn = eachBlockArray;
 					} else if (eachBlockArray.getPosition().y >= toReturn.getPosition().y && eachBlockArray.getPosition().x < toReturn.getPosition().x) {
 						toReturn = eachBlockArray;
-					} else break;
-				}
-			}
+                    }
+                } else break;
+            }
 		}
 		return toReturn;
 	}
@@ -220,6 +220,20 @@ public class EntityHandler {
 		}
 		return toReturn;
 	}
+
+    public static BallEntity getLowestUpMovingBall() {
+        BallEntity toReturn = null;
+        for (BallEntity eachBallArray : ballArray) {
+            if (eachBallArray != null) {
+                if (toReturn == null && eachBallArray.getSpeedUp() > 0) {
+                    toReturn = eachBallArray;
+                } else if (toReturn != null && eachBallArray.getSpeedUp() > 0 && toReturn.getPosition().y < eachBallArray.getPosition().y) {
+                    toReturn = eachBallArray;
+                }
+            } else break;
+        }
+        return toReturn;
+    }
 
 	public static BallEntity getHighestUpMovingBall() {
 		BallEntity toReturn = null;

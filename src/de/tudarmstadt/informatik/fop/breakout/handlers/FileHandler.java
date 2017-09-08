@@ -11,8 +11,6 @@ import java.util.List;
  */
 public class FileHandler {
 
-	//TODO create folders (highscore) if they do not exist on startup
-
 	public static String[] read(String ref) throws IOException {
 
 		List<String> contentList = new LinkedList<>();

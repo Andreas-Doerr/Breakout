@@ -14,7 +14,7 @@ import java.io.IOException;
  * Created by PC - Andreas on 08.03.2017.
  *
  * @author Andreas Dörr
- */    //TODO commenting
+ */
 public class OptionsHandler {
 
 	private static int window_x = 1200;

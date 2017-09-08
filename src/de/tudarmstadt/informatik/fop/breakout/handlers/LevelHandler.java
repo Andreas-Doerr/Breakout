@@ -3,17 +3,6 @@ package de.tudarmstadt.informatik.fop.breakout.handlers;
 import de.tudarmstadt.informatik.fop.breakout.engine.entity.BlockEntity;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
-import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
-import eea.engine.action.basicactions.MoveDownAction;
-import eea.engine.action.basicactions.MoveUpAction;
-import eea.engine.action.basicactions.RotateLeftAction;
-import eea.engine.component.render.ImageRenderComponent;
-import eea.engine.entity.Entity;
-import eea.engine.entity.StateBasedEntityManager;
-import eea.engine.event.basicevents.LoopEvent;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Vector2f;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -22,7 +11,7 @@ import java.io.IOException;
  * Created by PC - Andreas on 03.03.2017.
  *
  * @author Andreas Dörr
- */    //TODO commenting
+ */
 public class LevelHandler {
 	// COUNTER
 	private static int activeBlocks = 0;
@@ -56,9 +45,13 @@ public class LevelHandler {
 		activeBallCount += addedBalls;
 	}
 
-	private static void addActiveDestroyedBall(int addedDestroyedBalls) {
-		activeDestroyedBallCount += addedDestroyedBalls;
-	}
+    public static void increaseActiveDestroyedBall() {
+        activeDestroyedBallCount++;
+    }
+
+    public static void decreaceActiveDestroyedBallCount() {
+        activeDestroyedBallCount--;
+    }
 
 	public static void addActiveBlocks(int addedBlocks) {
 		activeBlocks += addedBlocks;
@@ -71,60 +64,6 @@ public class LevelHandler {
 		activeBallCount = 0;
 		activeDestroyedBallCount = 0;
 		EntityHandler.resetEntityArrays();
-	}
-
-
-	// animation
-	public static void animateDestruction(Vector2f pos) {
-		// animate the destruction
-
-		LevelHandler.addActiveDestroyedBall(1);
-
-		SoundHandler.playDestroyBall();
-
-		// create the destroyed ball
-		Entity destroyedBall = new Entity(Constants.DESTROYED_BALL_ID);    // entity
-		destroyedBall.setPosition(pos);    // starting position
-		destroyedBall.setScale(Variables.BLOCK_SCALE * 4 * 0.7f);
-		destroyedBall.setRotation((float) (Math.random() * 360));    // starting rotation
-		if (!Breakout.getDebug()) {
-			// only if not in debug-mode
-			try {
-				// add the image of the destroyed ball
-				destroyedBall.addComponent(new ImageRenderComponent(new Image(ThemeHandler.DESTROYED_BALL)));
-			} catch (SlickException e) {
-				System.err.println("Cannot find file " + ThemeHandler.DESTROYED_BALL);
-				e.printStackTrace();
-			}
-		}
-
-		// giving StateBasedEntityManager the destroyedBall-entity
-		StateBasedEntityManager.getInstance().addEntity(Constants.GAMEPLAY_STATE, destroyedBall);
-
-		// movement for the destroyed ball
-		LoopEvent destroyedLoop = new LoopEvent();
-		if (OptionsHandler.getGameMode() == 0) {
-			destroyedLoop.addAction(new MoveDownAction(Variables.INITIAL_BALL_SPEED_UP / 2));
-		} else if (OptionsHandler.getGameMode() == 1) {
-			if (pos.y > Variables.WINDOW_HEIGHT / 2) {
-				destroyedLoop.addAction(new MoveDownAction(Variables.INITIAL_BALL_SPEED_UP / 2));
-			} else {
-				destroyedLoop.addAction(new MoveUpAction(Variables.INITIAL_BALL_SPEED_UP / 2));
-			}
-		}
-
-		destroyedLoop.addAction(new RotateLeftAction(0.3f));
-		// remove the destroyedBall after it left the screen and reduce the counter for destroyedBalls in play
-		destroyedLoop.addAction((gc, sb, delta, event) -> {
-			if (destroyedBall.getPosition().y > Variables.WINDOW_HEIGHT + destroyedBall.getSize().y
-					|| destroyedBall.getPosition().y < (-destroyedBall.getSize().y)
-					|| destroyedBall.getPosition().x > (Variables.WINDOW_WIDTH + destroyedBall.getSize().x)
-					|| destroyedBall.getPosition().x < (-destroyedBall.getSize().x)) {
-				StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, destroyedBall);
-				LevelHandler.addActiveDestroyedBall(-1);
-			}
-		});
-		destroyedBall.addComponent(destroyedLoop);
 	}
 
 	// MAP

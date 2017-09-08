@@ -20,6 +20,8 @@ import org.newdawn.slick.geom.Vector2f;
 public class BlockEntity extends Entity {
 
 	private int hitsLeft;
+    private Entity target;
+    private boolean marked = false;
 
 	public BlockEntity(String entityID, int originalHitsLeft, float originalPos_x, float originalPos_y) {
 		super(entityID);
@@ -80,7 +82,9 @@ public class BlockEntity extends Entity {
 	public void destroyBlock() {
 		// remove the block from the StateBasedEntityManager
 		StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, this);
-		// adding points
+
+        removeTarget();
+        // adding points
 		PlayerHandler.addPoints(10);
 		// increase the counter for the amount of blocks destroyed
 		LevelHandler.addOneDestroyedBlock();
@@ -108,10 +112,38 @@ public class BlockEntity extends Entity {
 				// loading and assigning picture
 				addComponent(new ImageRenderComponent(new Image(imageRef)));
 			} catch (SlickException e) {
-				System.err.println("Cannot find file " + imageRef);
-				e.printStackTrace();
+                System.err.println("Cannot find file: " + imageRef);
+                e.printStackTrace();
 			}
 		}
 	}
+
+    public void markAsTarget() {
+        if (!marked) {
+            marked = true;
+            target = new Entity("Target");
+
+            target.setPosition(getPosition());
+
+            try {
+                target.addComponent(new ImageRenderComponent(new Image(Constants.IMAGES_FOLDER + "Target.png")));
+            } catch (SlickException e) {
+                System.err.println("Cannot find file: " + Constants.IMAGES_FOLDER + "Target.png");
+                e.printStackTrace();
+            }
+
+            target.setPassable(true);
+            target.setScale(Variables.BLOCK_SCALE * 1.75f);
+
+            // add the block to the StateBasedEntityManager
+            StateBasedEntityManager.getInstance().addEntity(Constants.GAMEPLAY_STATE, target);
+        }
+    }
+
+    private void removeTarget() {
+        // remove the block from the StateBasedEntityManager
+        StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, target);
+        target = null;
+    }
 
 }

@@ -5,7 +5,7 @@ import java.io.IOException;
 
 /**
  * @author Andreas Dörr
- */    //TODO commenting
+ */
 public class LanguageHandler {
 
 	public static String BUTTON_NEW_GAME;

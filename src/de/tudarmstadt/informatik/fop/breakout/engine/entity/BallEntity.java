@@ -5,6 +5,9 @@ import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
+import eea.engine.action.basicactions.MoveDownAction;
+import eea.engine.action.basicactions.MoveUpAction;
+import eea.engine.action.basicactions.RotateLeftAction;
 import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
@@ -276,14 +279,72 @@ public class BallEntity extends Entity {
 			// if this wa the last ball: subtract a life
 			PlayerHandler.subtractOneLife();
 		}
+
 		// remove the ball from the StateBasedEntityManager
 		StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, this);
+
 		// animate the destruction
-		LevelHandler.animateDestruction(getPosition());
+		animateDestruction();
+
 		// reduce the counter for the amount of balls in play by one
 		LevelHandler.addActiveBalls(-1);
+
 		// remove this ball from the list which is keeping track of every ball
 		EntityHandler.removeBall(this);
+	}
+
+
+	// animation
+	private void animateDestruction() {
+		// animate the destruction
+
+		LevelHandler.increaseActiveDestroyedBall();
+
+		SoundHandler.playDestroyBall();
+
+		// create the destroyed ball
+		Entity destroyedBall = new Entity(Constants.DESTROYED_BALL_ID);    // entity
+		destroyedBall.setPosition(getPosition());    // starting position
+		destroyedBall.setScale(Variables.BLOCK_SCALE * 4 * 0.7f);
+		destroyedBall.setRotation((float) (Math.random() * 360));    // starting rotation
+		if (!Breakout.getDebug()) {
+			// only if not in debug-mode
+			try {
+				// add the image of the destroyed ball
+				destroyedBall.addComponent(new ImageRenderComponent(new Image(ThemeHandler.DESTROYED_BALL)));
+			} catch (SlickException e) {
+				System.err.println("Cannot find file " + ThemeHandler.DESTROYED_BALL);
+				e.printStackTrace();
+			}
+		}
+
+		// giving StateBasedEntityManager the destroyedBall-entity
+		StateBasedEntityManager.getInstance().addEntity(Constants.GAMEPLAY_STATE, destroyedBall);
+
+		// movement for the destroyed ball
+		LoopEvent destroyedLoop = new LoopEvent();
+		if (OptionsHandler.getGameMode() == 0) {
+			destroyedLoop.addAction(new MoveDownAction(Variables.INITIAL_BALL_SPEED_UP / 2));
+		} else if (OptionsHandler.getGameMode() == 1) {
+			if (getPosition().y > Variables.WINDOW_HEIGHT / 2) {
+				destroyedLoop.addAction(new MoveDownAction(Variables.INITIAL_BALL_SPEED_UP / 2));
+			} else {
+				destroyedLoop.addAction(new MoveUpAction(Variables.INITIAL_BALL_SPEED_UP / 2));
+			}
+		}
+
+		destroyedLoop.addAction(new RotateLeftAction(0.3f));
+		// remove the destroyedBall after it left the screen and reduce the counter for destroyedBalls in play
+		destroyedLoop.addAction((gc, sb, delta, event) -> {
+			if (destroyedBall.getPosition().y > Variables.WINDOW_HEIGHT + destroyedBall.getSize().y
+					|| destroyedBall.getPosition().y < (-destroyedBall.getSize().y)
+					|| destroyedBall.getPosition().x > (Variables.WINDOW_WIDTH + destroyedBall.getSize().x)
+					|| destroyedBall.getPosition().x < (-destroyedBall.getSize().x)) {
+				StateBasedEntityManager.getInstance().removeEntity(Constants.GAMEPLAY_STATE, destroyedBall);
+				LevelHandler.decreaceActiveDestroyedBallCount();
+			}
+		});
+		destroyedBall.addComponent(destroyedLoop);
 	}
 
 	public void levelComplete() {

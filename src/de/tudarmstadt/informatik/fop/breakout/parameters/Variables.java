@@ -30,7 +30,7 @@ public class Variables {
 	// Stick
 	public static int STICK_Y = (int) (WINDOW_HEIGHT * 0.9f);
 	public static int STICK_Y_TOP = (int) (WINDOW_HEIGHT * 0.1f);
-	public static float STICK_SPEED = 0.5f * BACKGROUND_SCALE * SPEED_MULTIPLIER;
+	public static float STICK_SPEED = 0.5f * BACKGROUND_SCALE * SPEED_MULTIPLIER / Constants.FRAME_RATE * 250;
 	public static float COLLISION_DISTANCE = (25 / (float) 2 * BLOCK_SCALE * 4 * 0.7f) + (25 / (float) 2 * BLOCK_SCALE * 4);
 
 	// Buttons
@@ -88,7 +88,7 @@ public class Variables {
 		// Stick
 		STICK_Y = (int) (WINDOW_HEIGHT * 0.9f);
 		STICK_Y_TOP = (int) (WINDOW_HEIGHT * 0.1f);
-		STICK_SPEED = 0.5f * BACKGROUND_SCALE * SPEED_MULTIPLIER;
+		STICK_SPEED = 0.5f * BACKGROUND_SCALE * SPEED_MULTIPLIER / Constants.FRAME_RATE * 250;
 
 		// Buttons
 		MENU_ENTRY_SCALE = BACKGROUND_SCALE;

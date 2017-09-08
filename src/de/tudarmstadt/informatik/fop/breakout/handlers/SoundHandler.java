@@ -13,7 +13,6 @@ public class SoundHandler {
 
 	// Volume
 	private static float mainVolume = 1f;
-	// TODO set to half it's value when paused
 	// Sounds
 	private static Sound hitStick;
 	private static Sound hitBorder;
