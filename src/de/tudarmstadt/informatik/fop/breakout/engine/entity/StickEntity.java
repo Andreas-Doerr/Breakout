@@ -5,6 +5,7 @@ import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import de.tudarmstadt.informatik.fop.breakout.ui.Breakout;
+import de.tudarmstadt.informatik.fop.breakout.ui.GameplayState;
 import eea.engine.component.render.ImageRenderComponent;
 import eea.engine.entity.Entity;
 import eea.engine.entity.StateBasedEntityManager;
@@ -119,8 +120,8 @@ public class StickEntity extends Entity {
 		indicatorOut.setScale(Variables.BLOCK_SCALE * 3);
 		StateBasedEntityManager.getInstance().addEntity(Breakout.GAMEPLAY_STATE, indicatorOut);
 
-		// indicator positioning
-		stickLoop.addAction((gc, sb, delta, event) -> {
+        // indicator positioning and BOT
+        stickLoop.addAction((gc, sb, delta, event) -> {
 			boolean bottom = true;
 			BallEntity ball;
 			BallEntity secondaryBall = null;
@@ -318,6 +319,12 @@ public class StickEntity extends Entity {
 			}
 		});
 
+        stickLoop.addAction((gc, sb, delta, event) -> {
+            if (bot && LevelHandler.getActiveBallCount() <= 0 && LevelHandler.getActiveDestroyedBallCount() <= 0 && PlayerHandler.getLives() > 0 && !gc.isPaused() && ItemHandler.getItemsActive() == 0) {
+                ((GameplayState) Breakout.getGameState(Constants.GAMEPLAY_STATE)).newBallAtStickPos(this);
+            }
+        });
+
 
 		// Collision with Ball
 		BallCollisionEvent ballCE = new BallCollisionEvent();
@@ -429,6 +436,10 @@ public class StickEntity extends Entity {
 	public void switchBot() {
 		bot = !bot;
 	}
+
+    public boolean isBot() {
+        return bot;
+    }
 
 	public void slimmer() {
 		// decrease this sticks width

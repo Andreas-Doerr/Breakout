@@ -6,7 +6,8 @@ public interface Constants {
 	String WINDOW_ICON = "/images/icon.png";
 
 	// Game States
-	int MAINMENU_STATE = 0;
+    int NUMBER_OF_STATES = 5;
+    int MAINMENU_STATE = 0;
 	int GAMEPLAY_STATE = 1;
 	int HIGHSCORE_STATE = 2;
 	int OPTIONS_STATE = 3;
@@ -56,12 +57,11 @@ public interface Constants {
 	// Maps
 	String TEMPLATE_LEVEL = "maps/level1.map";
 
-	// speeds
-	int SPEED_MULTIPLIER = 3;
-
 	// Ball
 	String BALL_ID = "ball";
-	int HITS_TO_MAX_SPEED = 25;
+    float BALL_SPEED_UP_BASE = 0.6f;
+    float BALL_SPEED_RIGHT_BASE = 0.225f;
+    int HITS_TO_MAX_SPEED = 25;
 	float MAX_SPEED_MULTIPLIER = 3f;
 	String DESTROYED_BALL_ID = "destroyed ball";
 	int MAX_AMOUNT_OF_BALLS = 100;
@@ -69,11 +69,11 @@ public interface Constants {
 	// Stick
 	String PLAYER_STICK_ID = "playerStick";
 	String PLAYER_STICK_ID_TOP = "playerStickTop";
+    float STICK_BASE_SPEED = 1.75f;
 
-	enum StickShape {
+    enum StickShape {
 		SLIM, NORMAL, WIDE
 	}
-
 	int MAX_AMOUNT_OF_STICKS = 10;
 
 	// Buttons

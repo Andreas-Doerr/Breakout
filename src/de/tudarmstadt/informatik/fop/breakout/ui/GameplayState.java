@@ -36,6 +36,9 @@ public class GameplayState extends BasicGameState {
 	private static Color timeColor = Color.white;
 	private int stateID;                            // identifier for this BasicGameState
 	private StateBasedEntityManager entityManager;    // related entityManager
+    private StickEntity mainStick;
+
+    private int repeat = 0;
 
 	GameplayState(int sid) {
 		stateID = sid;
@@ -91,7 +94,7 @@ public class GameplayState extends BasicGameState {
 		}
 
 		// Stick
-		StickEntity stick = new StickEntity(Constants.PLAYER_STICK_ID, (Variables.WINDOW_WIDTH / 2), Variables.STICK_Y, Input.KEY_LEFT, Input.KEY_RIGHT, true, 0);
+        mainStick = new StickEntity(Constants.PLAYER_STICK_ID, (Variables.WINDOW_WIDTH / 2), Variables.STICK_Y, Input.KEY_LEFT, Input.KEY_RIGHT, true, 0);
 
 		// pause
 		// creating pause-entity
@@ -211,8 +214,8 @@ public class GameplayState extends BasicGameState {
 		space_pressed.addAction((gc1, sb1, delta, event) -> {
 			// only a new ball if no other ball is currently existing
 			if (OptionsHandler.getControlMode() == 0 && LevelHandler.getActiveBallCount() <= 0 && LevelHandler.getActiveDestroyedBallCount() <= 0 && PlayerHandler.getLives() > 0 && !gc1.isPaused() && ItemHandler.getItemsActive() == 0) {
-				newBallAtStickPos(stick);
-			} else {
+                newBallAtStickPos(mainStick);
+            } else {
 				SoundHandler.playNotAcceptable();
 			}
 		});
@@ -223,8 +226,8 @@ public class GameplayState extends BasicGameState {
 		mouse_clicked.addAction((gc1, sb1, delta, event) -> {
 			// only a new ball if no other ball is currently existing
 			if (OptionsHandler.getControlMode() == 1 && LevelHandler.getActiveBallCount() <= 0 && LevelHandler.getActiveDestroyedBallCount() <= 0 && PlayerHandler.getLives() > 0 && !gc.isPaused() && ItemHandler.getItemsActive() == 0) {
-				newBallAtStickPos(stick);
-			} else {
+                newBallAtStickPos(mainStick);
+            } else {
 				SoundHandler.playNotAcceptable();
 			}
 		});
@@ -243,8 +246,8 @@ public class GameplayState extends BasicGameState {
 						currentlyRunning = true;
 
 						// creating a ball
-						new BallEntity(stick.getPosition().x, (stick.getPosition().y - stick.getSize().y));
-					} else {
+                        new BallEntity(mainStick.getPosition().x, (mainStick.getPosition().y - mainStick.getSize().y));
+                    } else {
 						SoundHandler.playNotAcceptable();
 						System.err.println("The maximum supported amount of balls active at one time has been surpassed!");
 					}
@@ -275,12 +278,30 @@ public class GameplayState extends BasicGameState {
 
 // Cheats
 		// n_pressed event
+        KeyPressedEvent up_pressed = new KeyPressedEvent(Input.KEY_UP);
+        // new Ball
+        up_pressed.addAction((gc1, sb1, delta, event) -> {
+            Variables.increaseSpeed();
+        });
+        // giving the listener-entity the n_pressed-event
+        listener.addComponent(up_pressed);
+
+        KeyPressedEvent down_pressed = new KeyPressedEvent(Input.KEY_DOWN);
+        // new Ball
+        down_pressed.addAction((gc1, sb1, delta, event) -> {
+            Variables.decreaseSpeed();
+        });
+        // giving the listener-entity the n_pressed-event
+        listener.addComponent(down_pressed);
+
+
+
 		KeyPressedEvent n_pressed = new KeyPressedEvent(Input.KEY_N);
 		// new Ball
 		n_pressed.addAction((gc1, sb1, delta, event) -> {
 			if (OptionsHandler.isCheatModeActive() && !gc1.isPaused()) {
-				new BallEntity(stick.getPosition().x, stick.getPosition().y - stick.getSize().y);
-			}
+                new BallEntity(mainStick.getPosition().x, mainStick.getPosition().y - mainStick.getSize().y);
+            }
 		});
 		// giving the listener-entity the n_pressed-event
 		listener.addComponent(n_pressed);
@@ -362,7 +383,6 @@ public class GameplayState extends BasicGameState {
 				SoundHandler.startGameplayMusic();
 			}
 
-
 			// no lives left
 			if (LevelHandler.getActiveBallCount() <= 0 && LevelHandler.getActiveDestroyedBallCount() <= 0 && PlayerHandler.getLives() <= 0 && ItemHandler.getItemsActive() == 0) {
 				// deactivate the ability to resume the Game
@@ -426,6 +446,14 @@ public class GameplayState extends BasicGameState {
 			}
 		}
 
+
+        if (repeat > 1) {
+            repeat--;
+            update(gc, sb, delta);
+        } else {
+            repeat = Variables.SPEED_MODIFIER;
+        }
+
 	}
 
 	/**
@@ -457,7 +485,9 @@ public class GameplayState extends BasicGameState {
 		g.drawString(LanguageHandler.BALLS_ACTIVE + ": " + (Integer.toString(LevelHandler.getActiveBallCount())), (Variables.LEFT_X), Constants.Y_TO_NEXT * 3 + showFPS_y);
 		// show points
 		g.drawString(LanguageHandler.POINTS + ": " + Integer.toString(PlayerHandler.getPoints()), (Variables.LEFT_X), Constants.Y_TO_NEXT * 4 + showFPS_y);
-		// show elapsed Time
+        // show Speed-Modifier
+        g.drawString(LanguageHandler.SPEED_MODIFIER + ": " + Float.toString(Variables.SPEED_MODIFIER), (Variables.LEFT_X), Constants.Y_TO_NEXT * 5 + showFPS_y);
+        // show elapsed Time
 		g.setColor(timeColor);
 		g.drawString(LanguageHandler.TIMER + ": " + Float.toString(playtime / 10 / 100f), (Variables.TIMER_X), (Constants.TIMER_Y));
 		g.setColor(Color.white);
@@ -469,8 +499,8 @@ public class GameplayState extends BasicGameState {
 		return stateID;
 	}
 
-	private void newBallAtStickPos(StickEntity stick) {
-		// activate the ability to resume the Game
+    public void newBallAtStickPos(StickEntity stick) {
+        // activate the ability to resume the Game
 		if (EntityHandler.ballArrayHasSpace()) {
 			SoundHandler.playButtonPress();
 			currentlyRunning = true;

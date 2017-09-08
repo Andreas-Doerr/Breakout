@@ -2,13 +2,17 @@ package de.tudarmstadt.informatik.fop.breakout.ui;
 
 import de.tudarmstadt.informatik.fop.breakout.handlers.*;
 import de.tudarmstadt.informatik.fop.breakout.parameters.Constants;
+import de.tudarmstadt.informatik.fop.breakout.parameters.Variables;
 import eea.engine.entity.StateBasedEntityManager;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class Breakout extends StateBasedGame implements Constants {
+
+    private static BasicGameState[] gameStates = new BasicGameState[Constants.NUMBER_OF_STATES];
 
 	// Remember if the game runs in debug mode
 	private static boolean debug = false;
@@ -23,7 +27,13 @@ public class Breakout extends StateBasedGame implements Constants {
 	public Breakout(boolean debug) {
 		super("Breakout");
 		Breakout.debug = debug;
-	}
+
+        gameStates[Constants.MAINMENU_STATE] = new MainMenuState(MAINMENU_STATE);
+        gameStates[Constants.GAMEPLAY_STATE] = new GameplayState(Constants.GAMEPLAY_STATE);
+        gameStates[Constants.HIGHSCORE_STATE] = new HighscoreState(HIGHSCORE_STATE);
+        gameStates[Constants.OPTIONS_STATE] = new OptionsState(OPTIONS_STATE);
+        gameStates[Constants.ABOUT_STATE] = new AboutState(ABOUT_STATE);
+    }
 
 	public static AppGameContainer getApp() {
 		return app;
@@ -85,6 +95,8 @@ public class Breakout extends StateBasedGame implements Constants {
 		// set if FPS is to be shown or not
 		app.setShowFPS(OptionsHandler.isShowingFPS());
 
+        Variables.recalculate();
+
 		// now start the game!
 		app.start();
 	}
@@ -92,27 +104,24 @@ public class Breakout extends StateBasedGame implements Constants {
 	@Override
 	public void initStatesList(GameContainer arg0) throws SlickException {
 
-		// Add the game states (the first added state will be started initially)
-		// This may look as follows, assuming you use the associated class names and parameters:
+        // Add the game gameStates (the first added state will be started initially)
+        for (int i = 0; i < Constants.NUMBER_OF_STATES; i++) {
+            addState(gameStates[i]);
+        }
 
-		addState(new MainMenuState(MAINMENU_STATE));
-		addState(new GameplayState(GAMEPLAY_STATE));
-		addState(new HighscoreState(HIGHSCORE_STATE));
-		addState(new OptionsState(OPTIONS_STATE));
-		addState(new AboutState(ABOUT_STATE));
-
-		// Add the states to the StateBasedEntityManager
-		StateBasedEntityManager.getInstance().addState(MAINMENU_STATE);
-		StateBasedEntityManager.getInstance().addState(GAMEPLAY_STATE);
-		StateBasedEntityManager.getInstance().addState(HIGHSCORE_STATE);
-		StateBasedEntityManager.getInstance().addState(OPTIONS_STATE);
-		StateBasedEntityManager.getInstance().addState(ABOUT_STATE);
+        // Add the gameStates to the StateBasedEntityManager
+        StateBasedEntityManager entityManager = StateBasedEntityManager.getInstance();
+        entityManager.addState(MAINMENU_STATE);
+        entityManager.addState(GAMEPLAY_STATE);
+        entityManager.addState(HIGHSCORE_STATE);
+        entityManager.addState(OPTIONS_STATE);
+        entityManager.addState(ABOUT_STATE);
 
 	}
 
 	public static void reinitStates(GameContainer gc, StateBasedGame sb, int stateID) {
-		// forcing init for all states
-		StateBasedEntityManager.getInstance().clearEntitiesFromState(stateID);
+        // forcing init for all gameStates
+        StateBasedEntityManager.getInstance().clearEntitiesFromState(stateID);
 		try {
 			gc.getInput().clearKeyPressedRecord();
 			gc.getInput().clearControlPressedRecord();
@@ -125,4 +134,8 @@ public class Breakout extends StateBasedGame implements Constants {
 			gc.resume();
 		}
 	}
+
+    public static BasicGameState getGameState(int id) {
+        return gameStates[id];
+    }
 }

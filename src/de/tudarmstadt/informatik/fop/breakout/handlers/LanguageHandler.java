@@ -43,6 +43,7 @@ public class LanguageHandler {
 	public static String CONTROLLER_OK;
 	public static String NAMES;
 	public static String SELECTED_MAP;
+    public static String SPEED_MODIFIER;
 
 	public static void readLang() {
 
@@ -86,7 +87,8 @@ public class LanguageHandler {
 			CONTROLLER_OK = langContent[32];
 			NAMES = langContent[33];
 			SELECTED_MAP = langContent[34];
-		} catch (FileNotFoundException e) {
+            SPEED_MODIFIER = langContent[35];
+        } catch (FileNotFoundException e) {
 			System.out.println("WARNING: Skipping language \"" + selectedLang + "\" since it's .lang file can not be found.");
 			switchLang();
 		} catch (ArrayIndexOutOfBoundsException aioobE) {
