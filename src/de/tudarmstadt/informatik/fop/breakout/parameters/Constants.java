@@ -69,8 +69,7 @@ public interface Constants {
 	// Stick
 	String PLAYER_STICK_ID = "playerStick";
 	String PLAYER_STICK_ID_TOP = "playerStickTop";
-    float STICK_BASE_SPEED = 1.75f;
-
+    float STICK_BASE_SPEED = 1.75f; //1.75f
     enum StickShape {
 		SLIM, NORMAL, WIDE
 	}
@@ -80,7 +79,6 @@ public interface Constants {
 	enum ButtonType {
 		NORMAL, WIDE, MAINMENU
 	}
-
 	int TEXT_OFFSET_X = -60;
 	int TEXT_OFFSET_X_WIDE = -120;
 	int TEXT_OFFSET_Y = -9;
