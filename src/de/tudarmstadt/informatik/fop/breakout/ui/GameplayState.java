@@ -91,6 +91,11 @@ public class GameplayState extends BasicGameState {
 			new BorderFactory(TOP).createEntity();
 		} else if (OptionsHandler.getGameMode() == 1) {
 			new StickEntity(Constants.PLAYER_STICK_ID_TOP, (Variables.WINDOW_WIDTH / 2), Variables.STICK_Y_TOP, Input.KEY_A, Input.KEY_D, false, 3);
+		} else {
+			System.err.print("ERROR: No such Gamemode!");
+			SoundHandler.playNotAcceptable();
+			sb.enterState(Breakout.OPTIONS_STATE);
+			gc.setMouseGrabbed(false);
 		}
 
 		// Stick

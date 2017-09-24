@@ -118,10 +118,10 @@ public class OptionsState extends BasicGameState {
 		ButtonEntity gameModeSelector = new ButtonEntity("gameModeSelector", stateID, Constants.ButtonType.WIDE, Variables.BUTTON_1_X_WIDE, Variables.BUTTON_4_Y);
 		gameModeSelector.addAction((gc, sb, delta, event) -> {
 			SoundHandler.playButtonPress();
-			if (OptionsHandler.getGameMode() == 0) {
-				OptionsHandler.setGameMode(1);
-			} else {
+			if (OptionsHandler.getGameMode() >= Constants.AMOUNT_OF_GAMEMODES - 1) {
 				OptionsHandler.setGameMode(0);
+			} else {
+				OptionsHandler.setGameMode(OptionsHandler.getGameMode() + 1);
 			}
 			OptionsHandler.saveOptions();
 		});
