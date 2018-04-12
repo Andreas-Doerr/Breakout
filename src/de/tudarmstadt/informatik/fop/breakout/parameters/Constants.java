@@ -17,7 +17,7 @@ public interface Constants {
 	String OPTIONS_FILE = "options.config";
 
 	// Gamemodes
-	int AMOUNT_OF_GAMEMODES = 3;
+	int AMOUNT_OF_GAMEMODES = 2;
 
 	// Player
 	// Lives

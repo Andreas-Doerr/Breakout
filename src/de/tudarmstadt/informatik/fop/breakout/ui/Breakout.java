@@ -90,6 +90,10 @@ public class Breakout extends StateBasedGame implements Constants {
 		app.setResizable(true);
 
 		app.setTargetFrameRate(FRAME_RATE);
+
+		// render even if not in focus
+		app.setAlwaysRender(true);
+
 		// set the window-icon
 		app.setIcon(Constants.WINDOW_ICON);
 		// set if FPS is to be shown or not
