@@ -58,16 +58,16 @@ Points
 VICTORY
 # GAME_OVER
 GAME OVER
-# IT_TOOK_YOU
-Your time
-# YOU_DESTROYED
-You destroyed
-# YOU_SCORED
-You scored
+# YOUR_TIME_WAS_X
+Your time was
 # X_SECONDS
 seconds.
+# YOU_DESTROYED_X
+You destroyed
 # X_BLOCKS
 blocks.
+# YOU_SCORED_X
+You scored
 # X_POINTS
 points.
 # CONTROLLER_OK

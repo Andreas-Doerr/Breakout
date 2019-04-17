@@ -18,11 +18,11 @@ Beenden
 # BUTTON_ABOUT
 Mitwirkende
 # BUTTON_BACK
-Zurueck
+Zurück
 # BUTTON_SWITCH_LANGUAGE
 Sprache wechseln
 # BUTTON_SWITCH_RESOLUTION
-Aufloesung wechseln
+Auflösung wechseln
 # BUTTON_SWITCH_CONTROLLER
 Controller wechseln
 # BUTTON_SHOW_FPS
@@ -33,13 +33,13 @@ FPS anzeigen
 # LIVES_LEFT
 Leben verbleibend
 # ACTIVE_BLOCKS
-Bloecke verbleibend
+Blöcke verbleibend
 # DESTROYED_BLOCKS
-Bloecke zerstoert
+Blöcke zerstört
 # BALLS_ACTIVE
-Baelle aktiv
+Bälle aktiv
 # DESTROYED_BALLS_ACTIVE
-Zerstoerte Baelle aktiv
+Zerstörte Bälle aktiv
 # TIMER
 Zeit
 # REQUIRES_RESTART
@@ -58,16 +58,16 @@ Punkte
 GEWONNEN
 # GAME_OVER
 VERLOREN
-# IT_TOOK_YOU
-Du hast
-# YOU_DESTROYED
-Du hast
-# YOU_SCORED
+# YOUR_TIME_X
 Du hast
 # X_SECONDS
 sekunden gebraucht.
+# YOU_DESTROYED_X
+Du hast
 # X_BLOCKS
-Bloeke zerstoert.
+Blöke zerstört.
+# YOU_SCORED_X
+Du hast
 # X_POINTS
 Punkte erreicht.
 # CONTROLLER_OK

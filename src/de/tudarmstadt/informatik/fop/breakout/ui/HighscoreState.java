@@ -206,9 +206,9 @@ public class HighscoreState extends BasicGameState {
 			} else {
 				g.drawString(LanguageHandler.GAME_OVER, (Variables.WINDOW_WIDTH * 0.47f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.4f) / Variables.BACKGROUND_SCALE);
 			}
-			g.drawString(LanguageHandler.IT_TOOK_YOU + " " + newTime / 1000f + " " + LanguageHandler.X_SECONDS, (Variables.WINDOW_WIDTH * 0.22f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.415f) / Variables.BACKGROUND_SCALE);
-			g.drawString(LanguageHandler.YOU_DESTROYED + " " + newBlocksDestroyed + " " + LanguageHandler.X_BLOCKS, (Variables.WINDOW_WIDTH * 0.22f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.43f) / Variables.BACKGROUND_SCALE);
-			g.drawString(LanguageHandler.YOU_SCORED + " " + newPoints + " " + LanguageHandler.X_POINTS, (Variables.WINDOW_WIDTH * 0.22f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.445f) / Variables.BACKGROUND_SCALE);
+			g.drawString(LanguageHandler.YOUR_TIME_X + " " + newTime / 1000f + " " + LanguageHandler.X_SECONDS, (Variables.WINDOW_WIDTH * 0.22f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.415f) / Variables.BACKGROUND_SCALE);
+			g.drawString(LanguageHandler.YOU_DESTROYED_X + " " + newBlocksDestroyed + " " + LanguageHandler.X_BLOCKS, (Variables.WINDOW_WIDTH * 0.22f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.43f) / Variables.BACKGROUND_SCALE);
+			g.drawString(LanguageHandler.YOU_SCORED_X + " " + newPoints + " " + LanguageHandler.X_POINTS, (Variables.WINDOW_WIDTH * 0.22f) / Variables.BACKGROUND_SCALE, (Variables.WINDOW_HEIGHT * 0.445f) / Variables.BACKGROUND_SCALE);
 			if (isSaved) {
 				g.setColor(Color.green);
 			}
